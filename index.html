@@ -239,6 +239,10 @@ border-color:rgba(99,130,246,0.5);transform:translateY(-1px);
 box-shadow:0 4px 20px rgba(59,130,246,0.2);
 }
 
+/* ── Chain canvas viewport ── */
+.chain-viewport{position:relative;}
+.chain-controls{display:none;}
+
 /* ── Chain ── */
 .chain{
 display:flex;flex-direction:column;gap:12px;margin-bottom:48px;
@@ -511,6 +515,61 @@ header{padding:12px 16px;}
 .scatter-chart{height:300px;}
 .bn-dims{grid-template-columns:repeat(3,1fr);}
 .layer{padding:16px;}
+
+/* ── Mobile chain canvas: keep graph shape, zoom/pan instead of stacked list ── */
+.chain-viewport{
+  position:relative;
+  height:75vh;min-height:460px;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  background:rgba(0,0,0,0.18);
+  border:1px solid var(--border-color);
+  border-radius:14px;
+  margin:0 -16px 24px;
+}
+html.light .chain-viewport{background:rgba(0,0,0,0.04);}
+.chain-viewport .chain{
+  width:1280px;
+  margin:0;
+  padding:18px;
+  margin-bottom:0;
+}
+/* Keep desktop graph layout inside the canvas (override any single-column rules) */
+.chain-viewport .cards{grid-template-columns:repeat(6,1fr) !important;}
+.chain-viewport .layer{padding:22px 24px !important;}
+.chain-viewport .layer-header{flex-wrap:nowrap !important;}
+.chain-viewport .layer-stats{
+  width:auto !important;border-top:none !important;
+  padding-top:0 !important;margin-top:0 !important;
+}
+/* JS-enhanced pan/zoom mode (replaces native scroll fallback) */
+.chain-viewport.canvas-on{
+  overflow:hidden;
+  touch-action:none;
+  user-select:none;-webkit-user-select:none;
+}
+.chain-viewport.canvas-on .chain{cursor:grab;}
+.chain-viewport.canvas-on .chain:active{cursor:grabbing;}
+.chain-viewport.canvas-on .chain-controls{
+  display:flex;flex-direction:column;gap:6px;
+  position:absolute;top:10px;right:10px;z-index:50;
+  pointer-events:auto;
+}
+.zoom-btn{
+  width:38px;height:38px;border-radius:9px;
+  background:rgba(8,12,20,0.85);
+  border:1px solid var(--border-color);
+  color:var(--text-primary);
+  font-size:18px;font-weight:700;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:background 0.15s,border-color 0.15s;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
+.zoom-btn:active{background:var(--bg-card-hover);border-color:var(--accent-blue);}
+html.light .zoom-btn{background:rgba(255,255,255,0.9);}
 }
 
 
@@ -770,6 +829,7 @@ html.up-mode .up-panel{display:block;}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
 </head>
 <body>
 <div class="bg-grid"></div>
@@ -824,6 +884,12 @@ html.up-mode .up-panel{display:block;}
 </button>
 </div>
 
+<div class="chain-viewport">
+<div class="chain-controls">
+<button id="zoomOutBtn" class="zoom-btn" aria-label="Zoom out" type="button">&minus;</button>
+<button id="zoomFitBtn" class="zoom-btn" aria-label="Fit to view" type="button" title="Fit">&#9974;</button>
+<button id="zoomInBtn" class="zoom-btn" aria-label="Zoom in" type="button">&plus;</button>
+</div>
 <div class="chain">
 <div class="layer" style="--layer-color:#3b82f6;">
 <div class="layer-header">
@@ -1007,6 +1073,7 @@ html.up-mode .up-panel{display:block;}
 <div class="card" onclick="showSub('land_realestate')"><h3>Land & RE</h3><p>DC real estate</p><div class="count">(5 companies)</div></div>
 <div class="card" onclick="showSub('construction')"><h3><span class="en">Construction</span><span class="zh">建设施工</span></h3><p><span class="en">Construction services</span><span class="zh">建设服务</span></p><div class="count">(5 companies)</div></div>
 <div class="card" onclick="showSub('water')"><h3><span class="en">Water</span><span class="zh">水资源</span></h3><p><span class="en">Water management</span><span class="zh">水资源管理</span></p><div class="count">(5 companies)</div></div>
+</div>
 </div>
 </div>
 </div>
@@ -1793,6 +1860,73 @@ function toggleUP(){
     });
   }
 }
+
+/* ── Mobile chain canvas: pan + zoom the graph instead of stacking as a list ── */
+(function(){
+  var MOBILE_MQ='(max-width: 768px)';
+  var pz=null,fitScale=1,viewport=null,chain=null;
+
+  function computeFit(){
+    if(!viewport||!chain) return 1;
+    var vpW=viewport.clientWidth;
+    var chainW=chain.offsetWidth||1280;
+    return Math.min((vpW-8)/chainW,1);
+  }
+  function enableCanvas(){
+    if(pz||!window.Panzoom) return;
+    viewport=document.querySelector('.chain-viewport');
+    chain=document.querySelector('.chain');
+    if(!viewport||!chain) return;
+    viewport.classList.add('canvas-on');
+    requestAnimationFrame(function(){
+      fitScale=computeFit();
+      pz=Panzoom(chain,{
+        maxScale:3,
+        minScale:Math.max(fitScale*0.6,0.18),
+        startScale:fitScale,
+        animate:false,
+        canvas:false,
+        cursor:'grab'
+      });
+      viewport.addEventListener('wheel',function(e){
+        e.preventDefault();
+        pz.zoomWithWheel(e);
+      },{passive:false});
+      var inB=document.getElementById('zoomInBtn');
+      var outB=document.getElementById('zoomOutBtn');
+      var fitB=document.getElementById('zoomFitBtn');
+      if(inB) inB.addEventListener('click',function(e){e.stopPropagation();pz.zoomIn({animate:true});});
+      if(outB) outB.addEventListener('click',function(e){e.stopPropagation();pz.zoomOut({animate:true});});
+      if(fitB) fitB.addEventListener('click',function(e){
+        e.stopPropagation();
+        fitScale=computeFit();
+        pz.zoom(fitScale,{animate:true});
+        pz.pan(0,0,{animate:true});
+      });
+    });
+  }
+  function disableCanvas(){
+    if(!pz) return;
+    try{pz.destroy();}catch(e){}
+    pz=null;
+    if(viewport){viewport.classList.remove('canvas-on');}
+    if(chain){chain.style.transform='';chain.style.cursor='';}
+  }
+  function sync(){
+    if(window.matchMedia(MOBILE_MQ).matches) enableCanvas();
+    else disableCanvas();
+  }
+  if(document.readyState!=='loading') sync();
+  else document.addEventListener('DOMContentLoaded',sync);
+  var resizeT=null;
+  window.addEventListener('resize',function(){
+    clearTimeout(resizeT);
+    resizeT=setTimeout(function(){
+      disableCanvas();
+      sync();
+    },200);
+  });
+})();
 
 </script>
 
