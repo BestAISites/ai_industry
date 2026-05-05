@@ -632,11 +632,16 @@ html.light #smdHeaderLeft h2,html.light #smdHeaderLeft p{color:var(--text-primar
 
 @media(max-width:600px){
 .cards{grid-template-columns:1fr;}
-header{padding:10px 12px;}
-header h1{font-size:0.9rem;max-width:calc(100% - 160px);}
-#backBtn{left:12px;font-size:0.75rem;padding:5px 10px;}
-#headerBtns{right:8px;gap:4px;}
-.hdr-btn{height:30px;font-size:10px;padding:0 7px;}
+/* Pull all header elements into the normal flex flow so nothing overlaps */
+header{justify-content:flex-start;padding:10px 12px;gap:6px;}
+#backBtn{position:static;left:auto;transform:none;flex-shrink:0;font-size:0.75rem;padding:5px 8px;}
+header h1{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;font-size:0.88rem;}
+#headerBtns{position:static;right:auto;top:auto;transform:none;flex-shrink:0;gap:4px;}
+/* Collapse Bottleneck/Upside to icon-only */
+#bnBtn .en,#bnBtn .zh{display:none;}
+#bnBtn{width:30px;padding:0;}
+#upBtn{width:30px;padding:0;overflow:hidden;justify-content:flex-start;padding-left:6px;}
+.hdr-btn{height:30px;font-size:15px;gap:0;}
 .hdr-btn-icon{width:30px;}
 .hero h2{font-size:1.5rem;}
 .detail-header{padding:16px;}
