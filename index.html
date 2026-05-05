@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Full Industry Chain Investment Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+--bg-primary:#080c14;
+--bg-secondary:#0d1220;
+--bg-card:#111827;
+--bg-card-hover:#151f30;
+--bg-glass:rgba(17,24,39,0.7);
+--text-primary:#f1f5f9;
+--text-secondary:#64748b;
+--text-muted:#334155;
+--border-color:#1e2d45;
+--border-subtle:#162033;
+--accent-blue:#3b82f6;
+--accent-purple:#8b5cf6;
+--accent-cyan:#06b6d4;
+--accent-emerald:#10b981;
+--accent-amber:#f59e0b;
+--accent-rose:#f43f5e;
+--accent-orange:#f97316;
+}
+
+/* ── Light mode ── */
+html.light{
+--bg-primary:#f0f4f8;
+--bg-secondary:#e8edf3;
+--bg-card:#ffffff;
+--bg-card-hover:#f8fafc;
+--bg-glass:rgba(255,255,255,0.88);
+--text-primary:#0f172a;
+--text-secondary:#475569;
+--text-muted:#94a3b8;
+--border-color:#cbd5e1;
+--border-subtle:#e2e8f0;
+}
+html.light .bg-grid{
+background-image:
+  linear-gradient(rgba(59,130,246,0.06) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(59,130,246,0.06) 1px,transparent 1px);
+}
+html.light .bg-glow{
+background:radial-gradient(circle,rgba(99,102,241,0.07) 0%,transparent 65%);
+}
+html.light body{background:var(--bg-primary);}
+html.light header{background:rgba(240,244,248,0.9);border-color:var(--border-color);}
+#headerBtns{position:absolute;right:16px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:6px;}
+.hdr-btn{background:none;border:1px solid var(--border-color);color:var(--text-secondary);height:34px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:11px;font-weight:600;padding:0 10px;gap:4px;white-space:nowrap;}
+.hdr-btn-icon{width:34px;padding:0;font-size:15px;}
+#bnBtn.active{border-color:#ef4444!important;color:#ef4444!important;}
+#upBtn.active{border-color:#22c55e!important;color:#22c55e!important;}
+html.light #bnBtn.active{border-color:#dc2626!important;color:#dc2626!important;}
+html.light #upBtn.active{border-color:#16a34a!important;color:#16a34a!important;}
+html.light .stat-num{
+background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+html.light .card{background:rgba(0,0,0,0.02);border-color:var(--border-color);}
+html.light .card:hover{background:rgba(0,0,0,0.04);}
+html.light .player-tag{background:rgba(0,0,0,0.05);border-color:var(--border-color);}
+html.light .layer{box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+html.light .layer:hover{box-shadow:0 6px 24px rgba(0,0,0,0.1);}
+html.light .stats-bar{background:var(--bg-card);border-color:var(--border-color);}
+html.light .legend-item{background:var(--bg-card);border-color:var(--border-color);}
+html.light .stats-table th{background:rgba(0,0,0,0.04);}
+html.light .stats-table tr:hover td{background:rgba(59,130,246,0.04);}
+html.light .chart-section,.light .stats-section{box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+html.light .company-card{background:var(--bg-card);}
+html.light .card-private{background:rgba(0,0,0,0.03);color:var(--text-secondary);}
+html.light .metric-link{background:rgba(99,102,241,0.08);border-color:rgba(99,102,241,0.2);}
+html.light .metric-link:hover{background:rgba(99,102,241,0.15);}
+html.light #backBtn{background:rgba(99,102,241,0.08);border-color:rgba(99,102,241,0.2);}
+html.light .export-btn{background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1));border-color:rgba(59,130,246,0.25);color:#3b82f6;}
+html.light footer{color:var(--text-muted);border-color:var(--border-color);}
+html.light .dot-label{background:rgba(240,244,248,0.95);border-color:var(--border-color);}
+
+body{
+font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+background:var(--bg-primary);
+color:var(--text-primary);
+line-height:1.6;
+min-height:100vh;
+scrollbar-gutter:stable;
+-webkit-font-smoothing:antialiased;
+}
+
+/* ── Background ── */
+.bg-grid{
+position:fixed;inset:0;
+background-image:
+  linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);
+background-size:60px 60px;
+pointer-events:none;z-index:0;
+}
+.bg-glow{
+position:fixed;width:900px;height:900px;border-radius:50%;
+background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 65%);
+top:50%;left:50%;transform:translate(-50%,-50%);
+pointer-events:none;z-index:0;
+animation:pulse 10s ease-in-out infinite;
+}
+@keyframes pulse{
+0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}
+50%{opacity:1;transform:translate(-50%,-50%) scale(1.08);}
+}
+@keyframes gradientShift{
+0%,100%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+}
+@keyframes fadeInUp{
+to{opacity:1;transform:translateY(0);}
+}
+
+/* ── Layout ── */
+.container{
+position:relative;z-index:1;
+max-width:1600px;margin:0 auto;padding:0 32px 60px;
+}
+
+/* ── Header ── */
+header{
+position:sticky;top:0;z-index:100;
+background:rgba(8,12,20,0.85);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid var(--border-color);
+padding:16px 32px;
+display:flex;align-items:center;justify-content:center;
+margin-bottom:0;
+}
+header h1{
+font-size:1.35rem;font-weight:700;letter-spacing:-0.02em;
+background:linear-gradient(135deg,#93c5fd,#c4b5fd,#67e8f9);
+background-size:200% 200%;
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+animation:gradientShift 5s ease infinite;
+}
+#backBtn{
+position:absolute;left:32px;
+background:rgba(99,102,241,0.1);
+border:1px solid rgba(99,102,241,0.25);
+color:#a5b4fc;padding:6px 14px;border-radius:8px;
+cursor:pointer;font-size:0.82rem;font-weight:500;font-family:inherit;
+transition:all 0.2s;display:flex;align-items:center;gap:6px;
+}
+#backBtn:hover{background:rgba(99,102,241,0.2);border-color:rgba(99,102,241,0.5);}
+
+/* ── Hero section ── */
+.hero{
+text-align:center;padding:52px 0 36px;
+}
+.hero h2{
+font-size:3rem;font-weight:800;letter-spacing:-0.03em;line-height:1.1;
+background:linear-gradient(135deg,#60a5fa,#a78bfa,#34d399);
+background-size:200% 200%;
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+animation:gradientShift 5s ease infinite;
+margin-bottom:16px;
+}
+.hero p{
+color:var(--text-secondary);font-size:1rem;
+max-width:600px;margin:0 auto 32px;line-height:1.7;
+}
+
+
+/* ── Bilingual i18n ── */
+.zh { display:none; }
+html.lang-zh .zh { display:inline; }
+html.lang-zh .en { display:none; }
+html.lang-zh .zh.blk { display:block; }
+html.lang-zh .en.blk { display:none; }
+.zh.blk,.en.blk { display:block; }
+html.lang-zh #langBtn { letter-spacing:0; }
+
+/* ── Stats bar ── */
+.stats-bar{
+display:inline-flex;gap:0;
+background:var(--bg-card);
+border:1px solid var(--border-color);
+border-radius:14px;overflow:hidden;
+margin-bottom:8px;
+}
+.stat-item{
+padding:14px 32px;text-align:center;
+border-right:1px solid var(--border-color);
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;
+background:linear-gradient(135deg,#93c5fd,#c4b5fd);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-lbl{
+font-size:0.7rem;color:var(--text-secondary);
+text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;
+}
+
+/* ── Legend ── */
+.legend{
+display:flex;justify-content:center;gap:8px;
+margin:28px 0 32px;flex-wrap:wrap;
+}
+.legend-item{
+display:flex;align-items:center;gap:7px;
+font-size:0.78rem;font-weight:500;
+color:var(--text-secondary);
+background:var(--bg-card);
+border:1px solid var(--border-color);
+border-radius:20px;padding:5px 12px;
+transition:all 0.2s;
+}
+.legend-item:hover{color:var(--text-primary);border-color:#2d3f5a;}
+.legend-dot{
+width:8px;height:8px;border-radius:50%;flex-shrink:0;
+}
+
+/* ── Export button ── */
+.export-btn{
+display:inline-flex;align-items:center;gap:8px;
+background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15));
+border:1px solid rgba(99,130,246,0.3);
+color:#93c5fd;padding:9px 20px;border-radius:10px;
+font-size:0.85rem;font-weight:600;font-family:inherit;
+cursor:pointer;transition:all 0.2s;
+}
+.export-btn:hover{
+background:linear-gradient(135deg,rgba(59,130,246,0.25),rgba(139,92,246,0.25));
+border-color:rgba(99,130,246,0.5);transform:translateY(-1px);
+box-shadow:0 4px 20px rgba(59,130,246,0.2);
+}
+
+/* ── Chain ── */
+.chain{
+display:flex;flex-direction:column;gap:12px;margin-bottom:48px;
+}
+
+/* ── Layer ── */
+.layer{
+background:var(--bg-card);
+border:1px solid var(--border-color);
+border-left:3px solid var(--layer-color,var(--accent-blue));
+border-radius:14px;
+padding:22px 24px;
+transition:all 0.25s ease;
+opacity:0;transform:translateY(20px);
+animation:fadeInUp 0.5s ease forwards;
+}
+.layer:hover{
+background:var(--bg-card-hover);
+border-color:var(--layer-color,var(--accent-blue));
+border-left-color:var(--layer-color,var(--accent-blue));
+box-shadow:0 8px 32px rgba(0,0,0,0.3),0 0 0 1px var(--layer-color,var(--accent-blue))22;
+transform:translateY(-1px);
+}
+.layer:nth-child(1){animation-delay:0.05s;}
+.layer:nth-child(2){animation-delay:0.1s;}
+.layer:nth-child(3){animation-delay:0.15s;}
+.layer:nth-child(4){animation-delay:0.2s;}
+.layer:nth-child(5){animation-delay:0.25s;}
+.layer:nth-child(6){animation-delay:0.3s;}
+.layer:nth-child(7){animation-delay:0.35s;}
+
+.layer-header{
+display:flex;align-items:center;gap:14px;
+margin-bottom:18px;padding-bottom:14px;
+border-bottom:1px solid var(--border-subtle);
+}
+.layer-number{
+width:36px;height:36px;border-radius:9px;
+display:flex;align-items:center;justify-content:center;
+font-weight:800;font-size:0.95rem;color:white;flex-shrink:0;
+}
+.layer-title{flex:1;}
+.layer-title h2{
+font-size:1.1rem;font-weight:700;letter-spacing:-0.01em;
+margin-bottom:2px;color:var(--text-primary);
+}
+.layer-title span{font-size:0.8rem;color:var(--text-secondary);}
+
+.layer-stats{display:flex;gap:16px;align-items:center;}
+.stat{text-align:right;}
+.stat-value{font-size:1rem;font-weight:700;}
+.stat-label{font-size:0.7rem;color:var(--text-secondary);margin-top:1px;}
+
+.growth-badge{
+display:inline-block;padding:3px 9px;border-radius:5px;font-weight:600;font-size:0.8rem;
+}
+.growth-high{background:rgba(16,185,129,0.12);color:#34d399;}
+.growth-mid{background:rgba(245,158,11,0.12);color:#fbbf24;}
+.growth-low{background:rgba(148,163,184,0.12);color:#94a3b8;}
+
+/* ── Component cards ── */
+.cards{
+display:grid;grid-template-columns:repeat(6,1fr);gap:10px;
+}
+.card{
+background:rgba(255,255,255,0.025);
+border:1px solid var(--border-subtle);
+border-top:2px solid transparent;
+border-radius:10px;padding:14px;
+transition:all 0.18s ease;cursor:pointer;
+position:relative;overflow:hidden;
+}
+.card::before{
+content:'';position:absolute;inset:0;
+background:linear-gradient(135deg,var(--layer-color,var(--accent-blue))08,transparent 60%);
+opacity:0;transition:opacity 0.2s;
+}
+.card:hover{
+background:rgba(255,255,255,0.045);
+border-color:var(--layer-color,var(--accent-blue))66;
+border-top-color:var(--layer-color,var(--accent-blue));
+transform:translateY(-2px);
+box-shadow:0 6px 20px rgba(0,0,0,0.35);
+}
+.card:hover::before{opacity:1;}
+
+.card h3{
+font-size:0.88rem;font-weight:600;letter-spacing:-0.01em;
+margin-bottom:5px;color:var(--text-primary);position:relative;z-index:1;
+}
+.card p{
+font-size:0.77rem;color:var(--text-secondary);
+line-height:1.4;margin-bottom:8px;position:relative;z-index:1;
+}
+.card .count{
+font-size:0.75rem;
+color:var(--layer-color,var(--accent-blue));
+font-weight:600;position:relative;z-index:1;
+}
+.card .players{
+display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;position:relative;z-index:1;
+}
+.player-tag{
+font-size:0.67rem;padding:2px 6px;border-radius:4px;
+background:rgba(255,255,255,0.06);
+color:var(--text-secondary);white-space:nowrap;
+border:1px solid var(--border-subtle);
+font-weight:500;
+}
+
+/* ── Flow arrow ── */
+.flow-arrow{display:flex;justify-content:center;margin:4px 0;}
+.flow-arrow svg{width:18px;height:18px;color:var(--accent-blue);opacity:0.2;}
+
+/* ── Sections: chart & stats ── */
+.chart-section,.stats-section{
+margin-top:32px;
+background:var(--bg-card);
+border:1px solid var(--border-color);
+border-radius:14px;padding:28px 32px;
+}
+.chart-section h2,.stats-section h2{
+font-size:1.2rem;font-weight:700;letter-spacing:-0.01em;
+margin-bottom:20px;text-align:center;color:var(--text-primary);
+}
+
+/* ── Scatter chart ── */
+.scatter-wrapper{display:flex;align-items:stretch;margin:20px 0;gap:0;}
+.scatter-y-axis{
+display:flex;align-items:center;justify-content:center;
+writing-mode:vertical-rl;transform:rotate(180deg);
+font-size:0.8rem;font-weight:600;color:var(--text-secondary);
+width:32px;flex-shrink:0;padding-bottom:36px;
+}
+.scatter-chart{
+position:relative;flex:1;height:460px;
+border-left:1px solid var(--border-color);
+border-bottom:1px solid var(--border-color);
+padding-bottom:36px;overflow:visible;
+}
+.scatter-x-label{
+position:absolute;bottom:8px;right:0;
+font-size:0.8rem;font-weight:600;color:var(--text-secondary);
+}
+.scatter-dot{
+position:absolute;width:12px;height:12px;border-radius:50%;
+transform:translate(-50%,50%);cursor:pointer;transition:all 0.2s ease;z-index:2;
+}
+.scatter-dot:hover{transform:translate(-50%,50%) scale(1.6);z-index:10;}
+.dot-label{
+position:absolute;left:50%;bottom:calc(100% + 6px);
+transform:translateX(-50%);font-size:0.65rem;color:var(--text-primary);
+white-space:nowrap;background:rgba(8,12,20,0.92);
+border:1px solid var(--border-color);padding:2px 6px;border-radius:4px;
+pointer-events:none;z-index:3;font-weight:500;
+}
+.scatter-dot .tooltip{
+position:absolute;bottom:calc(100% + 30px);left:50%;transform:translateX(-50%);
+background:var(--bg-card);border:1px solid var(--border-color);
+border-radius:8px;padding:10px 14px;white-space:nowrap;
+font-size:0.78rem;opacity:0;pointer-events:none;
+transition:opacity 0.2s;box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:20;
+}
+.scatter-dot:hover .tooltip{opacity:1;}
+.tooltip strong{display:block;margin-bottom:4px;font-size:0.85rem;color:var(--text-primary);}
+.tooltip span{color:var(--text-secondary);}
+.grid-line{position:absolute;background:var(--border-color);opacity:0.25;}
+.grid-line.horizontal{width:100%;height:1px;left:0;}
+.grid-line.vertical{width:1px;height:100%;bottom:36px;}
+
+/* ── Stats table ── */
+.stats-table{
+width:100%;border-collapse:separate;border-spacing:0;
+overflow:hidden;border-radius:10px;border:1px solid var(--border-color);
+}
+.stats-table th,.stats-table td{
+padding:13px 18px;text-align:left;border-bottom:1px solid var(--border-subtle);
+}
+.stats-table th{
+background:rgba(0,0,0,0.25);font-size:0.75rem;font-weight:600;
+color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;
+}
+.stats-table tr:last-child td{border-bottom:none;}
+.stats-table tr:hover td{background:rgba(59,130,246,0.04);}
+.stats-table td{font-size:0.875rem;color:var(--text-primary);}
+
+/* ── Detail view ── */
+#detail{display:none;}
+.detail-header{
+background:linear-gradient(135deg,color-mix(in srgb,var(--layer-color) 20%,transparent),transparent);
+border:1px solid color-mix(in srgb,var(--layer-color) 30%,var(--border-color));
+padding:24px 28px;border-radius:12px;margin-bottom:24px;
+}
+.detail-header h2{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px;}
+.detail-header p{font-size:0.9rem;color:var(--text-secondary);}
+.breadcrumb{
+display:inline-flex;align-items:center;gap:6px;
+font-size:0.78rem;color:var(--text-secondary);
+background:rgba(255,255,255,0.05);border:1px solid var(--border-subtle);
+border-radius:20px;padding:4px 10px;margin-top:10px;
+}
+
+.companies-grid{
+display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+gap:16px;margin:0 0 3rem;
+}
+.company-card{
+background:var(--bg-card);border:1px solid var(--border-color);
+border-radius:12px;overflow:hidden;transition:all 0.2s;
+}
+.company-card:hover{
+border-color:var(--layer-color,#475569);transform:translateY(-2px);
+box-shadow:0 8px 28px rgba(0,0,0,0.35);
+}
+.card-header{
+padding:16px 18px;border-bottom:1px solid var(--border-subtle);
+display:flex;justify-content:space-between;align-items:center;
+}
+.card-header h3{font-size:0.98rem;font-weight:600;letter-spacing:-0.01em;}
+.ticker-badge{
+background:var(--layer-color);color:#0f172a;
+padding:3px 10px;border-radius:5px;
+font-size:0.7rem;font-weight:700;letter-spacing:0.04em;
+}
+.chart-container{height:200px;background:#070b12;}
+.chart-container iframe{width:100%;height:100%;border:none;}
+.card-private{
+height:200px;display:flex;align-items:center;justify-content:center;
+background:rgba(7,11,18,0.8);border-top:1px solid var(--border-subtle);
+color:var(--text-secondary);font-size:0.85rem;font-style:italic;
+}
+.card-metrics{
+padding:10px 14px 12px;border-top:1px solid var(--border-subtle);font-size:0.85rem;
+}
+.metrics-row{display:flex;align-items:center;gap:6px;}
+.metrics-row .metric{flex:1;min-width:0;}
+.metric{display:flex;flex-direction:column;}
+.metric-label{
+font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;
+color:var(--text-secondary);margin-bottom:3px;
+}
+.metric-value{font-weight:600;font-size:0.95rem;color:var(--text-primary);}
+.metric-link{
+padding:8px 12px;
+background:rgba(99,102,241,0.08);color:#a5b4fc;
+text-decoration:none;border-radius:7px;
+font-size:0.78rem;font-weight:500;text-align:center;
+grid-column:1/-1;border:1px solid rgba(99,102,241,0.18);
+transition:all 0.2s;
+}
+.metric-link:hover{background:rgba(99,102,241,0.18);border-color:rgba(99,102,241,0.35);}
+
+/* ── Footer ── */
+footer{
+text-align:center;padding:24px;
+color:var(--text-muted);font-size:0.73rem;
+border-top:1px solid var(--border-subtle);margin-top:24px;
+}
+
+@media(max-width:768px){
+header h1{font-size:1rem;}
+.hero h2{font-size:1.8rem;}
+.cards{grid-template-columns:1fr 1fr;}
+.companies-grid{grid-template-columns:1fr;}
+.stat-item{padding:12px 20px;}
+}
+
+
+/* ── Bottleneck detail panel ── */
+.bn-panel{
+  margin-bottom:24px;
+  border-radius:12px;
+  border:1px solid;
+  overflow:hidden;
+}
+.bn-panel.sev-crit{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.05);}
+.bn-panel.sev-high{border-color:rgba(249,115,22,0.4);background:rgba(249,115,22,0.05);}
+.bn-panel.sev-med{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.04);}
+.bn-panel.sev-low{border-color:rgba(100,116,139,0.3);background:rgba(100,116,139,0.04);}
+.bn-panel-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px 12px;border-bottom:1px solid rgba(255,255,255,0.07);
+}
+html.light .bn-panel-hdr{border-bottom-color:rgba(0,0,0,0.07);}
+.bn-panel-title{font-size:0.95rem;font-weight:700;letter-spacing:-0.01em;}
+.bn-panel.sev-crit .bn-panel-title{color:#f87171;}
+.bn-panel.sev-high .bn-panel-title{color:#fb923c;}
+.bn-panel.sev-med .bn-panel-title{color:#4ade80;}
+.bn-panel.sev-low .bn-panel-title{color:#94a3b8;}
+html.light .bn-panel.sev-crit .bn-panel-title{color:#dc2626;}
+html.light .bn-panel.sev-high .bn-panel-title{color:#ea580c;}
+html.light .bn-panel.sev-med .bn-panel-title{color:#16a34a;}
+.bn-score-chip{
+  font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;
+}
+.bn-panel.sev-crit .bn-score-chip{background:rgba(239,68,68,0.2);color:#f87171;}
+.bn-panel.sev-high .bn-score-chip{background:rgba(249,115,22,0.2);color:#fb923c;}
+.bn-panel.sev-med .bn-score-chip{background:rgba(34,197,94,0.18);color:#4ade80;}
+.bn-panel.sev-low .bn-score-chip{background:rgba(100,116,139,0.18);color:#94a3b8;}
+html.light .bn-panel.sev-crit .bn-score-chip{background:rgba(239,68,68,0.12);color:#dc2626;}
+html.light .bn-panel.sev-high .bn-score-chip{background:rgba(249,115,22,0.12);color:#ea580c;}
+html.light .bn-panel.sev-med .bn-score-chip{background:rgba(34,197,94,0.12);color:#16a34a;}
+.bn-panel-body{padding:16px 20px;}
+.bn-dims{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}
+.bn-dim{text-align:center;}
+.bn-dim-name{font-size:10px;color:var(--text-secondary);margin-bottom:3px;font-weight:500;}
+.bn-dim-val{font-size:16px;font-weight:700;margin-bottom:3px;}
+.bn-dim-bar{height:3px;border-radius:2px;margin:0 auto;}
+.bn-evidence{font-size:0.82rem;color:var(--text-secondary);line-height:1.65;margin-bottom:12px;}
+.bn-datapoints{list-style:none;margin-bottom:14px;}
+.bn-datapoints li{font-size:0.8rem;color:var(--text-secondary);padding:3px 0;padding-left:16px;position:relative;line-height:1.5;}
+.bn-datapoints li::before{content:'▸';position:absolute;left:0;color:var(--text-muted);}
+.bn-sources{display:flex;flex-wrap:wrap;gap:8px;}
+.bn-src{
+  font-size:0.7rem;color:var(--text-muted);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border-subtle);
+  border-radius:5px;padding:3px 8px;
+  text-decoration:none;transition:all 0.15s;
+}
+.bn-src:hover{color:var(--text-secondary);border-color:var(--border-color);}
+html.light .bn-src{background:rgba(0,0,0,0.03);}
+.bn-src-label{font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:6px;}
+
+/* ── Bottleneck mode ── */
+.bn-badge{
+display:none;position:absolute;top:7px;right:7px;
+font-size:0.62rem;font-weight:700;
+padding:2px 6px;border-radius:4px;
+color:#fff;z-index:5;pointer-events:none;
+}
+html.bn-mode .bn-badge{display:block;}
+html.bn-mode .card{border-top-width:3px!important;transition:all 0.18s ease;}
+.bn-crit .bn-badge{background:#ef4444;}
+.bn-high .bn-badge{background:#f97316;}
+.bn-med .bn-badge{background:#22c55e;}
+.bn-low .bn-badge{background:#64748b;}
+html.bn-mode .bn-crit{border-top-color:#ef4444!important;background:rgba(239,68,68,0.07)!important;}
+html.bn-mode .bn-high{border-top-color:#f97316!important;background:rgba(249,115,22,0.07)!important;}
+html.bn-mode .bn-med{border-top-color:#22c55e!important;background:rgba(34,197,94,0.05)!important;}
+html.bn-mode .bn-low{border-top-color:#64748b!important;}
+.bn-legend{display:none;justify-content:center;gap:8px;margin:-12px 0 18px;flex-wrap:wrap;}
+html.bn-mode .bn-legend{display:flex;}
+html.bn-mode .main-legend{display:none;}
+
+
+
+/* ===== Stock Detail Modal ===== */
+#stockModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:2000;padding:20px 16px;box-sizing:border-box;align-items:flex-start;justify-content:center;}
+#stockModal.smd-open{display:flex;}
+#stockModalOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:-1;}
+#stockModalBox{position:relative;width:100%;max-width:1140px;max-height:calc(100vh - 40px);display:flex;flex-direction:column;border-radius:18px;background:var(--bg-card,#111827);border:1px solid var(--border-color);color:var(--text-primary);box-shadow:0 32px 80px rgba(0,0,0,0.6);overflow:hidden;}
+/* ── Header (never scrolls) ── */
+#smdHeader{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border-color);background:var(--bg-card,#111827);}
+#smdHeaderLeft{min-width:0;flex:1;}
+#smdHeaderLeft h2{margin:0;font-size:1.25rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-primary);}
+#smdHeaderLeft p{margin:3px 0 0;font-size:0.78rem;opacity:0.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-primary);}
+#smdExchangeTag{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;padding:2px 7px;border-radius:4px;background:rgba(59,130,246,0.15);color:#3b82f6;border:1px solid rgba(59,130,246,0.3);margin-bottom:5px;vertical-align:middle;}
+#smdHeaderRight{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+#smdTVLink{font-size:0.75rem;padding:6px 11px;border-radius:8px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);color:#3b82f6;text-decoration:none;white-space:nowrap;transition:background 0.18s;}
+#smdTVLink:hover{background:rgba(59,130,246,0.25);}
+#smdClose{width:32px;height:32px;border:none;background:rgba(128,128,128,0.12);cursor:pointer;font-size:1rem;color:var(--text-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background 0.18s;flex-shrink:0;line-height:1;}
+#smdClose:hover{background:rgba(128,128,128,0.28);}
+/* ── Scrollable body ── */
+#smdBody{flex:1;overflow-y:auto;padding:18px 20px 24px;-webkit-overflow-scrolling:touch;}
+#smdBody::-webkit-scrollbar{width:5px;}
+#smdBody::-webkit-scrollbar-track{background:transparent;}
+#smdBody::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:3px;}
+.smd-section{margin-bottom:14px;border-radius:12px;overflow:hidden;background:var(--bg-secondary,#0d1220);}
+.smd-section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;opacity:0.45;padding:8px 12px 0;color:var(--text-primary);}
+#tvSymbolInfo{height:220px;}
+.smd-row2{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px;}
+.smd-row2 .smd-section{margin-bottom:0;}
+#tvChart{height:420px;}
+#tvTechnical{height:420px;}
+#tvFinancials{height:620px;}
+/* ── Light mode overrides ── */
+html.light #stockModalBox,html.light #smdHeader{background:var(--bg-card,#fff);color:var(--text-primary,#0f172a);}
+html.light .smd-section{background:var(--bg-secondary,#e8edf3);}
+html.light #smdClose{color:var(--text-primary,#0f172a);}
+html.light #smdHeaderLeft h2,html.light #smdHeaderLeft p{color:var(--text-primary,#0f172a);}
+/* ── Responsive ── */
+@media(max-width:860px){.smd-row2{grid-template-columns:1fr;}#tvChart{height:300px;}#tvTechnical{height:300px;}#stockModal{padding:0;}#stockModalBox{max-height:100vh;border-radius:0;}}
+/* ── Live Data button on company cards ── */
+.live-data-btn{flex-shrink:0;width:28px;height:28px;padding:0;border:1px solid rgba(59,130,246,0.35);background:rgba(59,130,246,0.08);color:#3b82f6;border-radius:7px;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.live-data-btn:hover{background:rgba(59,130,246,0.2);border-color:rgba(59,130,246,0.7);}
+
+/* ===== Upside Potential Mode ===== */
+
+/* sector card overlays */
+html.up-mode .card.up-hot{border-top:3px solid #22c55e!important;background:rgba(34,197,94,0.07)!important;}
+html.up-mode .card.up-good{border-top:3px solid #3b82f6!important;background:rgba(59,130,246,0.06)!important;}
+html.up-mode .card.up-ok{border-top:3px solid #64748b!important;}
+/* sector badge chip */
+.up-badge{display:none;position:absolute;top:7px;right:7px;font-size:0.58rem;font-weight:800;
+  padding:2px 6px;border-radius:4px;color:#fff;z-index:5;letter-spacing:0.04em;}
+html.up-mode .up-badge{display:block;}
+.up-badge.up-hot{background:#16a34a;}
+.up-badge.up-good{background:#2563eb;}
+.up-badge.up-ok{background:#475569;}
+html.bn-mode.up-mode .up-badge{top:7px;}
+html.bn-mode.up-mode .bn-badge{top:30px;}
+/* ══════════ DUAL MODE HEATMAP v2 ══════════
+   Single amber/gold ramp — intensity = upside × risk
+   TOP border = upside tier (green/blue/slate)
+   LEFT border = risk severity (red/orange/yellow)
+   BACKGROUND opacity ramp (top-left hottest → bottom-right glass):
+     hot×crit=0.26  hot×high=0.19  hot×med=0.13  hot×none=0.07
+     good×crit=0.19 good×high=0.14 good×med=0.09  good×none=0.04
+     ok×crit=0.13   ok×high=0.09   ok×med=0.06    ok×none=0.02
+     none×crit=0.08 none×high=0.05 none×med=0.03   none×none=0.01
+   ═══════════════════════════════════════════════════════════ */
+html.bn-mode.up-mode .card{background:rgba(255,255,255,0.01)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,0.07)!important;}
+/* LEFT border = risk severity */
+html.bn-mode.up-mode .card.bn-crit{border-left:3px solid #ef4444!important;}
+html.bn-mode.up-mode .card.bn-high{border-left:3px solid #f97316!important;}
+html.bn-mode.up-mode .card.bn-med {border-left:3px solid #eab308!important;}
+/* TOP border = upside tier */
+html.bn-mode.up-mode .card.up-hot {border-top:3px solid #22c55e!important;}
+html.bn-mode.up-mode .card.up-good{border-top:3px solid #3b82f6!important;}
+html.bn-mode.up-mode .card.up-ok  {border-top:3px solid #64748b!important;}
+
+/* ── HEATMAP: unified amber ramp, 16 cells ── */
+/* No BN column */
+html.bn-mode.up-mode .card.up-hot {background:rgba(234,179,8,0.21)!important;}
+html.bn-mode.up-mode .card.up-good{background:rgba(234,179,8,0.12)!important;}
+html.bn-mode.up-mode .card.up-ok  {background:rgba(234,179,8,0.07)!important;}
+/* Med BN */
+html.bn-mode.up-mode .card.up-hot.bn-med {background:rgba(234,179,8,0.4)!important;}
+html.bn-mode.up-mode .card.up-good.bn-med{background:rgba(234,179,8,0.28)!important;}
+html.bn-mode.up-mode .card.up-ok.bn-med  {background:rgba(234,179,8,0.18)!important;}
+html.bn-mode.up-mode .card.bn-med:not(.up-hot):not(.up-good):not(.up-ok){background:rgba(234,179,8,0.09)!important;}
+/* High BN */
+html.bn-mode.up-mode .card.up-hot.bn-high {
+  background:rgba(234,179,8,0.58)!important;
+  box-shadow:0 0 0 1px rgba(234,179,8,0.75),0 4px 16px rgba(234,179,8,0.44)!important;}
+html.bn-mode.up-mode .card.up-good.bn-high{
+  background:rgba(234,179,8,0.44)!important;
+  box-shadow:0 0 0 1px rgba(234,179,8,0.56)!important;}
+html.bn-mode.up-mode .card.up-ok.bn-high  {background:rgba(234,179,8,0.28)!important;}
+html.bn-mode.up-mode .card.bn-high:not(.up-hot):not(.up-good):not(.up-ok){background:rgba(234,179,8,0.16)!important;}
+/* Critical BN — max intensity */
+html.bn-mode.up-mode .card.up-hot.bn-crit::after{content:'🔥';position:absolute;bottom:7px;right:8px;font-size:15px;line-height:1;pointer-events:none;opacity:0.85;filter:drop-shadow(0 0 4px rgba(234,179,8,0.6));}
+html.bn-mode.up-mode .card.up-hot.bn-crit {
+  background:rgba(234,179,8,0.75)!important;
+  border-color:rgba(234,179,8,0.75)!important;
+  border-top:3px solid #22c55e!important;border-left:3px solid #ef4444!important;
+  box-shadow:0 0 0 1.5px rgba(234,179,8,0.75),0 4px 26px rgba(234,179,8,0.75)!important;}
+html.bn-mode.up-mode .card.up-good.bn-crit{
+  background:rgba(234,179,8,0.58)!important;
+  box-shadow:0 0 0 1px rgba(234,179,8,0.75),0 3px 18px rgba(234,179,8,0.49)!important;}
+html.bn-mode.up-mode .card.up-ok.bn-crit  {
+  background:rgba(234,179,8,0.4)!important;
+  box-shadow:0 0 0 1px rgba(234,179,8,0.68),0 3px 12px rgba(234,179,8,0.32)!important;}
+html.bn-mode.up-mode .card.bn-crit:not(.up-hot):not(.up-good):not(.up-ok){
+  background:rgba(234,179,8,0.25)!important;
+  box-shadow:0 0 0 1px rgba(234,179,8,0.44)!important;}
+/* ── company card up-panel ── */
+.up-panel{display:none;margin:10px 0 0;padding:10px 12px 8px;border-radius:10px;border:1px solid rgba(34,197,94,0.25);background:rgba(34,197,94,0.06);}
+.up-panel.tier-good{border-color:rgba(59,130,246,0.25);background:rgba(59,130,246,0.06);}
+.up-panel.tier-ok{border-color:rgba(100,116,139,0.2);background:rgba(100,116,139,0.05);}
+html.up-mode .up-panel{display:block;}
+.up-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.up-verdict{font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:20px;color:#fff;letter-spacing:0.02em;white-space:nowrap;}
+.up-verdict.tier-hot{background:linear-gradient(90deg,#15803d,#22c55e);}
+.up-verdict.tier-good{background:linear-gradient(90deg,#1d4ed8,#3b82f6);}
+.up-verdict.tier-ok{background:#475569;}
+.up-total-score{font-size:1rem;font-weight:800;opacity:0.9;}
+/* 5-dim bars */
+.up-dims{display:flex;gap:5px;}
+.up-dim-item{flex:1;cursor:help;position:relative;}
+.up-dim-lbl{font-size:0.58rem;font-weight:700;text-align:center;margin-bottom:3px;
+  letter-spacing:0.06em;opacity:0.6;text-transform:uppercase;}
+.up-bar-track{height:5px;border-radius:3px;background:rgba(128,128,128,0.18);overflow:hidden;margin-bottom:3px;}
+.up-bar-fill{height:100%;border-radius:3px;transition:width 0.4s ease;}
+.tier-hot .up-bar-fill{background:#22c55e;}
+.tier-good .up-bar-fill{background:#3b82f6;}
+.tier-ok .up-bar-fill{background:#64748b;}
+.up-dim-val{font-size:0.62rem;text-align:center;font-weight:700;opacity:0.75;}
+/* tooltips via native title attribute */
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<header>
+<button id="backBtn" style="display:none;" aria-label="Back to overview">&#8592; <span class="en">Back</span><span class="zh">返回</span></button>
+<h1><span class="en">AI Full Industry Chain Investment Map</span><span class="zh">AI 全产业链投资地图</span></h1>
+<div id="headerBtns">
+  <button id="bnBtn" onclick="toggleBN()" title="Bottleneck Analysis Mode" class="hdr-btn" onmouseover="this.style.borderColor='#ef4444'" onmouseout="if(!this.classList.contains('active'))this.style.borderColor=''">&#128293; <span class="en">Bottleneck</span><span class="zh">瓶颈</span></button>
+  <button id="upBtn" onclick="toggleUP()" title="Upside Potential Mode" class="hdr-btn" onmouseover="this.style.borderColor='#22c55e';this.style.color='#22c55e'" onmouseout="if(!upActive){this.style.borderColor='';this.style.color=''}">&#128640; Upside</button>
+  <button id="themeBtn" onclick="toggleTheme()" title="Toggle light/dark mode" class="hdr-btn hdr-btn-icon" onmouseover="this.style.borderColor='var(--accent-blue)'" onmouseout="this.style.borderColor=''">🌙</button>
+  <button id="langBtn" onclick="toggleLang()" title="切换语言 / Switch Language" class="hdr-btn hdr-btn-icon" onmouseover="this.style.borderColor='var(--accent-blue)'" onmouseout="this.style.borderColor=''">中/EN</button>
+</div>
+</header>
+
+<div class="container">
+<div id="overview">
+<div class="hero">
+<h2><span class="en">AI Full Industry Chain</span><span class="zh">AI 全产业链</span></h2>
+<p><span class="en">A comprehensive 7-layer map of the AI value chain — from applications and cloud platforms down to energy and raw materials. Click any module to explore top companies with live stock charts.</span><span class="zh">涵盖 AI 价值链的七层全景图谱——从应用与云平台到能源与原材料。点击任意模块，探索各板块顶尖公司及实时股价图表。</span></p>
+<div style="display:flex;justify-content:center;margin-bottom:28px;">
+<div class="stats-bar">
+<div class="stat-item"><div class="stat-num">7</div><div class="stat-lbl"><span class="en">Layers</span><span class="zh">层级</span></div></div>
+<div class="stat-item"><div class="stat-num">61</div><div class="stat-lbl"><span class="en">Sub-sectors</span><span class="zh">子板块</span></div></div>
+<div class="stat-item"><div class="stat-num">305</div><div class="stat-lbl"><span class="en">Companies</span><span class="zh">公司</span></div></div>
+</div>
+</div>
+</div>
+
+<div class="legend main-legend">
+<div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div><span class="en">L1 Applications</span><span class="zh">L1 应用层</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div><span class="en">L2 Cloud</span><span class="zh">L2 云平台</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div><span class="en">L3 Data Centers</span><span class="zh">L3 数据中心</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#10b981"></div><span class="en">L4 Chips</span><span class="zh">L4 芯片</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div><span class="en">L5 Manufacturing</span><span class="zh">L5 制造</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#f97316"></div><span class="en">L6 Materials</span><span class="zh">L6 材料</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#f43f5e"></div><span class="en">L7 Energy</span><span class="zh">L7 能源</span></div>
+</div>
+<div class="bn-legend">
+<div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div><span class="en">Critical (20–25)</span><span class="zh">严重瓶颈 (20–25)</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#f97316"></div><span class="en">High (16–19)</span><span class="zh">高风险 (16–19)</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div><span class="en">Medium (11–15)</span><span class="zh">中等 (11–15)</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#64748b"></div><span class="en">Low (≤10)</span><span class="zh">低 (≤10)</span></div>
+</div>
+
+
+<div style="display:flex;justify-content:center;margin-bottom:20px;">
+<button id="exportPngBtn" class="export-btn" onclick="exportLayersPng()">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+<span class="en">Export as PNG</span><span class="zh">导出为 PNG</span>
+</button>
+</div>
+
+<div class="chain">
+<div class="layer" style="--layer-color:#3b82f6;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);">1</div>
+<div class="layer-title">
+<h2>AI Applications & Software</h2>
+<span><span class="en">LLMs, frameworks, development tools, industry solutions</span><span class="zh">大模型、框架、开发工具、行业解决方案</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#06b6d4;">$250B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-high">+28%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('foundation_models')"><h3><span class="en">Foundation Models</span><span class="zh">基础模型</span></h3><p><span class="en">LLMs and foundational systems</span><span class="zh">大型语言模型与基础系统</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_coding')"><h3><span class="en">AI Coding</span><span class="zh">AI 编程</span></h3><p><span class="en">Code generation tools</span><span class="zh">代码生成工具</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('image_video_gen')"><h3>Image & Video Gen</h3><p>Generative visual content</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_search_agents')"><h3>Search & Agents</h3><p>AI search and agents</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('industry_ai')"><h3><span class="en">Industry AI</span><span class="zh">行业 AI</span></h3><p><span class="en">Enterprise vertical solutions</span><span class="zh">企业垂直解决方案</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('audio_music')"><h3>Audio & Music</h3><p>Audio and music generation</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('data_labeling')"><h3><span class="en">Data Labeling</span><span class="zh">数据标注</span></h3><p><span class="en">Data annotation and prep</span><span class="zh">数据标注与预处理</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_safety')"><h3><span class="en">AI Safety</span><span class="zh">AI 安全</span></h3><p><span class="en">Security and alignment</span><span class="zh">安全与对齐</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('robotics')"><h3><span class="en">Robotics</span><span class="zh">机器人</span></h3><p><span class="en">Robotic automation</span><span class="zh">机器人自动化</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('humanoid_robots')"><h3><span class="en">Humanoid Robots</span><span class="zh">人形机器人</span></h3><p><span class="en">Embodied AI &amp; bipedal</span><span class="zh">具身AI与双足机器人</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_frameworks')"><h3><span class="en">AI Frameworks</span><span class="zh">AI 框架</span></h3><p><span class="en">ML frameworks and libraries</span><span class="zh">机器学习框架与库</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_middleware')"><h3><span class="en">AI Middleware</span><span class="zh">AI 中间件</span></h3><p><span class="en">Data infrastructure</span><span class="zh">数据基础设施</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+
+<div class="layer" style="--layer-color:#8b5cf6;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);">2</div>
+<div class="layer-title">
+<h2>Cloud & AI Platforms</h2>
+<span><span class="en">Public cloud, GPU cloud, MLOps, storage, edge</span><span class="zh">公有云、GPU云、MLOps、存储、边缘</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#8b5cf6;">$500B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-high">+25%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('public_cloud')"><h3><span class="en">Public Cloud</span><span class="zh">公有云</span></h3><p><span class="en">Cloud infrastructure</span><span class="zh">云基础设施</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('gpu_cloud')"><h3><span class="en">GPU Cloud</span><span class="zh">GPU 云</span></h3><p><span class="en">Cloud GPU services</span><span class="zh">云端GPU服务</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('mlops')"><h3><span class="en">MLOps</span><span class="zh">机器学习运维</span></h3><p><span class="en">ML operations</span><span class="zh">机器学习运维</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_storage')"><h3><span class="en">AI Storage</span><span class="zh">AI 存储</span></h3><p><span class="en">High-perf storage</span><span class="zh">高性能存储</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('edge_ai')"><h3><span class="en">Edge AI</span><span class="zh">边缘 AI</span></h3><p><span class="en">Edge computing</span><span class="zh">边缘计算</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('dgx_cloud')"><h3><span class="en">DGX Cloud</span><span class="zh">DGX 云平台</span></h3><p><span class="en">AI accelerators</span><span class="zh">AI加速器</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+
+<div class="layer" style="--layer-color:#06b6d4;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#06b6d4,#0ea5e9);">3</div>
+<div class="layer-title">
+<h2>Data Centers & Servers</h2>
+<span><span class="en">Hyperscale facilities, servers, cooling, networking</span><span class="zh">超大规模设施、服务器、冷却、网络</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#06b6d4;">$120B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-high">+16%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('hyperscale_dc')"><h3><span class="en">Hyperscale DC</span><span class="zh">超大规模数据中心</span></h3><p><span class="en">Large-scale facilities</span><span class="zh">超大规模设施</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_servers')"><h3><span class="en">AI Servers</span><span class="zh">AI 服务器</span></h3><p><span class="en">High-perf servers</span><span class="zh">高性能服务器</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('liquid_cooling')"><h3><span class="en">Liquid Cooling</span><span class="zh">液冷散热</span></h3><p><span class="en">Thermal management</span><span class="zh">热管理</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('power_ups')"><h3><span class="en">Power UPS</span><span class="zh">不间断电源</span></h3><p><span class="en">Power supply</span><span class="zh">电力供应</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('network_switches')"><h3><span class="en">Network Switches</span><span class="zh">网络交换机</span></h3><p><span class="en">High-speed networking</span><span class="zh">高速网络</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('optical_modules')"><h3><span class="en">Optical Modules</span><span class="zh">光模块</span></h3><p><span class="en">800G/1.6T AI transceivers</span><span class="zh">800G/1.6T AI光模块</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('fiber_optic')"><h3><span class="en">Fiber Optic</span><span class="zh">光纤</span></h3><p><span class="en">Cables and infrastructure</span><span class="zh">线缆与基础设施</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('modular_dc')"><h3><span class="en">Modular DC</span><span class="zh">模块化数据中心</span></h3><p><span class="en">Prefabricated facilities</span><span class="zh">预制设施</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('racks')"><h3><span class="en">Racks</span><span class="zh">机架</span></h3><p><span class="en">Enclosures</span><span class="zh">机架外壳</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+
+<div class="layer" style="--layer-color:#10b981;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#10b981,#14b8a6);">4</div>
+<div class="layer-title">
+<h2>Core Chips & Hardware</h2>
+<span><span class="en">GPUs, ASICs, CPUs, memory, network chips</span><span class="zh">GPU、ASIC、CPU、内存、网络芯片</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#10b981;">$200B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-high">+25%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('gpu')"><h3><span class="en">GPU</span><span class="zh">GPU</span></h3><p><span class="en">Graphics processors</span><span class="zh">图形处理器</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('ai_asic')"><h3><span class="en">AI ASIC</span><span class="zh">AI 专用芯片</span></h3><p><span class="en">Custom AI chips</span><span class="zh">定制AI芯片</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('cpu_dpu')"><h3>CPU & DPU</h3><p>Processors</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('hbm_memory')"><h3><span class="en">HBM Memory</span><span class="zh">高带宽内存</span></h3><p><span class="en">High bandwidth memory</span><span class="zh">高带宽内存</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('network_chips')"><h3><span class="en">Network Chips</span><span class="zh">网络芯片</span></h3><p><span class="en">Interconnect</span><span class="zh">互连芯片</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('fpga')"><h3><span class="en">FPGA</span><span class="zh">FPGA</span></h3><p><span class="en">Programmable arrays</span><span class="zh">可编程阵列</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('silicon_photonics')"><h3><span class="en">Silicon Photonics</span><span class="zh">硅光子</span></h3><p><span class="en">Optical interconnect</span><span class="zh">光互联</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('cxl_memory')"><h3><span class="en">CXL Memory</span><span class="zh">CXL 内存</span></h3><p><span class="en">Compute Express Link</span><span class="zh">计算高速互联</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+
+<div class="layer" style="--layer-color:#f59e0b;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#f59e0b,#f97316);">5</div>
+<div class="layer-title">
+<h2><span class="en">Semiconductor Manufacturing</span><span class="zh">半导体制造</span></h2>
+<span><span class="en">Foundry, advanced packaging, EDA, test equipment</span><span class="zh">晶圆代工、先进封装、EDA、测试设备</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#f59e0b;">$200B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-high">+16%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('foundry')"><h3><span class="en">Foundry</span><span class="zh">晶圆代工</span></h3><p><span class="en">Semiconductor manufacturing</span><span class="zh">半导体制造</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('adv_packaging')"><h3><span class="en">Adv. Packaging</span><span class="zh">先进封装</span></h3><p><span class="en">3D chiplets</span><span class="zh">3D小芯片封装</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('eda_ip')"><h3>EDA & IP</h3><p>Design automation</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('test_equipment')"><h3><span class="en">Test Equipment</span><span class="zh">测试设备</span></h3><p><span class="en">Semiconductor test</span><span class="zh">半导体测试</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('pcb_substrate')"><h3><span class="en">PCB Substrate</span><span class="zh">PCB 基板</span></h3><p><span class="en">Printed circuit boards</span><span class="zh">印制电路板</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('abf_film')"><h3><span class="en">ABF Film</span><span class="zh">ABF 薄膜</span></h3><p><span class="en">Build-up film</span><span class="zh">积层薄膜</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+
+<div class="layer" style="--layer-color:#f97316;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#f97316,#ea580c);">6</div>
+<div class="layer-title">
+<h2>Semiconductor Materials & Equipment</h2>
+<span><span class="en">Lithography, etch, deposition, materials, gases</span><span class="zh">光刻、刻蚀、沉积、材料、特种气体</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#f97316;">$160B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-mid">+9%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('lithography')"><h3><span class="en">Lithography</span><span class="zh">光刻机</span></h3><p><span class="en">Lithography equipment</span><span class="zh">光刻设备</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('etch_deposition')"><h3>Etch & Deposition</h3><p>Process equipment</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('inspection')"><h3><span class="en">Inspection</span><span class="zh">缺陷检测</span></h3><p><span class="en">Defect inspection</span><span class="zh">缺陷检测</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('silicon_wafers')"><h3><span class="en">Silicon Wafers</span><span class="zh">硅片</span></h3><p><span class="en">Wafer production</span><span class="zh">晶圆生产</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('photomask')"><h3><span class="en">Photomask</span><span class="zh">光掩模</span></h3><p><span class="en">Masks and reticles</span><span class="zh">光掩模版</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('bonding')"><h3><span class="en">Bonding</span><span class="zh">键合设备</span></h3><p><span class="en">Die bonding</span><span class="zh">芯片键合</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('photoresist')"><h3><span class="en">Photoresist</span><span class="zh">光刻胶</span></h3><p><span class="en">Photoresist materials</span><span class="zh">光刻胶材料</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('specialty_gas')"><h3><span class="en">Specialty Gas</span><span class="zh">特种气体</span></h3><p><span class="en">Process gases</span><span class="zh">工艺气体</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('cmp_materials')"><h3><span class="en">CMP Materials</span><span class="zh">CMP材料</span></h3><p><span class="en">Polish materials</span><span class="zh">抛光材料</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('compound_semi')"><h3><span class="en">Compound Semi</span><span class="zh">化合物半导体</span></h3><p><span class="en">InP/GaAs AI photonics</span><span class="zh">InP/GaAs光电子</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+
+<div class="layer" style="--layer-color:#f43f5e;">
+<div class="layer-header">
+<div class="layer-number" style="background:linear-gradient(135deg,#f43f5e,#ec4899);">7</div>
+<div class="layer-title">
+<h2>Energy & Infrastructure</h2>
+<span><span class="en">Nuclear, renewables, power distribution, water, construction</span><span class="zh">核能、可再生能源、电力分配、水资源、建设</span></span>
+</div>
+<div class="layer-stats">
+<div class="stat"><div class="stat-value" style="color:#f43f5e;">$200B+</div><div class="stat-label"><span class="en">Market Size</span><span class="zh">市场规模</span></div></div>
+<div class="stat"><div class="stat-value growth-badge growth-high">+20%</div><div class="stat-label"><span class="en">YoY Growth</span><span class="zh">同比增长</span></div></div>
+</div>
+</div>
+<div class="cards">
+<div class="card" onclick="showSub('nuclear')"><h3><span class="en">Nuclear</span><span class="zh">核能</span></h3><p><span class="en">Nuclear power</span><span class="zh">核能发电</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('natural_gas')"><h3><span class="en">Natural Gas</span><span class="zh">天然气</span></h3><p><span class="en">Gas generation</span><span class="zh">天然气发电</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('renewables')"><h3><span class="en">Renewables</span><span class="zh">可再生能源</span></h3><p><span class="en">Solar and wind</span><span class="zh">太阳能与风能</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('grid_td')"><h3>Grid T&D</h3><p>Transmission</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('transformers')"><h3><span class="en">Transformers</span><span class="zh">变压器</span></h3><p><span class="en">Power transformers</span><span class="zh">电力变压器</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('energy_storage')"><h3><span class="en">Energy Storage</span><span class="zh">储能</span></h3><p><span class="en">Battery BESS</span><span class="zh">电池储能</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('smr_reactors')"><h3><span class="en">SMR Reactors</span><span class="zh">小型模块堆</span></h3><p><span class="en">Small modular</span><span class="zh">小型模块化核电</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('land_realestate')"><h3>Land & RE</h3><p>DC real estate</p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('construction')"><h3><span class="en">Construction</span><span class="zh">建设施工</span></h3><p><span class="en">Construction services</span><span class="zh">建设服务</span></p><div class="count">(5 companies)</div></div>
+<div class="card" onclick="showSub('water')"><h3><span class="en">Water</span><span class="zh">水资源</span></h3><p><span class="en">Water management</span><span class="zh">水资源管理</span></p><div class="count">(5 companies)</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="detail" style="display:none;">
+<div class="detail-header" id="detailHeader"></div>
+<div id="bnPanelContainer"></div>
+<div id="companiesContainer" class="companies-grid"></div>
+</div>
+</div>
+
+<!-- Value Distribution Scatter Chart -->
+<div class="chart-section" id="chartSection">
+<h2><span class="en">Value Chain Distribution</span><span class="zh">价值链分布图</span></h2>
+<div class="scatter-wrapper">
+<div class="scatter-y-axis"><span class="en">Value Density &uarr;</span><span class="zh">价值密度 &uarr;</span></div>
+<div class="scatter-chart" id="scatterChart">
+<span class="scatter-x-label"><span class="en">Capital Expenditure &rarr;</span><span class="zh">资本支出 &rarr;</span></span>
+<div class="grid-line horizontal" style="bottom:calc(25% + 36px);"></div>
+<div class="grid-line horizontal" style="bottom:calc(50% + 36px);"></div>
+<div class="grid-line horizontal" style="bottom:calc(75% + 36px);"></div>
+<div class="grid-line vertical" style="left:25%;"></div>
+<div class="grid-line vertical" style="left:50%;"></div>
+<div class="grid-line vertical" style="left:75%;"></div>
+</div>
+</div>
+</div>
+
+<!-- Key Data Table -->
+<div class="stats-section" id="statsSection">
+<h2><span class="en">Key Data Overview</span><span class="zh">关键数据概览</span></h2>
+<table class="stats-table">
+<thead><tr><th><span class="en">Layer</span><span class="zh">层级</span></th><th><span class="en">Market Size</span><span class="zh">市场规模</span></th><th><span class="en">Growth</span><span class="zh">增长</span></th><th><span class="en">Key Players</span><span class="zh">代表企业</span></th></tr></thead>
+<tbody>
+<tr><td><span class="en">AI Applications</span><span class="zh">AI 应用</span></td><td>$250B+</td><td><span class="growth-badge growth-high">+28%</span></td><td>OpenAI, Anthropic, Google, Meta</td></tr>
+<tr><td>Cloud & Platforms</td><td>$500B+</td><td><span class="growth-badge growth-high">+25%</span></td><td>AWS, Azure, GCP, Oracle</td></tr>
+<tr><td><span class="en">Data Centers</span><span class="zh">数据中心</span></td><td>$120B+</td><td><span class="growth-badge growth-high">+16%</span></td><td>Equinix, Digital Realty, Vertiv</td></tr>
+<tr><td><span class="en">Core Chips</span><span class="zh">核心芯片</span></td><td>$200B+</td><td><span class="growth-badge growth-high">+25%</span></td><td>NVIDIA, AMD, Broadcom, SK Hynix</td></tr>
+<tr><td><span class="en">Semiconductor Mfg</span><span class="zh">半导体制造</span></td><td>$200B+</td><td><span class="growth-badge growth-high">+16%</span></td><td>TSMC, ASML, Applied Materials</td></tr>
+<tr><td>Materials & Equipment</td><td>$160B+</td><td><span class="growth-badge growth-mid">+9%</span></td><td>Shin-Etsu, Lam Research, KLA</td></tr>
+<tr><td>Energy & Infrastructure</td><td>$200B+</td><td><span class="growth-badge growth-high">+20%</span></td><td>Constellation, NextEra, Eaton</td></tr>
+</tbody>
+</table>
+</div>
+
+<footer><span class="en">AI Full Industry Chain Investment Map &middot; Data via TradingView &middot; For research purposes only</span><span class="zh">AI 全产业链投资地图 &middot; 行情数据来自 TradingView &middot; 仅供研究参考</span></footer>
+
+<script>
+const S={foundation_models:{t:'Foundation Models',d:'LLMs, foundational AI systems',layer:1,color:'#a5b4fc',companies:[{n:'OpenAI',k:'OAI',tv:null,d:'GPT-4o / o3',pe:'N/A',mc:'~852B'},{n:'Anthropic',k:'ANTH',tv:null,d:'Claude 3.x',pe:'N/A',mc:'~900B'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'Gemini',pe:'22',mc:'4.6T'},{n:'Meta',k:'META',tv:'NASDAQ:META',d:'Llama (open)',pe:'18',mc:'1.6T'},{n:'Microsoft',k:'MSFT',tv:'NASDAQ:MSFT',d:'Phi / OpenAI 49%',pe:'28',mc:'3T'}]},ai_coding:{t:'AI Coding',d:'Code generation tools',layer:1,color:'#a5b4fc',companies:[{n:'Microsoft',k:'MSFT',tv:'NASDAQ:MSFT',d:'GitHub Copilot',pe:'28',mc:'3T'},{n:'Amazon',k:'AMZN',tv:'NASDAQ:AMZN',d:'Amazon Q Dev',pe:'40',mc:'2.1T'},{n:'GitLab',k:'GTLB',tv:'NASDAQ:GTLB',d:'DevOps',pe:'Loss',mc:'14B'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'Gemini Code',pe:'22',mc:'4.6T'},{n:'Cursor',k:'Cursor',tv:null,d:'AI editor',pe:'N/A',mc:'50B'}]},image_video_gen:{t:'Image & Video Generation',d:'Generative visual content',layer:1,color:'#a5b4fc',companies:[{n:'Adobe',k:'ADBE',tv:'NASDAQ:ADBE',d:'Firefly',pe:'38',mc:'165B'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'Veo',pe:'22',mc:'4.6T'},{n:'Shutterstock',k:'SSTK',tv:'NYSE:SSTK',d:'GenAPI',pe:'19',mc:'2.5B'},{n:'Runway',k:'RW',tv:null,d:'Video gen leader',pe:'N/A',mc:'~4B'},{n:'Midjourney',k:'MJ',tv:null,d:'Image gen',pe:'N/A',mc:'Private'}]},ai_search_agents:{t:'Search & Agents',d:'AI search and autonomous agents',layer:1,color:'#a5b4fc',companies:[{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'Search AI',pe:'22',mc:'4.6T'},{n:'Microsoft',k:'MSFT',tv:'NASDAQ:MSFT',d:'Copilot',pe:'28',mc:'3T'},{n:'ServiceNow',k:'NOW',tv:'NYSE:NOW',d:'Agents',pe:'Loss',mc:'93B'},{n:'Baidu',k:'BIDU',tv:'NASDAQ:BIDU',d:'Search',pe:'16',mc:'45B'},{n:'Perplexity',k:'PLXTY',tv:null,d:'Search engine',pe:'N/A',mc:'14B'}]},industry_ai:{t:'Industry AI',d:'Enterprise vertical solutions',layer:1,color:'#a5b4fc',companies:[{n:'Palantir',k:'PLTR',tv:'NASDAQ:PLTR',d:'Data/analytics',pe:'Loss',mc:'100B'},{n:'Veeva Systems',k:'VEEV',tv:'NYSE:VEEV',d:'LifeSciences',pe:'26',mc:'36B'},{n:'UiPath',k:'PATH',tv:'NYSE:PATH',d:'RPA+AI',pe:'Loss',mc:'15B'},{n:'C3.ai',k:'AI',tv:'NYSE:AI',d:'Enterprise AI',pe:'Loss',mc:'3B'},{n:'Tempus AI',k:'TEM',tv:'NASDAQ:TEM',d:'LifeSciences',pe:'Loss',mc:'8B'}]},audio_music:{t:'Audio & Music',d:'Audio and music generation',layer:1,color:'#a5b4fc',companies:[{n:'Spotify',k:'SPOT',tv:'NYSE:SPOT',d:'Audio AI',pe:'Loss',mc:'30B'},{n:'SoundHound AI',k:'SOUN',tv:'NASDAQ:SOUN',d:'Voice AI',pe:'Loss',mc:'2.5B'},{n:'Apple',k:'AAPL',tv:'NASDAQ:AAPL',d:'Music gen',pe:'30',mc:'2.9T'},{n:'Dolby',k:'DLB',tv:'NYSE:DLB',d:'Audio',pe:'18',mc:'10B'},{n:'ElevenLabs',k:'EL',tv:null,d:'Voice synthesis',pe:'N/A',mc:'Private'}]},data_labeling:{t:'Data Labeling',d:'Data annotation and prep',layer:1,color:'#a5b4fc',companies:[{n:'Palantir',k:'PLTR',tv:'NASDAQ:PLTR',d:'Labeling',pe:'Loss',mc:'100B'},{n:'Informatica',k:'INFA',tv:'NYSE:INFA',d:'Data integ',pe:'Loss',mc:'12B'},{n:'Confluent',k:'CFLT',tv:'NASDAQ:CFLT',d:'Streaming',pe:'Loss',mc:'8B'},{n:'Appen',k:'APX',tv:'ASX:APX',d:'Annotation',pe:'Loss',mc:'0.5B'},{n:'Scale AI',k:'Scale',tv:null,d:'Data platform',pe:'N/A',mc:'Private'}]},ai_safety:{t:'AI Security',d:'Security and alignment',layer:1,color:'#a5b4fc',companies:[{n:'CrowdStrike',k:'CRWD',tv:'NASDAQ:CRWD',d:'Security',pe:'Loss',mc:'40B'},{n:'Palo Alto Networks',k:'PANW',tv:'NASDAQ:PANW',d:'Platform',pe:'33',mc:'85B'},{n:'Fortinet',k:'FTNT',tv:'NASDAQ:FTNT',d:'Firewall',pe:'33',mc:'14B'},{n:'SentinelOne',k:'S',tv:'NYSE:S',d:'EDR',pe:'Loss',mc:'18B'},{n:'Anthropic',k:'ANTH',tv:null,d:'Constitutional AI',pe:'N/A',mc:'~900B'}]},robotics:{t:'Robotics',d:'Robotic automation',layer:1,color:'#a5b4fc',companies:[{n:'Intuitive Surgical',k:'ISRG',tv:'NASDAQ:ISRG',d:'Surgery',pe:'50',mc:'120B'},{n:'ABB',k:'ABB',tv:'NYSE:ABB',d:'Industrial',pe:'19',mc:'50B'},{n:'Rockwell',k:'ROK',tv:'NYSE:ROK',d:'Automation',pe:'24',mc:'38B'},{n:'Fanuc',k:'FANUY',tv:'OTC:FANUY',d:'Factory robots',pe:'24',mc:'40B'},{n:'Figure AI',k:'Fig',tv:null,d:'Humanoid',pe:'N/A',mc:'Private'}]},humanoid_robots:{t:'Humanoid Robots',d:'Embodied AI & bipedal robots',layer:1,color:'#a5b4fc',companies:[{n:'Tesla',k:'TSLA',tv:'NASDAQ:TSLA',d:'Optimus',pe:'Loss',mc:'1.1T'},{n:'Figure AI',k:'Fig',tv:null,d:'Figure 02',pe:'N/A',mc:'~2.6B'},{n:'1X Technologies',k:'1X',tv:null,d:'NEO humanoid',pe:'N/A',mc:'Private'},{n:'Apptronik',k:'Apt',tv:null,d:'Apollo robot',pe:'N/A',mc:'Private'},{n:'Physical Intelligence',k:'PI',tv:null,d:'General-purpose AI',pe:'N/A',mc:'~400M'}]},ai_frameworks:{t:'AI Frameworks',d:'ML frameworks and libraries',layer:1,color:'#a5b4fc',companies:[{n:'Meta',k:'META',tv:'NASDAQ:META',d:'PyTorch',pe:'18',mc:'1.6T'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'TensorFlow',pe:'22',mc:'4.6T'},{n:'Microsoft',k:'MSFT',tv:'NASDAQ:MSFT',d:'ONNX',pe:'28',mc:'3T'},{n:'NVIDIA',k:'NVDA',tv:'NASDAQ:NVDA',d:'CUDA',pe:'50',mc:'4.8T'},{n:'Hugging Face',k:'HF',tv:null,d:'Model hub',pe:'N/A',mc:'Private'}]},ai_middleware:{t:'AI Middleware',d:'Data infrastructure',layer:1,color:'#a5b4fc',companies:[{n:'MongoDB',k:'MDB',tv:'NASDAQ:MDB',d:'Vector DB',pe:'Loss',mc:'18B'},{n:'Elastic',k:'ESTC',tv:'NYSE:ESTC',d:'Search',pe:'Loss',mc:'10B'},{n:'Cloudflare',k:'NET',tv:'NYSE:NET',d:'Intelligence',pe:'Loss',mc:'30B'},{n:'Datadog',k:'DDOG',tv:'NASDAQ:DDOG',d:'Monitoring',pe:'Loss',mc:'45B'},{n:'Pinecone',k:'Pine',tv:null,d:'Vector DB',pe:'N/A',mc:'Private'}]},public_cloud:{t:'Public Cloud',d:'Cloud infrastructure',layer:2,color:'#c4b5fd',companies:[{n:'Amazon',k:'AMZN',tv:'NASDAQ:AMZN',d:'AWS',pe:'56',mc:'2.9T'},{n:'Microsoft',k:'MSFT',tv:'NASDAQ:MSFT',d:'Azure',pe:'28',mc:'3T'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'Google Cloud',pe:'22',mc:'4.6T'},{n:'Oracle',k:'ORCL',tv:'NYSE:ORCL',d:'OCI',pe:'30',mc:'320B'},{n:'Alibaba',k:'BABA',tv:'NYSE:BABA',d:'Cloud',pe:'12',mc:'200B'}]},gpu_cloud:{t:'GPU Cloud',d:'Cloud GPU services',layer:2,color:'#c4b5fd',companies:[{n:'CoreWeave',k:'CRWV',tv:'NASDAQ:CRWV',d:'GPU cloud',pe:'Loss',mc:'65B'},{n:'Amazon',k:'AMZN',tv:'NASDAQ:AMZN',d:'EC2 GPU',pe:'56',mc:'2.9T'},{n:'Microsoft',k:'MSFT',tv:'NASDAQ:MSFT',d:'Azure GPU',pe:'28',mc:'3T'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'Vertex',pe:'22',mc:'4.6T'},{n:'Nebius',k:'NBIS',tv:'NASDAQ:NBIS',d:'EU GPU cloud',pe:'Loss',mc:'~8B'}]},mlops:{t:'MLOps',d:'ML operations',layer:2,color:'#c4b5fd',companies:[{n:'Snowflake',k:'SNOW',tv:'NYSE:SNOW',d:'Data platform',pe:'Loss',mc:'50B'},{n:'Datadog',k:'DDOG',tv:'NASDAQ:DDOG',d:'Monitoring',pe:'Loss',mc:'45B'},{n:'Weights & Biases',k:'WB',tv:null,d:'ML experiment track',pe:'N/A',mc:'Private'},{n:'Confluent',k:'CFLT',tv:'NASDAQ:CFLT',d:'Streaming',pe:'Loss',mc:'8B'},{n:'Databricks',k:'DB',tv:null,d:'AI Lakehouse',pe:'N/A',mc:'134B'}]},ai_storage:{t:'AI Storage',d:'High-perf storage',layer:2,color:'#c4b5fd',companies:[{n:'Pure Storage',k:'PSTG',tv:'NYSE:PSTG',d:'Flash',pe:'25',mc:'15B'},{n:'NetApp',k:'NTAP',tv:'NASDAQ:NTAP',d:'Hybrid',pe:'18',mc:'35B'},{n:'Dell',k:'DELL',tv:'NYSE:DELL',d:'Storage',pe:'8',mc:'40B'},{n:'Nutanix',k:'NTNX',tv:'NASDAQ:NTNX',d:'HCI',pe:'Loss',mc:'7B'},{n:'VAST Data',k:'VAST',tv:null,d:'AI storage',pe:'N/A',mc:'Private'}]},edge_ai:{t:'Edge AI',d:'Edge computing',layer:2,color:'#c4b5fd',companies:[{n:'Qualcomm',k:'QCOM',tv:'NASDAQ:QCOM',d:'Processors',pe:'18',mc:'160B'},{n:'Apple',k:'AAPL',tv:'NASDAQ:AAPL',d:'Neural Engine',pe:'30',mc:'2.9T'},{n:'Intel',k:'INTC',tv:'NASDAQ:INTC',d:'Edge',pe:'Loss',mc:'110B'},{n:'Lattice Semi',k:'LSCC',tv:'NASDAQ:LSCC',d:'FPGA',pe:'34',mc:'6B'},{n:'Ambarella',k:'AMBA',tv:'NASDAQ:AMBA',d:'Vision',pe:'Loss',mc:'1.5B'}]},dgx_cloud:{t:'DGX Cloud',d:'AI accelerators',layer:2,color:'#c4b5fd',companies:[{n:'NVIDIA',k:'NVDA',tv:'NASDAQ:NVDA',d:'DGX',pe:'50',mc:'4.8T'},{n:'IBM',k:'IBM',tv:'NYSE:IBM',d:'Platforms',pe:'13',mc:'180B'},{n:'HPE',k:'HPE',tv:'NYSE:HPE',d:'AI infra',pe:'Loss',mc:'16B'},{n:'Dell',k:'DELL',tv:'NYSE:DELL',d:'XE series',pe:'8',mc:'40B'},{n:'Cerebras',k:'CBRS',tv:'NASDAQ:CBRS',d:'Wafer-scale AI',pe:'N/A',mc:'~23B'}]},hyperscale_dc:{t:'Hyperscale Data Centers',d:'Large-scale facilities',layer:3,color:'#7dd3fc',companies:[{n:'Equinix',k:'EQIX',tv:'NASDAQ:EQIX',d:'DCs',pe:'35',mc:'70B'},{n:'Digital Realty',k:'DLR',tv:'NYSE:DLR',d:'Global DCs',pe:'28',mc:'65B'},{n:'Applied Digital',k:'APLD',tv:'NASDAQ:APLD',d:'AI data centers',pe:'Loss',mc:'~3B'},{n:'GDS Holdings',k:'GDS',tv:'NASDAQ:GDS',d:'China DCs',pe:'20',mc:'8B'},{n:'NEXTDC',k:'NXT',tv:'ASX:NXT',d:'Australia',pe:'25',mc:'10B'}]},ai_servers:{t:'AI Servers',d:'High-perf servers',layer:3,color:'#7dd3fc',companies:[{n:'Dell',k:'DELL',tv:'NYSE:DELL',d:'PowerEdge',pe:'8',mc:'40B'},{n:'Super Micro',k:'SMCI',tv:'NASDAQ:SMCI',d:'Servers',pe:'Loss',mc:'60B'},{n:'HPE',k:'HPE',tv:'NYSE:HPE',d:'ProLiant',pe:'Loss',mc:'16B'},{n:'Lenovo',k:'0992',tv:'HKEX:0992',d:'ThinkSystem',pe:'8',mc:'15B'},{n:'Inspur',k:'Inspur',tv:null,d:'AI servers',pe:'N/A',mc:'Private'}]},liquid_cooling:{t:'Liquid Cooling',d:'Thermal management',layer:3,color:'#7dd3fc',companies:[{n:'Vertiv',k:'VRT',tv:'NYSE:VRT',d:'Cooling',pe:'Loss',mc:'12B'},{n:'nVent Electric',k:'NVT',tv:'NYSE:NVT',d:'Thermal',pe:'17',mc:'17B'},{n:'Modine Mfg',k:'MOD',tv:'NYSE:MOD',d:'Systems',pe:'Loss',mc:'2B'},{n:'Schneider',k:'SE',tv:'EPA:SU',d:'Solutions',pe:'22',mc:'190B'},{n:'CoolIT',k:'Cool',tv:null,d:'Cooling',pe:'N/A',mc:'Private'}]},power_ups:{t:'Power UPS',d:'Power supply',layer:3,color:'#7dd3fc',companies:[{n:'Eaton',k:'ETN',tv:'NYSE:ETN',d:'Management',pe:'20',mc:'85B'},{n:'Vertiv',k:'VRT',tv:'NYSE:VRT',d:'DC power',pe:'Loss',mc:'12B'},{n:'ABB',k:'ABB',tv:'NYSE:ABB',d:'Systems',pe:'19',mc:'50B'},{n:'Schneider',k:'SE',tv:'EPA:SU',d:'Energy',pe:'22',mc:'190B'},{n:'Generac',k:'GNRC',tv:'NYSE:GNRC',d:'Backup',pe:'20',mc:'10B'}]},network_switches:{t:'Network Switches',d:'High-speed networking',layer:3,color:'#7dd3fc',companies:[{n:'Arista',k:'ANET',tv:'NYSE:ANET',d:'Switches',pe:'28',mc:'45B'},{n:'Cisco',k:'CSCO',tv:'NASDAQ:CSCO',d:'Networking',pe:'15',mc:'240B'},{n:'HPE',k:'HPE',tv:'NYSE:HPE',d:'Networking',pe:'Loss',mc:'16B'},{n:'Extreme Networks',k:'EXTR',tv:'NASDAQ:EXTR',d:'Cloud',pe:'Loss',mc:'2B'},{n:'NVIDIA',k:'NVDA',tv:'NASDAQ:NVDA',d:'InfiniBand/Spectrum-X',pe:'50',mc:'3.2T'}]},optical_modules:{t:'Optical Modules',d:'800G/1.6T AI cluster transceivers',layer:3,color:'#7dd3fc',companies:[{n:'Broadcom',k:'AVGO',tv:'NASDAQ:AVGO',d:'Modules',pe:'25',mc:'2T'},{n:'Coherent',k:'COHR',tv:'NYSE:COHR',d:'Components',pe:'19',mc:'16B'},{n:'Lumentum',k:'LITE',tv:'NASDAQ:LITE',d:'Modules',pe:'12',mc:'4B'},{n:'Credo Technology',k:'CRDO',tv:'NASDAQ:CRDO',d:'Active electrical cables',pe:'Loss',mc:'~5B'},{n:'AAOI',k:'AAOI',tv:'NASDAQ:AAOI',d:'800G/1.6T transceivers',pe:'Loss',mc:'~13B'}]},fiber_optic:{t:'Fiber Optic',d:'Cables and infrastructure',layer:3,color:'#7dd3fc',companies:[{n:'Corning',k:'GLW',tv:'NYSE:GLW',d:'Cable',pe:'24',mc:'38B'},{n:'Prysmian',k:'PRY',tv:'MIL:PRY',d:'Solutions',pe:'14',mc:'18B'},{n:'CommScope',k:'COMM',tv:'NASDAQ:COMM',d:'Infrastructure',pe:'Loss',mc:'3B'},{n:'Furukawa Electric',k:'5801',tv:'TSE:5801',d:'Fiber',pe:'12',mc:'12B'},{n:'YOFC',k:'6869',tv:'HKEX:6869',d:'Cables',pe:'16',mc:'6B'}]},modular_dc:{t:'Modular Data Centers',d:'Prefabricated facilities',layer:3,color:'#7dd3fc',companies:[{n:'Schneider',k:'SE',tv:'EPA:SU',d:'Solutions',pe:'22',mc:'190B'},{n:'Vertiv',k:'VRT',tv:'NYSE:VRT',d:'Infrastructure',pe:'Loss',mc:'12B'},{n:'Eaton',k:'ETN',tv:'NYSE:ETN',d:'Systems',pe:'20',mc:'85B'},{n:'Legrand',k:'LR',tv:'EPA:LR',d:'Infrastructure',pe:'25',mc:'45B'},{n:'nVent',k:'NVT',tv:'NYSE:NVT',d:'Solutions',pe:'17',mc:'17B'}]},racks:{t:'Racks',d:'Enclosures',layer:3,color:'#7dd3fc',companies:[{n:'nVent Electric',k:'NVT',tv:'NYSE:NVT',d:'Racks',pe:'17',mc:'17B'},{n:'Legrand',k:'LR',tv:'EPA:LR',d:'Infrastructure',pe:'25',mc:'45B'},{n:'Vertiv',k:'VRT',tv:'NYSE:VRT',d:'Infrastructure',pe:'Loss',mc:'12B'},{n:'Chatsworth',k:'Chats',tv:null,d:'Racks',pe:'N/A',mc:'Private'},{n:'Rittal',k:'Rittal',tv:null,d:'Enclosures',pe:'N/A',mc:'Private'}]},gpu:{t:'GPU',d:'Graphics processors',layer:4,color:'#86efac',companies:[{n:'NVIDIA',k:'NVDA',tv:'NASDAQ:NVDA',d:'H100/H200',pe:'50',mc:'4.8T'},{n:'AMD',k:'AMD',tv:'NASDAQ:AMD',d:'MI-series',pe:'Loss',mc:'580B'},{n:'Intel',k:'INTC',tv:'NASDAQ:INTC',d:'GPU',pe:'Loss',mc:'110B'},{n:'Qualcomm',k:'QCOM',tv:'NASDAQ:QCOM',d:'Adreno',pe:'18',mc:'160B'},{n:'Moore Threads',k:'MT',tv:null,d:'Chinese GPU',pe:'N/A',mc:'Private'}]},ai_asic:{t:'AI ASIC',d:'Custom AI chips',layer:4,color:'#86efac',companies:[{n:'Broadcom',k:'AVGO',tv:'NASDAQ:AVGO',d:'AI switches',pe:'25',mc:'2T'},{n:'Marvell',k:'MRVL',tv:'NASDAQ:MRVL',d:'Chips',pe:'20',mc:'40B'},{n:'Alphabet',k:'GOOGL',tv:'NASDAQ:GOOGL',d:'TPU',pe:'22',mc:'4.6T'},{n:'Amazon',k:'AMZN',tv:'NASDAQ:AMZN',d:'Trainium',pe:'56',mc:'2.9T'},{n:'Cerebras',k:'CBRS',tv:'NASDAQ:CBRS',d:'Wafer-scale AI',pe:'N/A',mc:'~23B'}]},cpu_dpu:{t:'CPU & DPU',d:'Processors',layer:4,color:'#86efac',companies:[{n:'Intel',k:'INTC',tv:'NASDAQ:INTC',d:'Xeon',pe:'Loss',mc:'110B'},{n:'AMD',k:'AMD',tv:'NASDAQ:AMD',d:'EPYC',pe:'Loss',mc:'580B'},{n:'ARM Holdings',k:'ARM',tv:'NASDAQ:ARM',d:'Architecture',pe:'Loss',mc:'224B'},{n:'NVIDIA',k:'NVDA',tv:'NASDAQ:NVDA',d:'Grace',pe:'50',mc:'4.8T'},{n:'Ampere',k:'AMP',tv:null,d:'CPU',pe:'N/A',mc:'Private'}]},hbm_memory:{t:'HBM Memory',d:'High bandwidth memory',layer:4,color:'#86efac',companies:[{n:'SK Hynix',k:'000660',tv:'KRX:000660',d:'HBM3E',pe:'Loss',mc:'35B'},{n:'Micron',k:'MU',tv:'NASDAQ:MU',d:'HBM',pe:'Loss',mc:'22B'},{n:'Samsung',k:'005930',tv:'KRX:005930',d:'HBM3',pe:'10',mc:'350B'},{n:'Rambus',k:'RMBS',tv:'NASDAQ:RMBS',d:'HBM IP/Interface',pe:'35',mc:'4B'},{n:'Nanya Tech',k:'2408',tv:'TWSE:2408',d:'DRAM',pe:'8',mc:'6B'}]},network_chips:{t:'Network Chips',d:'Interconnect',layer:4,color:'#86efac',companies:[{n:'Broadcom',k:'AVGO',tv:'NASDAQ:AVGO',d:'Chips',pe:'25',mc:'2T'},{n:'Marvell',k:'MRVL',tv:'NASDAQ:MRVL',d:'SerDes',pe:'20',mc:'40B'},{n:'NVIDIA',k:'NVDA',tv:'NASDAQ:NVDA',d:'BlueField',pe:'50',mc:'4.8T'},{n:'Intel',k:'INTC',tv:'NASDAQ:INTC',d:'Chips',pe:'Loss',mc:'110B'},{n:'Microchip',k:'MCHP',tv:'NASDAQ:MCHP',d:'Networking',pe:'13',mc:'35B'}]},fpga:{t:'FPGA',d:'Programmable arrays',layer:4,color:'#86efac',companies:[{n:'AMD',k:'AMD',tv:'NASDAQ:AMD',d:'Xilinx',pe:'Loss',mc:'580B'},{n:'Lattice Semi',k:'LSCC',tv:'NASDAQ:LSCC',d:'FPGA',pe:'34',mc:'6B'},{n:'Microchip',k:'MCHP',tv:'NASDAQ:MCHP',d:'FPGA',pe:'13',mc:'35B'},{n:'Achronix',k:'Acro',tv:null,d:'FPGA',pe:'N/A',mc:'Private'},{n:'Altera',k:'ALTR',tv:null,d:'Intel spin-off FPGA',pe:'N/A',mc:'Private'}]},silicon_photonics:{t:'Silicon Photonics',d:'Optical interconnect',layer:4,color:'#86efac',companies:[{n:'Broadcom',k:'AVGO',tv:'NASDAQ:AVGO',d:'Photonics',pe:'25',mc:'2T'},{n:'Intel',k:'INTC',tv:'NASDAQ:INTC',d:'Photonics',pe:'Loss',mc:'110B'},{n:'Marvell',k:'MRVL',tv:'NASDAQ:MRVL',d:'Interconnect',pe:'20',mc:'40B'},{n:'Cisco',k:'CSCO',tv:'NASDAQ:CSCO',d:'Optical',pe:'15',mc:'240B'},{n:'Ayar Labs',k:'Ayar',tv:null,d:'Interconnect',pe:'N/A',mc:'Private'}]},cxl_memory:{t:'CXL Memory',d:'Compute Express Link',layer:4,color:'#86efac',companies:[{n:'Astera Labs',k:'ALAB',tv:'NASDAQ:ALAB',d:'Controllers',pe:'Loss',mc:'4B'},{n:'Micron',k:'MU',tv:'NASDAQ:MU',d:'Memory',pe:'Loss',mc:'22B'},{n:'Intel',k:'INTC',tv:'NASDAQ:INTC',d:'CXL',pe:'Loss',mc:'110B'},{n:'Montage Tech',k:'688008',tv:'SSE:688008',d:'Chips',pe:'24',mc:'3B'},{n:'Samsung',k:'005930',tv:'KRX:005930',d:'Memory',pe:'10',mc:'350B'}]},foundry:{t:'Foundry',d:'Semiconductor manufacturing',layer:5,color:'#fde047',companies:[{n:'TSMC',k:'TSM',tv:'NYSE:TSM',d:'Advanced',pe:'22',mc:'2T'},{n:'Samsung',k:'005930',tv:'KRX:005930',d:'Foundry',pe:'10',mc:'350B'},{n:'GlobalFoundries',k:'GFS',tv:'NASDAQ:GFS',d:'22FDX',pe:'Loss',mc:'16B'},{n:'UMC',k:'UMC',tv:'NYSE:UMC',d:'Mature',pe:'10',mc:'8B'},{n:'SMIC',k:'0981',tv:'HKEX:0981',d:'28nm',pe:'8',mc:'6B'}]},adv_packaging:{t:'Advanced Packaging',d:'3D chiplets',layer:5,color:'#fde047',companies:[{n:'TSMC',k:'TSM',tv:'NYSE:TSM',d:'CoWoS',pe:'22',mc:'2T'},{n:'ASE Tech',k:'ASX',tv:'NYSE:ASX',d:'Packaging',pe:'15',mc:'12B'},{n:'Amkor',k:'AMKR',tv:'NASDAQ:AMKR',d:'Packages',pe:'13',mc:'13B'},{n:'Samsung',k:'005930',tv:'KRX:005930',d:'Packaging',pe:'10',mc:'350B'},{n:'JCET',k:'600584',tv:'SSE:600584',d:'Services',pe:'12',mc:'4B'}]},eda_ip:{t:'EDA & IP',d:'Design automation',layer:5,color:'#fde047',companies:[{n:'Synopsys',k:'SNPS',tv:'NASDAQ:SNPS',d:'Tools',pe:'29',mc:'55B'},{n:'Cadence',k:'CDNS',tv:'NASDAQ:CDNS',d:'Software',pe:'45',mc:'65B'},{n:'ARM Holdings',k:'ARM',tv:'NASDAQ:ARM',d:'IP cores',pe:'Loss',mc:'224B'},{n:'Siemens',k:'SIEGY',tv:'OTC:SIEGY',d:'EDA',pe:'17',mc:'180B'},{n:'Ansys',k:'ANSS',tv:'NASDAQ:ANSS',d:'Simulation',pe:'Loss',mc:'35B'}]},test_equipment:{t:'Test Equipment',d:'Semiconductor test',layer:5,color:'#fde047',companies:[{n:'Advantest',k:'6857',tv:'TSE:6857',d:'Systems',pe:'15',mc:'20B'},{n:'Teradyne',k:'TER',tv:'NASDAQ:TER',d:'Equipment',pe:'15',mc:'7B'},{n:'Cohu',k:'COHU',tv:'NASDAQ:COHU',d:'Handling',pe:'Loss',mc:'1.5B'},{n:'FormFactor',k:'FORM',tv:'NASDAQ:FORM',d:'Probe tech',pe:'Loss',mc:'2B'},{n:'Onto Innovation',k:'ONTO',tv:'NYSE:ONTO',d:'Tools',pe:'Loss',mc:'3B'}]},pcb_substrate:{t:'PCB Substrate',d:'Printed circuit boards',layer:5,color:'#fde047',companies:[{n:'Ibiden',k:'4062',tv:'TSE:4062',d:'Substrates',pe:'10',mc:'16B'},{n:'Unimicron',k:'3037',tv:'TWSE:3037',d:'Advanced',pe:'12',mc:'6B'},{n:'Shinko',k:'6967',tv:'TSE:6967',d:'Substrates',pe:'9',mc:'8B'},{n:'AT&S',k:'ATS',tv:'VIE:ATS',d:'Solutions',pe:'8',mc:'6B'},{n:'Nan Ya PCB',k:'8046',tv:'TWSE:8046',d:'Manufacturing',pe:'11',mc:'5B'}]},abf_film:{t:'ABF Film',d:'Build-up film',layer:5,color:'#fde047',companies:[{n:'Ajinomoto',k:'2802',tv:'TSE:2802',d:'ABF',pe:'14',mc:'15B'},{n:'Ibiden',k:'4062',tv:'TSE:4062',d:'ABF',pe:'10',mc:'16B'},{n:'Shinko',k:'6967',tv:'TSE:6967',d:'Substrates',pe:'9',mc:'8B'},{n:'TSMC',k:'TSM',tv:'NYSE:TSM',d:'In-house',pe:'22',mc:'2T'},{n:'ASE Tech',k:'ASX',tv:'NYSE:ASX',d:'Materials',pe:'15',mc:'12B'}]},lithography:{t:'Lithography',d:'Lithography equipment',layer:6,color:'#fdba74',companies:[{n:'ASML',k:'ASML',tv:'NASDAQ:ASML',d:'EUV',pe:'32',mc:'360B'},{n:'Canon',k:'CAJ',tv:'NYSE:CAJ',d:'Equipment',pe:'15',mc:'40B'},{n:'Nikon',k:'NINOY',tv:'OTC:NINOY',d:'Optics',pe:'14',mc:'8B'},{n:'Gigaphoton',k:'GP',tv:null,d:'EUV Laser Source',pe:'N/A',mc:'Private'},{n:'ZEISS',k:'ZEISS',tv:null,d:'EUV Optics',pe:'N/A',mc:'Private'}]},etch_deposition:{t:'Etch & Deposition',d:'Process equipment',layer:6,color:'#fdba74',companies:[{n:'Lam Research',k:'LRCX',tv:'NASDAQ:LRCX',d:'Etch',pe:'19',mc:'75B'},{n:'Applied Materials',k:'AMAT',tv:'NASDAQ:AMAT',d:'Deposition',pe:'18',mc:'165B'},{n:'Tokyo Electron',k:'8035',tv:'TSE:8035',d:'Equipment',pe:'16',mc:'50B'},{n:'ASM Intl',k:'ASM',tv:'EURONEXT:ASM',d:'Deposition',pe:'28',mc:'35B'},{n:'Kokusai Electric',k:'6525',tv:'TSE:6525',d:'Equipment',pe:'12',mc:'8B'}]},inspection:{t:'Inspection',d:'Defect inspection',layer:6,color:'#fdba74',companies:[{n:'KLA',k:'KLAC',tv:'NASDAQ:KLAC',d:'Process control',pe:'20',mc:'85B'},{n:'Onto Innovation',k:'ONTO',tv:'NYSE:ONTO',d:'Tools',pe:'Loss',mc:'3B'},{n:'Lasertec',k:'6920',tv:'TSE:6920',d:'Systems',pe:'25',mc:'8B'},{n:'Camtek',k:'CAMT',tv:'NASDAQ:CAMT',d:'Inspection',pe:'Loss',mc:'1.5B'},{n:'Nova',k:'NVMI',tv:'NASDAQ:NVMI',d:'Metrology',pe:'Loss',mc:'1.5B'}]},silicon_wafers:{t:'Silicon Wafers',d:'Wafer production',layer:6,color:'#fdba74',companies:[{n:'Shin-Etsu',k:'4063',tv:'TSE:4063',d:'Wafers',pe:'14',mc:'30B'},{n:'SUMCO',k:'3436',tv:'TSE:3436',d:'Wafers',pe:'12',mc:'15B'},{n:'Siltronic',k:'WAF',tv:'XETR:WAF',d:'Materials',pe:'8',mc:'5B'},{n:'GlobalWafers',k:'6488',tv:'TWSE:6488',d:'Wafers',pe:'10',mc:'8B'},{n:'SK Siltron',k:'SK',tv:null,d:'Part of SK Group',pe:'N/A',mc:'Private'}]},photomask:{t:'Photomask',d:'Masks and reticles',layer:6,color:'#fdba74',companies:[{n:'Photronics',k:'PLAB',tv:'NASDAQ:PLAB',d:'Masks',pe:'20',mc:'2.5B'},{n:'Hoya',k:'7741',tv:'TSE:7741',d:'Optics',pe:'19',mc:'18B'},{n:'Dai Nippon Printing',k:'7912',tv:'TSE:7912',d:'Masks',pe:'14',mc:'10B'},{n:'Toppan',k:'7911',tv:'TSE:7911',d:'Masks',pe:'12',mc:'18B'},{n:'TSMC',k:'TSM',tv:'NYSE:TSM',d:'In-house',pe:'22',mc:'2T'}]},bonding:{t:'Bonding',d:'Die bonding',layer:6,color:'#fdba74',companies:[{n:'BE Semiconductor',k:'BESI',tv:'EURONEXT:BESI',d:'Equipment',pe:'18',mc:'8B'},{n:'Kulicke & Soffa',k:'KLIC',tv:'NASDAQ:KLIC',d:'Systems',pe:'19',mc:'2B'},{n:'Disco Corp',k:'6146',tv:'TSE:6146',d:'Dicing',pe:'16',mc:'8B'},{n:'ASM Pacific',k:'0522',tv:'HKEX:0522',d:'Bonding',pe:'13',mc:'10B'},{n:'Hanmi Semi',k:'042700',tv:'KRX:042700',d:'Equipment',pe:'14',mc:'2B'}]},photoresist:{t:'Photoresist',d:'Photoresist materials',layer:6,color:'#fdba74',companies:[{n:'Tokyo Ohka',k:'4186',tv:'TSE:4186',d:'Photoresist',pe:'17',mc:'6B'},{n:'Shin-Etsu',k:'4063',tv:'TSE:4063',d:'Materials',pe:'14',mc:'30B'},{n:'DuPont',k:'DD',tv:'NYSE:DD',d:'Materials',pe:'Loss',mc:'50B'},{n:'Sumitomo Chemical',k:'4005',tv:'TSE:4005',d:'Chemicals',pe:'14',mc:'18B'},{n:'Merck KGaA',k:'MRK',tv:'XETR:MRK',d:'Pharmatech',pe:'15',mc:'70B'}]},specialty_gas:{t:'Specialty Gas',d:'Process gases',layer:6,color:'#fdba74',companies:[{n:'Air Liquide',k:'AI',tv:'EURONEXT:AI',d:'Gases',pe:'20',mc:'140B'},{n:'Linde',k:'LIN',tv:'NASDAQ:LIN',d:'Gases',pe:'26',mc:'200B'},{n:'Air Products',k:'APD',tv:'NYSE:APD',d:'Gases',pe:'20',mc:'85B'},{n:'Nippon Sanso',k:'4091',tv:'TSE:4091',d:'Gases',pe:'13',mc:'10B'},{n:'Resonac',k:'4004',tv:'TSE:4004',d:'Materials',pe:'12',mc:'8B'}]},cmp_materials:{t:'CMP Materials',d:'Polish materials',layer:6,color:'#fdba74',companies:[{n:'Entegris',k:'ENTG',tv:'NASDAQ:ENTG',d:'Materials',pe:'Loss',mc:'12B'},{n:'DuPont',k:'DD',tv:'NYSE:DD',d:'Slurries',pe:'Loss',mc:'50B'},{n:'Cabot',k:'CBT',tv:'NYSE:CBT',d:'Materials',pe:'14',mc:'3B'},{n:'Fujimi',k:'5384',tv:'TSE:5384',d:'Abrasives',pe:'15',mc:'3B'},{n:'Anji Micro',k:'688408',tv:'SSE:688408',d:'CMP Slurries',pe:'20',mc:'3B'}]},compound_semi:{t:'Compound Semiconductors',d:'InP/GaAs for AI optical interconnects',layer:6,color:'#fdba74',companies:[{n:'AXT Inc',k:'AXTI',tv:'NASDAQ:AXTI',d:'InP/GaAs substrates',pe:'Loss',mc:'0.3B'},{n:'Coherent',k:'COHR',tv:'NYSE:COHR',d:'InP laser components',pe:'19',mc:'16B'},{n:'II-VI / Coherent',k:'COHR',tv:'NYSE:COHR',d:'GaAs/InP devices',pe:'19',mc:'16B'},{n:'Lumentum',k:'LITE',tv:'NASDAQ:LITE',d:'InP EMLs/DFBs',pe:'12',mc:'4B'},{n:'MACOM Technology',k:'MTSI',tv:'NASDAQ:MTSI',d:'GaAs/InP MMICs',pe:'Loss',mc:'4B'}]},nuclear:{t:'Nuclear',d:'Nuclear power',layer:7,color:'#fca5a5',companies:[{n:'Constellation Energy',k:'CEG',tv:'NASDAQ:CEG',d:'Nuclear utility',pe:'18',mc:'65B'},{n:'Cameco',k:'CCJ',tv:'NYSE:CCJ',d:'Uranium',pe:'Loss',mc:'18B'},{n:'Uranium Energy',k:'UEC',tv:'AMEX:UEC',d:'Uranium',pe:'Loss',mc:'4B'},{n:'Centrus Energy',k:'LEU',tv:'AMEX:LEU',d:'Fuel',pe:'Loss',mc:'2B'},{n:'BWX Technologies',k:'BWXT',tv:'NYSE:BWXT',d:'Components',pe:'16',mc:'10B'}]},natural_gas:{t:'Natural Gas',d:'Gas generation',layer:7,color:'#fca5a5',companies:[{n:'Vistra',k:'VST',tv:'NYSE:VST',d:'Generation',pe:'Loss',mc:'32B'},{n:'NextEra',k:'NEE',tv:'NYSE:NEE',d:'Diversified',pe:'24',mc:'95B'},{n:'Talen Energy',k:'TLN',tv:'NASDAQ:TLN',d:'Amazon 1.9GW deal',pe:'Loss',mc:'~5B'},{n:'Southern Company',k:'SO',tv:'NYSE:SO',d:'Utility',pe:'15',mc:'60B'},{n:'NRG Energy',k:'NRG',tv:'NYSE:NRG',d:'Gas generation',pe:'12',mc:'18B'}]},renewables:{t:'Renewables',d:'Solar and wind',layer:7,color:'#fca5a5',companies:[{n:'NextEra',k:'NEE',tv:'NYSE:NEE',d:'Renewables',pe:'24',mc:'95B'},{n:'Enphase Energy',k:'ENPH',tv:'NASDAQ:ENPH',d:'Inverters',pe:'Loss',mc:'8B'},{n:'First Solar',k:'FSLR',tv:'NASDAQ:FSLR',d:'Solar',pe:'14',mc:'9B'},{n:'Brookfield Renewable',k:'BEP',tv:'NYSE:BEP',d:'Power',pe:'25',mc:'12B'},{n:'SolarEdge',k:'SEDG',tv:'NASDAQ:SEDG',d:'Inverters',pe:'Loss',mc:'5B'}]},grid_td:{t:'Grid T&D',d:'Transmission',layer:7,color:'#fca5a5',companies:[{n:'Quanta Services',k:'PWR',tv:'NYSE:PWR',d:'Infrastructure',pe:'22',mc:'35B'},{n:'MasTec',k:'MTZ',tv:'NYSE:MTZ',d:'Services',pe:'Loss',mc:'15B'},{n:'MYR Group',k:'MYRG',tv:'NASDAQ:MYRG',d:'Services',pe:'20',mc:'3B'},{n:'Hubbell',k:'HUBB',tv:'NYSE:HUBB',d:'Equipment',pe:'19',mc:'14B'},{n:'Prysmian',k:'PRY',tv:'MIL:PRY',d:'Cables',pe:'14',mc:'18B'}]},transformers:{t:'Transformers',d:'Power transformers',layer:7,color:'#fca5a5',companies:[{n:'Eaton',k:'ETN',tv:'NYSE:ETN',d:'Distribution',pe:'20',mc:'85B'},{n:'Siemens Energy',k:'ENR',tv:'XETR:ENR',d:'Systems',pe:'Loss',mc:'20B'},{n:'Hitachi',k:'HTHIY',tv:'OTC:HTHIY',d:'Transformers',pe:'14',mc:'80B'},{n:'ABB',k:'ABB',tv:'NYSE:ABB',d:'Systems',pe:'19',mc:'50B'},{n:'Schneider',k:'SE',tv:'EPA:SU',d:'Energy',pe:'22',mc:'190B'}]},energy_storage:{t:'Energy Storage',d:'Battery BESS',layer:7,color:'#fca5a5',companies:[{n:'Tesla',k:'TSLA',tv:'NASDAQ:TSLA',d:'Megapack',pe:'Loss',mc:'350B'},{n:'Fluence Energy',k:'FLNC',tv:'NASDAQ:FLNC',d:'Systems',pe:'Loss',mc:'11B'},{n:'Stem Inc',k:'STEM',tv:'NYSE:STEM',d:'AI platform',pe:'Loss',mc:'1.5B'},{n:'BYD',k:'BYDDY',tv:'OTC:BYDDY',d:'Battery',pe:'12',mc:'100B'},{n:'CATL',k:'300750',tv:'SZSE:300750',d:'Battery',pe:'10',mc:'100B'}]},smr_reactors:{t:'SMR Reactors',d:'Small modular',layer:7,color:'#fca5a5',companies:[{n:'NuScale Power',k:'SMR',tv:'NYSE:SMR',d:'SMR',pe:'Loss',mc:'10B'},{n:'Oklo',k:'OKLO',tv:'NYSE:OKLO',d:'Advanced',pe:'Loss',mc:'3B'},{n:'BWX Technologies',k:'BWXT',tv:'NYSE:BWXT',d:'Components',pe:'16',mc:'10B'},{n:'Cameco',k:'CCJ',tv:'NYSE:CCJ',d:'Uranium',pe:'Loss',mc:'18B'},{n:'Nano Nuclear',k:'NNE',tv:'NASDAQ:NNE',d:'Micro',pe:'Loss',mc:'2B'}]},land_realestate:{t:'Land & Real Estate',d:'DC real estate',layer:7,color:'#fca5a5',companies:[{n:'Prologis',k:'PLD',tv:'NYSE:PLD',d:'REIT',pe:'22',mc:'95B'},{n:'Digital Realty',k:'DLR',tv:'NYSE:DLR',d:'REIT',pe:'28',mc:'65B'},{n:'Equinix',k:'EQIX',tv:'NASDAQ:EQIX',d:'REIT',pe:'35',mc:'70B'},{n:'Iron Mountain',k:'IRM',tv:'NYSE:IRM',d:'REIT',pe:'18',mc:'20B'},{n:'Brookfield Infra',k:'BIP',tv:'NYSE:BIP',d:'DC Infrastructure',pe:'18',mc:'22B'}]},construction:{t:'Construction',d:'Construction services',layer:7,color:'#fca5a5',companies:[{n:'Fluor',k:'FLR',tv:'NYSE:FLR',d:'Services',pe:'Loss',mc:'7B'},{n:'AECOM',k:'ACM',tv:'NYSE:ACM',d:'Construction',pe:'Loss',mc:'13B'},{n:'Quanta Services',k:'PWR',tv:'NYSE:PWR',d:'Infrastructure',pe:'22',mc:'35B'},{n:'Jacobs',k:'J',tv:'NYSE:J',d:'Engineering',pe:'21',mc:'20B'},{n:'MasTec',k:'MTZ',tv:'NYSE:MTZ',d:'Engineering',pe:'Loss',mc:'15B'}]},water:{t:'Water',d:'Water management',layer:7,color:'#fca5a5',companies:[{n:'Xylem',k:'XYL',tv:'NYSE:XYL',d:'Technology',pe:'22',mc:'22B'},{n:'Veolia',k:'VEOEY',tv:'OTC:VEOEY',d:'Services',pe:'Loss',mc:'25B'},{n:'A.O. Smith',k:'AOS',tv:'NYSE:AOS',d:'Heaters',pe:'14',mc:'7B'},{n:'Pentair',k:'PNR',tv:'NYSE:PNR',d:'Treatment',pe:'15',mc:'10B'},{n:'Ecolab',k:'ECL',tv:'NYSE:ECL',d:'Water treatment',pe:'38',mc:'60B'}]}};
+
+// Chinese translations for sub-sectors
+const ZH={
+  foundation_models:{t:'基础模型',d:'大型语言模型与基础AI系统'},
+  ai_coding:{t:'AI 编程',d:'代码生成工具与开发辅助'},
+  image_video_gen:{t:'图像与视频生成',d:'生成式视觉内容'},
+  ai_search_agents:{t:'搜索与智能体',d:'AI搜索与自主智能体'},
+  industry_ai:{t:'行业 AI',d:'企业垂直解决方案'},
+  audio_music:{t:'音频与音乐',d:'音频与音乐生成'},
+  data_labeling:{t:'数据标注',d:'数据标注与预处理'},
+  ai_safety:{t:'AI 安全',d:'网络安全与对齐'},
+  robotics:{t:'机器人',d:'机器人自动化'},
+  humanoid_robots:{t:'人形机器人',d:'具身AI与双足机器人'},
+  ai_frameworks:{t:'AI 框架',d:'机器学习框架与库'},
+  ai_middleware:{t:'AI 中间件',d:'数据基础设施'},
+  public_cloud:{t:'公有云',d:'云基础设施'},
+  gpu_cloud:{t:'GPU 云',d:'云端GPU服务'},
+  mlops:{t:'机器学习运维',d:'ML运维平台'},
+  ai_storage:{t:'AI 存储',d:'高性能存储'},
+  edge_ai:{t:'边缘 AI',d:'边缘计算'},
+  dgx_cloud:{t:'DGX 云平台',d:'AI加速器'},
+  hyperscale_dc:{t:'超大规模数据中心',d:'超大规模设施'},
+  ai_servers:{t:'AI 服务器',d:'高性能服务器'},
+  liquid_cooling:{t:'液冷散热',d:'热管理'},
+  power_ups:{t:'不间断电源',d:'电力供应'},
+  network_switches:{t:'网络交换机',d:'高速网络'},
+  optical_modules:{t:'光模块',d:'800G/1.6T AI集群光模块'},
+  fiber_optic:{t:'光纤',d:'线缆与基础设施'},
+  modular_dc:{t:'模块化数据中心',d:'预制设施'},
+  racks:{t:'机架',d:'机架外壳'},
+  gpu:{t:'GPU',d:'图形处理器'},
+  ai_asic:{t:'AI 专用芯片',d:'定制AI芯片'},
+  cpu_dpu:{t:'处理器',d:'CPU与DPU处理器'},
+  hbm_memory:{t:'高带宽内存',d:'高带宽内存'},
+  network_chips:{t:'网络芯片',d:'互连芯片'},
+  fpga:{t:'FPGA',d:'可编程阵列'},
+  silicon_photonics:{t:'硅光子',d:'光互联'},
+  cxl_memory:{t:'CXL 内存',d:'计算高速互联'},
+  foundry:{t:'晶圆代工',d:'半导体制造'},
+  adv_packaging:{t:'先进封装',d:'3D小芯片封装'},
+  eda_ip:{t:'EDA与IP',d:'设计自动化'},
+  test_equipment:{t:'测试设备',d:'半导体测试'},
+  pcb_substrate:{t:'PCB 基板',d:'印制电路板'},
+  abf_film:{t:'ABF 薄膜',d:'积层薄膜'},
+  lithography:{t:'光刻机',d:'光刻设备'},
+  etch_deposition:{t:'刻蚀与沉积',d:'工艺设备'},
+  inspection:{t:'缺陷检测',d:'缺陷检测'},
+  silicon_wafers:{t:'硅片',d:'晶圆生产'},
+  photomask:{t:'光掩模',d:'光掩模版'},
+  bonding:{t:'键合设备',d:'芯片键合'},
+  photoresist:{t:'光刻胶',d:'光刻胶材料'},
+  specialty_gas:{t:'特种气体',d:'工艺气体'},
+  cmp_materials:{t:'CMP材料',d:'抛光材料'},
+  compound_semi:{t:'化合物半导体',d:'InP/GaAs光电子'},
+  nuclear:{t:'核能',d:'核能发电'},
+  natural_gas:{t:'天然气',d:'天然气发电'},
+  renewables:{t:'可再生能源',d:'太阳能与风能'},
+  grid_td:{t:'电网输配',d:'输配电'},
+  transformers:{t:'变压器',d:'电力变压器'},
+  energy_storage:{t:'储能',d:'电池储能'},
+  smr_reactors:{t:'小型模块堆',d:'小型模块化核电'},
+  land_realestate:{t:'土地与地产',d:'数据中心地产'},
+  construction:{t:'建设施工',d:'建设服务'},
+  water:{t:'水资源',d:'水资源管理'},
+};
+function isZH(){return document.documentElement.classList.contains('lang-zh');}
+function gt(en,zh){return isZH()?zh:en;}
+function _bnDimColor(v){return['#64748b','#64748b','#4ade80','#4ade80','#fb923c','#f87171'][v]||'#64748b';}
+function _renderBnPanel(k){
+  const sc=BN[k]; const detail=BN_DETAIL[k]; if(!sc||sc[0]<11)return'';
+  const total=sc[0];
+  const sevCls=total>=20?'sev-crit':total>=16?'sev-high':total>=11?'sev-med':'sev-low';
+  const sevIcon=total>=20?'🔴':total>=16?'🟠':total>=11?'🟡':'⚪';
+  const zh=isZH();
+  const sevLabel=zh?(total>=20?'严重瓶颈':total>=16?'高风险':total>=11?'中等':'低'):(total>=20?'Critical':total>=16?'High':total>=11?'Medium':'Low');
+  const dimNames=zh?['供给缺口','市场集中','可替代性','交货周期','地缘风险']:['Supply Gap','Concentration','Substitutability','Lead Time','Geo Risk'];
+  const d=detail&&(zh?detail.zh:detail.en);
+  let html=`<div class="bn-panel ${sevCls}">`;
+  html+=`<div class="bn-panel-hdr"><div class="bn-panel-title">${sevIcon} ${zh?'瓶颈分析':'Bottleneck Analysis'}</div><span class="bn-score-chip">${sevLabel} ${total}/25</span></div>`;
+  html+=`<div class="bn-panel-body">`;
+  html+=`<div class="bn-dims">`;
+  const dimScores=[sc[1],sc[2],sc[3],sc[4],sc[5]];
+  dimScores.forEach((v,i)=>{
+    const col=_bnDimColor(v);
+    html+=`<div class="bn-dim"><div class="bn-dim-name">${dimNames[i]}</div><div class="bn-dim-val" style="color:${col}">${v}/5</div><div class="bn-dim-bar" style="background:${col};width:${v*20}%"></div></div>`;
+  });
+  html+=`</div>`;
+  if(d){
+    html+=`<p class="bn-evidence">${d.evidence}</p>`;
+    html+=`<ul class="bn-datapoints">`;
+    d.points.forEach(p=>{ html+=`<li>${p}</li>`; });
+    html+=`</ul>`;
+    if(d.sources&&d.sources.length){
+      html+=`<div class="bn-src-label">${zh?'来源':'Sources'}</div><div class="bn-sources">`;
+      d.sources.forEach(s=>{ html+=`<a class="bn-src" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`; });
+      html+=`</div>`;
+    }
+  }
+  html+=`</div></div>`;
+  return html;
+}
+function showSub(k){
+const s=S[k];
+if(!s)return;
+const zh=ZH[k]||{};
+const title=isZH()&&zh.t?zh.t:s.t;
+const desc=isZH()&&zh.d?zh.d:s.d;
+document.getElementById('overview').style.display='none';
+document.getElementById('detail').style.display='block';
+document.getElementById('chartSection').style.display='none';
+document.getElementById('statsSection').style.display='none';
+document.getElementById('detail').style.setProperty('--layer-color',s.color);
+const h=document.getElementById('detailHeader');
+h.innerHTML=`<h2>${title}</h2><p>${desc}</p><div class="breadcrumb">${gt('Layer','层级')} ${s.layer} | ${s.companies.length} ${gt('Companies','家公司')}</div>`;
+const bnPanelEl=document.getElementById('bnPanelContainer');
+if(bnPanelEl)bnPanelEl.innerHTML=_renderBnPanel(k);
+let c='';
+s.companies.forEach((x,_ci)=>{
+const _tvEncoded=x.tv?encodeURIComponent(JSON.stringify({symbol:x.tv,width:'100%',height:'100%',dateRange:'12M',colorTheme:'dark',isTransparent:false,autosize:true,largeChartUrl:''})):'';
+c+=`<div class="company-card"><div class="card-header"><h3>${x.n}</h3><span class="ticker-badge">${x.k}</span></div>`;
+if(x.tv){
+c+=`<div class="chart-container"><iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=en#${_tvEncoded}"></iframe></div>`
+}else{
+c+=`<div class="card-private">${gt('Private company','未上市公司')}</div>`
+}
+c+=`<div class="card-metrics"><div class="metrics-row"><div class="metric"><div class="metric-label">P/E</div><div class="metric-value">${x.pe}</div></div><div class="metric"><div class="metric-label">${gt('Market Cap','市值')}</div><div class="metric-value">${x.mc}</div></div>`;
+if(x.tv){
+const _tvEsc=x.tv.replace(/'/g,"\\'");
+const _nEsc=(x.n||'').replace(/'/g,"\\'");
+const _dEsc=(x.d||'').replace(/'/g,"\\'");
+c+=`<button class="live-data-btn" title="Live Data" onclick="openStockModal('${_tvEsc}','${_nEsc}','${_dEsc}');event.stopPropagation()">📊</button>`
+}
+c+=`</div>`
+const _upd=UP[x.k];
+if(_upd&&_upd[0]>=10){
+  const _tier=_upd[0]>=20?'hot':_upd[0]>=15?'good':'ok';
+  const _lbl=_upd[0]>=20?'Strong Buy':_upd[0]>=15?'Buy':'Hold';
+  const _dims=[
+    {k:'AT',v:_upd[1],tip:'Analyst Target Upside\nAvg analyst price target vs current price'},
+    {k:'RG',v:_upd[2],tip:'Revenue Growth\nForward revenue/earnings growth rate'},
+    {k:'CP',v:_upd[3],tip:'AI Cycle Position\nEarliness in the AI infrastructure spending wave'},
+    {k:'VA',v:_upd[4],tip:'Valuation vs Peers\nRelative cheapness vs sector (5=undervalued)'},
+    {k:'MO',v:_upd[5],tip:'Competitive Moat\nBarriers to entry & market dominance'},
+  ];
+  const _dimHtml=_dims.map(d=>`<div class="up-dim-item" title="${d.tip}"><div class="up-dim-lbl">${d.k}</div><div class="up-bar-track"><div class="up-bar-fill" style="width:${d.v*20}%"></div></div><div class="up-dim-val">${d.v}/5</div></div>`).join('');
+  c+=`<div class="up-panel tier-${_tier}"><div class="up-panel-header"><span class="up-verdict tier-${_tier}">${_lbl}</span><span class="up-total-score">${_upd[0]}<span style="font-size:0.65rem;opacity:0.5;font-weight:500"> /25</span></span></div><div class="up-dims">${_dimHtml}</div></div>`
+}
+c+='</div></div>'
+});
+document.getElementById('companiesContainer').innerHTML=c;
+document.getElementById('backBtn').style.display='block';
+window.scrollTo({top:0,behavior:'smooth'})
+}
+
+document.getElementById('backBtn').addEventListener('click',()=>{
+document.getElementById('overview').style.display='block';
+document.getElementById('detail').style.display='none';
+document.getElementById('backBtn').style.display='none';
+document.getElementById('chartSection').style.display='block';
+document.getElementById('statsSection').style.display='block';
+window.scrollTo({top:0,behavior:'smooth'})
+});
+
+// Inject company name tags into each card on the homepage
+document.querySelectorAll('.card[onclick]').forEach(card=>{
+const m=card.getAttribute('onclick').match(/showSub\('([^']+)'\)/);
+if(m&&S[m[1]]){
+const tags=S[m[1]].companies.map(x=>`<span class="player-tag">${x.k}</span>`).join('');
+const countEl=card.querySelector('.count');
+if(countEl){
+const div=document.createElement('div');
+div.className='players';
+div.innerHTML=tags;
+countEl.replaceWith(div);
+}
+}
+});
+
+// Scatter chart
+const scatterData=[
+{name:'Foundation Models',x:15,y:90,color:'#3b82f6'},
+{name:'GPU / AI Chips',x:40,y:85,color:'#10b981'},
+{name:'AI ASIC / TPU',x:25,y:75,color:'#06b6d4'},
+{name:'HBM Memory',x:30,y:80,color:'#10b981'},
+{name:'Optical Modules',x:20,y:65,color:'#06b6d4'},
+{name:'Cloud Services',x:70,y:60,color:'#8b5cf6'},
+{name:'Advanced Packaging',x:35,y:55,color:'#f59e0b'},
+{name:'Semiconductor Equip',x:45,y:50,color:'#f97316'},
+{name:'Data Centers',x:60,y:45,color:'#06b6d4'},
+{name:'AI Servers',x:75,y:40,color:'#06b6d4'},
+{name:'Foundry (TSMC)',x:80,y:35,color:'#f59e0b'},
+{name:'Energy / Power',x:85,y:30,color:'#f43f5e'},
+{name:'Silicon Wafers',x:50,y:25,color:'#f97316'},
+{name:'Land / Construction',x:90,y:15,color:'#f43f5e'},
+];
+const chart=document.getElementById('scatterChart');
+if(chart){
+scatterData.forEach(item=>{
+const dot=document.createElement('div');
+dot.className='scatter-dot';
+dot.style.left=`${item.x}%`;
+dot.style.bottom=`calc(${item.y}% + 36px)`;
+dot.style.background=`radial-gradient(circle at 30% 30%,${item.color},${item.color}dd)`;
+dot.style.boxShadow=`0 0 16px ${item.color}66`;
+dot.style.setProperty('--dot-color',item.color);
+dot.innerHTML=`<div class="dot-label" style="border-color:${item.color}44;color:${item.color};">${item.name}</div><div class="tooltip"><strong>${item.name}</strong><span>Value Density: ${item.y} / CapEx: ${item.x}</span></div>`;
+chart.appendChild(dot);
+});
+}
+
+
+// Language toggle
+function toggleLang(){
+  const isZh=document.documentElement.classList.toggle('lang-zh');
+  document.getElementById('langBtn').textContent=isZh?'EN/中':'中/EN';
+  localStorage.setItem('lang',isZh?'zh':'en');
+}
+(function(){
+  if(localStorage.getItem('lang')==='zh'){
+    document.documentElement.classList.add('lang-zh');
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('langBtn');
+      if(btn)btn.textContent='EN/中';
+    });
+  }
+})();
+
+// Theme toggle
+function toggleTheme(){
+  const isLight=document.documentElement.classList.toggle('light');
+  document.getElementById('themeBtn').textContent=isLight?'🌙':'☀️';
+  localStorage.setItem('theme',isLight?'light':'dark');
+}
+// Restore saved theme
+(function(){
+  if(localStorage.getItem('theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('themeBtn');
+      if(btn)btn.textContent='🌙';
+    });
+  }
+})();
+
+// Export all 7 layers as PNG
+async function exportLayersPng(){
+  const btn=document.getElementById('exportPngBtn');
+  const chain=document.querySelector('.chain');
+  if(!chain||typeof html2canvas==='undefined')return;
+
+  const orig=btn.innerHTML;
+  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Generating…';
+  btn.disabled=true;btn.style.opacity='0.6';
+
+  try{
+    const layers=[...chain.querySelectorAll('.layer')];
+    layers.forEach(l=>{l.style.opacity='1';l.style.transform='none';});
+
+    const isLight=document.documentElement.classList.contains('light');
+    const bgColor=isLight?'#f0f4f8':'#080c14';
+    const PAD=48; // padding in logical px (doubled at scale:2)
+
+    const chainCanvas=await html2canvas(chain,{
+      backgroundColor:bgColor,
+      scale:2,
+      useCORS:true,
+      logging:false,
+      width:chain.scrollWidth,
+      height:chain.scrollHeight,
+      windowWidth:chain.scrollWidth+80,
+    });
+
+    layers.forEach(l=>{l.style.opacity='';l.style.transform='';});
+
+    // Draw onto a padded canvas
+    const pad=PAD*2; // scale:2 doubles pixels
+    const out=document.createElement('canvas');
+    out.width=chainCanvas.width+pad*2;
+    out.height=chainCanvas.height+pad*2;
+    const ctx=out.getContext('2d');
+    ctx.fillStyle=bgColor;
+    ctx.fillRect(0,0,out.width,out.height);
+    ctx.drawImage(chainCanvas,pad,pad);
+
+    const link=document.createElement('a');
+    link.download='AI_Industry_Chain_Layers.png';
+    link.href=out.toDataURL('image/png');
+    link.click();
+  }catch(e){console.error(e);}
+
+  btn.innerHTML=orig;btn.disabled=false;btn.style.opacity='1';
+}
+
+
+// ── Bottleneck detail data (sourced + bilingual) ──────────────────────────────
+const BN_DETAIL={
+abf_film:{
+  en:{headline:'Ajinomoto monopoly (95%+ share) — no qualified substitute exists',
+  evidence:'ABF is the essential insulating film for IC substrates. Ajinomoto holds >95% global market share — a byproduct of its food chemistry heritage. AI GPUs require 8–16+ ABF layers versus 2–4 for standard chips, meaning each AI accelerator consumes 15–18× more film per package. Supply deficit is projected to reach 10% in H2 2026, widen to 21% in 2027, and hit 42% by 2028.',
+  points:['Supply deficit: 10% in H2 2026 → 21% in 2027 → 42% by 2028','Upstream T-glass (glass fiber cloth) supply won\'t increase in 2025–2026, creating 40%+ actual gap','Ajinomoto plans 50% capacity increase by 2030 (25B JPY investment) — unlikely to match AI demand growth','Palliser Capital (Mar 2026) demanded 30%+ price hike and spin-off of electronic materials division','No commercially qualified alternative: Intel\'s glass substrate project still years away from mass production'],
+  sources:[{l:'Digitimes — ABF demand tightens, 3-year upcycle',u:'https://www.digitimes.com/news/a20260408PD220/demand-substrate-capacity-2026-ic-substrate.html'},{l:'TradingKey — Ajinomoto holds NVIDIA by the throat',u:'https://www.tradingkey.com/analysis/stocks/us-stocks/261783966-abf-ajinomoto-nvidia-ai-supply-chain-tradingkey'},{l:'Medium — Glass substrates vs ABF monopoly',u:'https://medium.com/@Elongated_musk/beyond-bottlenecks-can-glass-substrates-break-the-abf-monopoly-84d7b6a85217'}]},
+  zh:{headline:'味之素垄断全球95%+市场份额，无合格替代品',
+  evidence:'ABF积层薄膜是IC基板的核心绝缘材料，味之素凭借食品化学技术积累占据95%+全球市场。AI GPU每个封装需要8–16层以上ABF，是普通芯片的15–18倍。供给缺口预计：2026年下半年10%、2027年21%、2028年达42%。',
+  points:['供给缺口：2026H2 10% → 2027年21% → 2028年42%','上游T玻璃纤维布2025–2026年产能无法增长，实际缺口超40%','味之素计划到2030年扩大50%产能（投资250亿日元），难以匹配AI需求增速','Palliser Capital（2026年3月）要求涨价30%+并拆分电子材料业务','无商业化合格替代品：英特尔玻璃基板项目距量产仍需数年'],
+  sources:[{l:'Digitimes — ABF需求收紧，三年景气周期',u:'https://www.digitimes.com/news/a20260408PD220/demand-substrate-capacity-2026-ic-substrate.html'},{l:'Digitimes — 台湾ABF基板扩产',u:'https://www.digitimes.com/news/a20251218PD207/abf-substrate-packaging-expansion-ai-gpu-capacity.html'}]}
+},
+adv_packaging:{
+  en:{headline:'TSMC CoWoS sold out through 2026; NVIDIA secures ~60% of all capacity',
+  evidence:'Advanced packaging — specifically TSMC\'s CoWoS (Chip-on-Wafer-on-Substrate) — is the single tightest chokepoint in the AI semiconductor stack. Every NVIDIA, Google TPU, AMD MI-series chip requires CoWoS to bond HBM dies. TSMC is executing an 80% CAGR ramp, scaling from 35K to 130K wafers/month by end-2026, but demand continues to outpace supply.',
+  points:['NVIDIA projected to book 595K CoWoS wafers in 2026 — 60% of total global demand','Google cut 2026 TPU production target from 4M to 3M units due to CoWoS shortage','CoWoS oversubscribed through at least mid-2027; 515K of NVIDIA\'s allocation is CoWoS-L','TSMC Arizona packaging expansion adds capacity but faces skilled-labor and permitting delays','No other foundry has qualified CoWoS-equivalent at advanced scale'],
+  sources:[{l:'Digitimes — CoWoS 80% CAGR bottleneck',u:'https://www.digitimes.com/news/a20260410VL204/packaging-capacity-tsmc-nvidia-demand.html'},{l:'CNBC — Nvidia snaps up packaging capacity',u:'https://www.cnbc.com/2026/04/08/tsmc-nvidia-advanced-packaging-intel.html'},{l:'WCCFTech — NVIDIA books TSMC packaging for years ahead',u:'https://wccftech.com/nvidia-alone-has-tsmc-advanced-packaging-lines-booked-for-several-years-ahead/'},{l:'Astute Group — NVIDIA secures 60% CoWoS',u:'https://www.astutegroup.com/news/industrial/advanced-packaging-demand-soars-nvidia-secures-60-of-cowos-capacity/'}]},
+  zh:{headline:'TSMC CoWoS产能卖满至2026年底；英伟达独占约60%',
+  evidence:'先进封装——尤其是台积电的CoWoS——是AI芯片供应链中最紧张的单点瓶颈。所有NVIDIA、Google TPU、AMD MI系列芯片均需CoWoS将HBM裸片与GPU封装在一起。台积电正以80% CAGR扩产，从35K提升至13万片/月，但需求持续超过供给。',
+  points:['英伟达预计2026年预订59.5万片CoWoS，占全球总需求60%','谷歌2026年TPU生产目标从400万降至300万，因CoWoS供给不足','CoWoS至少超卖至2027年中期；英伟达51.5万片为CoWoS-L规格','台积电亚利桑那封装厂扩产面临技工短缺和审批延迟','其他代工厂尚无大规模量产的同等先进封装技术'],
+  sources:[{l:'Digitimes — CoWoS 80% CAGR产能瓶颈',u:'https://www.digitimes.com/news/a20260410VL204/packaging-capacity-tsmc-nvidia-demand.html'},{l:'CNBC — 英伟达抢占封装产能',u:'https://www.cnbc.com/2026/04/08/tsmc-nvidia-advanced-packaging-intel.html'}]}
+},
+foundry:{
+  en:{headline:'TSMC controls 90%+ of advanced nodes; Taiwan geopolitical risk is systemic',
+  evidence:'TSMC\'s N3 and N2 process nodes produce essentially all AI chips below 5nm — including every NVIDIA, AMD, Apple, and custom ASIC. No other foundry has a qualified equivalent. Samsung Foundry yields on advanced nodes remain problematic. A new leading-edge fab costs $20B+ and takes 5+ years to reach full production, making rapid diversification structurally impossible.',
+  points:['TSMC holds >90% of sub-5nm global foundry market (Gartner 2025)','TSMC N2 (2nm) mass production began H2 2025; Samsung 2nm still behind schedule','TSMC Arizona fab Phase 1 (4nm) operational 2025; Phase 2 (3nm) delayed to 2027–28','Taiwan Strait conflict scenario would halt >80% of world\'s most advanced chip production','Intel Foundry Services still years from competing at sub-3nm with major AI customers'],
+  sources:[{l:'Tom\'s Hardware — Chipmaking supply chain 2026 outlook',u:'https://www.tomshardware.com/tech-industry/a-deeper-look-at-the-tightened-chipmaking-supply-chain-and-where-it-may-be-headed-in-2026-nobodys-scaling-up-says-analyst-as-industry-remains-conservative-on-capacity'},{l:'247 Wall St — TSMC holds keys to AI growth',u:'https://247wallst.com/investing/2026/01/03/heres-why-taiwan-semiconductor-manufacturing-holds-the-keys-to-ais-explosive-growth/'},{l:'Fusion — Inside the AI bottleneck',u:'https://info.fusionww.com/blog/inside-the-ai-bottleneck-cowos-hbm-and-2-3nm-capacity-constraints-through-2027'}]},
+  zh:{headline:'台积电控制90%+先进节点；台湾地缘政治风险是系统性风险',
+  evidence:'台积电N3/N2工艺生产了几乎所有5nm以下AI芯片，包括英伟达、AMD、苹果及所有定制ASIC。无其他代工厂可提供合格替代。三星先进节点良率仍不稳定。新建顶级晶圆厂需200亿美元以上、5年以上才能投产，短期多元化结构上不可能。',
+  points:['台积电占全球5nm以下代工市场90%以上（Gartner 2025）','台积电N2（2nm）已于2025年下半年开始量产；三星2nm仍落后','台积电亚利桑那厂第一期（4nm）2025年投产；第二期（3nm）延至2027–28年','台海冲突情景将导致全球80%以上最先进芯片生产中断','Intel代工业务距在3nm以下与主要AI客户竞争仍需数年'],
+  sources:[{l:'247 Wall St — 台积电掌握AI增长关键',u:'https://247wallst.com/investing/2026/01/03/heres-why-taiwan-semiconductor-manufacturing-holds-the-keys-to-ais-explosive-growth/'}]}
+},
+gpu:{
+  en:{headline:'B200/GB200 sold out mid-2026; 3.6M unit backlog; HBM now the primary constraint',
+  evidence:'NVIDIA holds ~80% of the AI accelerator market with a near-impenetrable CUDA software moat. As of late 2025, Blackwell B200/GB200 had a 3.6M unit backlog and was sold out through mid-2026. The bottleneck has shifted from GPU fabrication (TSMC has scaled N4/N3 well) to HBM memory supply and CoWoS packaging capacity. Enterprise lead times shortened to 8–16 weeks in Q1 2026, down from 12–24 weeks in Q4 2025.',
+  points:['B200/GB200 sold out through mid-2026; backlog of 3.6M units as of Dec 2025','NVIDIA Blackwell B200 priced ~$40K; H100 now dropping to ~$20K as older supply eases','HBM supply (not GPU fab) is now the binding constraint for Blackwell production','CUDA ecosystem lock-in: ~80% of AI models trained on CUDA; migration cost is prohibitive','US export controls restrict H100/B200 sales to China, Middle East — limiting global supply access'],
+  sources:[{l:'FinancialContent — NVIDIA Blackwell backlog 3.6M units',u:'https://markets.financialcontent.com/wral/article/tokenring-2025-12-29-nvidias-blackwell-dynasty-b200-and-gb200-sold-out-through-mid-2026-as-backlog-hits-36-million-units'},{l:'GPUnex — GPU shortage & HBM crisis 2026',u:'https://www.gpunex.com/blog/gpu-shortage-hbm-crisis-2026/'},{l:'Silicon Analysts — NVIDIA GPU pricing 2026',u:'https://siliconanalysts.com/analysis/nvidia-gpu-prices-double-as-ai-demand-overwhelms-supply-chain'}]},
+  zh:{headline:'B200/GB200卖断至2026年中；积压360万台；HBM现为主要约束',
+  evidence:'英伟达以约80%市场份额和CUDA生态护城河主导AI加速器市场。截至2025年底，Blackwell B200/GB200积压360万台，卖断至2026年中。产能瓶颈已从GPU制造（台积电N3/N4产能提升较顺）转移至HBM内存供给和CoWoS封装产能。企业端交货周期从2025年Q4的12–24周缩短至2026年Q1的8–16周。',
+  points:['B200/GB200卖断至2026年中；2025年12月积压360万台','NVIDIA Blackwell B200售价约4万美元；H100因旧款供应改善降至约2万美元','HBM供给（而非GPU制造）现为Blackwell生产的决定性约束','CUDA生态锁定：~80%的AI模型在CUDA上训练，迁移成本极高','美国出口管制限制H100/B200向中国、中东销售'],
+  sources:[{l:'FinancialContent — 英伟达Blackwell积压360万台',u:'https://markets.financialcontent.com/wral/article/tokenring-2025-12-29-nvidias-blackwell-dynasty-b200-and-gb200-sold-out-through-mid-2026-as-backlog-hits-36-million-units'},{l:'GPUnex — 2026年GPU短缺与HBM危机',u:'https://www.gpunex.com/blog/gpu-shortage-hbm-crisis-2026/'}]}
+},
+hbm_memory:{
+  en:{headline:'SK Hynix/Samsung sold out through 2027; HBM3E prices up 20% for 2026',
+  evidence:'High-Bandwidth Memory (HBM) is soldered directly onto GPU dies and cannot be substituted in AI accelerators. SK Hynix holds ~50–55% HBM market share, Samsung ~35%, Micron ~10%. All SK Hynix DRAM/NAND/HBM production through 2026 is sold to NVIDIA. Samsung\'s memory chief warned (Apr 2026) of "significant shortages" through at least 2027. Each HBM generation requires fresh qualification cycles of 6–12 months.',
+  points:['SK Hynix has sold 100% of its HBM/DRAM/NAND capacity to Nvidia through 2026','Samsung & SK Hynix raised HBM3E supply prices ~20% for 2026; further increases expected','DRAM prices projected to rise 40–50% through H1 2026 (TrendForce)','HBM4 mass production accelerated to Feb 2026 for NVIDIA\'s Rubin architecture','Shortage relief not expected until 2027 when Samsung P4L and SK Hynix M15X fabs ramp','SK Hynix warns memory wafer shortage could persist until 2030'],
+  sources:[{l:'Notebookcheck — SK Hynix sold out through 2026',u:'https://www.notebookcheck.net/SK-hynix-sells-out-its-DRAM-NAND-and-HBM-chip-supply-to-Nvidia-through-2026-as-AI-demand-outpaces-Samsung-and-Micron-s-capacity.1151402.0.html'},{l:'Tom\'s Hardware — Shortages through 2027+',u:'https://www.tomshardware.com/tech-industry/artificial-intelligence/samsung-and-sk-hynix-warn-ai-driven-memory-shortages-could-last-until-2027-and-beyond-as-hbm-demand-explodes-customers-already-reserving-supply-years-ahead-while-the-wider-dram-market-begins-to-tighten'},{l:'TrendForce — HBM3E 20% price hike',u:'https://www.trendforce.com/news/2025/12/24/news-samsung-sk-hynix-reportedly-plan-20-hbm3e-price-hike-for-2026-as-nvidia-h200-asic-demand-rises'}]},
+  zh:{headline:'SK Hynix/三星产能卖断至2027年；HBM3E 2026年涨价20%',
+  evidence:'高带宽内存（HBM）直接封装在GPU裸片上，无法在AI加速器中替代。SK Hynix约占50–55%市场份额，三星~35%，美光~10%。SK Hynix 2026年前的全部DRAM/NAND/HBM产能已售予英伟达。三星内存主管（2026年4月）警告"重大短缺"将至少持续到2027年。每代HBM均需6–12个月的新一轮认证周期。',
+  points:['SK Hynix 2026年前全部HBM/DRAM/NAND产能已售予英伟达','三星和SK Hynix将2026年HBM3E供货价上调约20%','DRAM价格预计在2026年上半年上涨40–50%（集邦咨询）','为配合英伟达Rubin架构，HBM4量产提前至2026年2月','三星P4L和SK Hynix M15X新厂投产前（2027年），供应缓解无望','SK Hynix警告晶圆短缺可能持续至2030年'],
+  sources:[{l:'TrendForce — HBM3E 2026年涨价20%',u:'https://www.trendforce.com/news/2025/12/24/news-samsung-sk-hynix-reportedly-plan-20-hbm3e-price-hike-for-2026-as-nvidia-h200-asic-demand-rises'},{l:'Tom\'s Hardware — 短缺持续至2027年以上',u:'https://www.tomshardware.com/tech-industry/artificial-intelligence/samsung-and-sk-hynix-warn-ai-driven-memory-shortages-could-last-until-2027-and-beyond-as-hbm-demand-explodes-customers-already-reserving-supply-years-ahead-while-the-wider-dram-market-begins-to-tighten'}]}
+},
+lithography:{
+  en:{headline:'ASML is sole EUV supplier globally; €38.8B backlog; 12+ month lead times',
+  evidence:'Every AI chip fabricated at sub-7nm — including all NVIDIA, AMD, Apple, and Qualcomm silicon — requires EUV lithography. ASML is the world\'s only manufacturer of EUV scanners, a position secured by 30+ years of R&D and 5,000+ supplier dependencies (ZEISS optics, Gigaphoton laser). ASML shipped 48 EUV units in 2025, targeting 60+ in 2026 and ~80 in 2027.',
+  points:['ASML backlog: €38.8B (Q4 2025); EUV tools are 65% of backlog','Target: 60+ EUV shipments in 2026 (vs. 48 in 2025); ~80 in 2027','2026 revenue guidance: €34–39B; long-term target $71B by 2030','High-NA EUV (next-gen, for sub-2nm) requires complete fab redesign; only Intel has one so far','US export controls block EUV sales to China — constraining Chinese AI chip self-sufficiency','Each EUV tool has 12+ month lead time and takes weeks to install and qualify'],
+  sources:[{l:'TechPowerUp — ASML targets 60+ EUV in 2026',u:'https://www.techpowerup.com/348239/asml-targets-60-euv-shipments-in-2026-as-memory-demand-surges'},{l:'ainvest — €38.8B backlog tests supply constraints',u:'https://www.ainvest.com/news/asml-38-8-billion-backlog-tests-euv-supply-constraints-production-ai-driven-demand-2603/'},{l:'Tom\'s Hardware — ASML $71B revenue target by 2030',u:'https://www.tomshardware.com/tech-industry/semiconductors/asml-projects-usd71-billion-in-revenue-by-2030-as-demand-for-euv-lithography-machines-intensifies-due-to-ai-boom-china-sales-lag-behind-while-company-cashes-in-on-high-end-twinscan-systems'},{l:'Mobile World Live — Can ASML catch up with €39B backlog?',u:'https://www.mobileworldlive.com/ai-cloud/feature-can-asml-catch-up-with-a-record-e39b-backlog/'}]},
+  zh:{headline:'ASML是全球唯一EUV光刻机供应商；积压订单388亿欧元；交货期12个月以上',
+  evidence:'所有7nm以下AI芯片——包括英伟达、AMD、苹果、高通全线产品——都需要EUV光刻。ASML凭借30年以上研发投入和5000多家供应商体系（蔡司光学、Gigaphoton激光器）成为全球唯一EUV制造商。2025年出货48台，目标2026年60台以上、2027年约80台。',
+  points:['ASML积压订单：388亿欧元（2025年Q4）；EUV设备占积压65%','目标：2026年交付60台以上（2025年为48台）；2027年约80台','2026年收入指引：340–390亿欧元；长期目标2030年710亿美元','高数值孔径EUV（次代，用于2nm以下）需要整厂重新设计，目前仅英特尔有一台','美国出口管制禁止EUV向中国销售，制约中国AI芯片自给','每台EUV交货期12个月以上，安装调试需数周'],
+  sources:[{l:'TechPowerUp — ASML 2026年目标交付60台以上EUV',u:'https://www.techpowerup.com/348239/asml-targets-60-euv-shipments-in-2026-as-memory-demand-surges'},{l:'ainvest — 388亿欧元积压测试供应约束',u:'https://www.ainvest.com/news/asml-38-8-billion-backlog-tests-euv-supply-constraints-production-ai-driven-demand-2603/'}]}
+},
+pcb_substrate:{
+  en:{headline:'AI GPU substrates need 15–18× more material; Ibiden investing $3.3B to expand',
+  evidence:'ABF substrates (FC-BGA) are the critical organic interposer between chip and PCB. AI server substrates require 8–16 ABF layers versus 2–4 for standard server chips — translating to 15–18× higher material consumption per package. Upstream T-glass fiber cloth supply is static in 2025–2026, creating a cascading bottleneck. Top 5 players (Ibiden, Unimicron, AT&S, Nan Ya, Shinko) hold 74% market.',
+  points:['Ibiden investing JPY500B ($3.3B) over 3 years from FY2026 to expand IC substrate capacity','T-glass fiber cloth: Nittobo has stated capacity won\'t increase in 2025–2026','Supply deficit forecast: 40%+ in H2 2026 due to upstream glass cloth constraints','Shinko launched new Osaka plant in 2024, adding 30% to output','AI server substrate revenue at Ibiden ~3× year-over-year in FY2025'],
+  sources:[{l:'Digitimes — Ibiden $3.3B IC substrate expansion',u:'https://www.digitimes.com/news/a20260204PD227/ibiden-expansion-capacity-production-plant.html'},{l:'Digitimes — Advanced packaging drives ABF expansion',u:'https://www.digitimes.com/news/a20251218PD207/abf-substrate-packaging-expansion-ai-gpu-capacity.html'},{l:'Digitimes — AI chip demand tightens ABF supply',u:'https://www.digitimes.com/news/a20260408PD220/demand-substrate-capacity-2026-ic-substrate.html'}]},
+  zh:{headline:'AI GPU基板需消耗15–18倍材料；揖斐电投资33亿美元扩产',
+  evidence:'ABF基板（FC-BGA）是芯片与PCB之间的关键有机中介层。AI服务器基板需要8–16层ABF，而普通服务器芯片只需2–4层，每个封装材料消耗量高出15–18倍。上游T型玻璃纤维布2025–2026年产能几乎不增长，形成连锁瓶颈。前五大供应商（揖斐电、欣兴、AT&S、南亚PCB、新光电气）占据74%市场份额。',
+  points:['揖斐电将在FY2026起的3年内投资5000亿日元（约33亿美元）扩大IC基板产能','T型玻璃纤维布：日东纺已表示2025–2026年产能不会增加','2026年下半年供给缺口预计超40%','新光电气2024年大阪新厂投产，产能增加30%','揖斐电AI服务器基板收入同比增长约3倍（FY2025）'],
+  sources:[{l:'Digitimes — 揖斐电33亿美元扩产IC基板',u:'https://www.digitimes.com/news/a20260204PD227/ibiden-expansion-capacity-production-plant.html'}]}
+},
+transformers:{
+  en:{headline:'128-week lead times; ~50% of US data center projects delayed in 2026',
+  evidence:'Large power transformers are the final gate between the grid and any data center. As of Q2 2025, average lead times reached 128 weeks (~2.5 years), with generator step-up units at 144 weeks, and extreme cases exceeding 5 years. The US faces a 30% national shortfall. Only ~1/3 of planned US data center projects (representing ~12 GW) are under construction in 2026 — the rest are blocked waiting for grid infrastructure.',
+  points:['128-week average lead time for large power transformers (Q2 2025); up to 5 years for some','30% US national shortfall in power transformers; 10% shortfall in distribution units','~12 GW of US DC capacity planned for 2026; only ~4 GW under construction','Generator step-up transformer demand up 274% since 2019; substation power transformers +116%','Chinese transformer imports surged from <1,500 units (2022) to >8,000 units (2025) as workaround','DOE proposed federal jurisdiction over new electrical loads above 20 MW (Oct 2025)'],
+  sources:[{l:'Power Magazine — Transformer shortage, scramble or crisis 2026',u:'https://www.powermag.com/transformers-in-2026-shortage-scramble-or-self-inflicted-crisis/'},{l:'Tom\'s Hardware — Half of planned US DCs delayed',u:'https://www.tomshardware.com/tech-industry/artificial-intelligence/half-of-planned-us-data-center-builds-have-been-delayed-or-canceled-growth-limited-by-shortages-of-power-infrastructure-and-parts-from-china-the-ai-build-out-flips-the-breakers'},{l:'Manufacturing Dive — Great data center delay 2026',u:'https://www.manufacturingdive.com/news/opinion-omdia-ai-semiconductor-chip-scarcity/817172/'},{l:'European Business Magazine — DC power crisis',u:'https://europeanbusinessmagazine.com/technology-data-centre-power-crisis-ai-growth-2026/'}]},
+  zh:{headline:'交货期128周；2026年约50%的美国数据中心项目延期',
+  evidence:'大型电力变压器是电网与数据中心之间的最后关口。截至2025年Q2，大型变压器平均交货期达128周（约2.5年），发电机升压变压器144周，极端情况超过5年。美国面临30%的全国性短缺。2026年计划建设的美国数据中心项目（约12GW）中，仅约1/3（约4GW）在施工，其余均受电网基础设施制约而搁浅。',
+  points:['大型电力变压器平均交货期128周（2025年Q2），部分高达5年','美国全国电力变压器短缺30%，配电变压器短缺10%','2026年美国计划约12GW数据中心产能，实际在建仅约4GW','发电机升压变压器需求自2019年以来增长274%，变电站主变增长116%','中国变压器进口从2022年不足1500台激增至2025年超8000台','美国能源部2025年10月提议对20MW以上新增负荷行使联邦管辖权'],
+  sources:[{l:'Power Magazine — 2026年变压器短缺危机',u:'https://www.powermag.com/transformers-in-2026-shortage-scramble-or-self-inflicted-crisis/'},{l:'Tom\'s Hardware — 美国约半数数据中心项目延期',u:'https://www.tomshardware.com/tech-industry/artificial-intelligence/half-of-planned-us-data-center-builds-have-been-delayed-or-canceled-growth-limited-by-shortages-of-power-infrastructure-and-parts-from-china-the-ai-build-out-flips-the-breakers'}]}
+},
+grid_td:{
+  en:{headline:'2,300 GW stuck in US interconnection queues — exceeds total installed capacity',
+  evidence:'The US power grid interconnection queue has become one of the most severe structural barriers to AI infrastructure growth. Nearly 2,300 GW of generation and storage capacity is stuck in queues — more than the country\'s entire installed capacity. Projects now spend an average of 5 years in queue before reaching commercial operation. In 2026, hyperscalers have pivoted en masse to "bring your own generation" (BYOG) strategies.',
+  points:['2,300+ GW stuck in US interconnection queues (exceeds ~1,200 GW total installed capacity)','Average project spends 5 years in interconnection queue before commercial operation','~40 GW of behind-the-meter / co-located generation announced by Meta, Amazon, Microsoft, Google, Oracle, xAI','Power constraining data center timelines by 24–72 months in most US markets','DOE directive (Oct 2025): federal oversight for new loads above 20 MW','Texas ERCOT LLIS approved May 2025 for large load interconnection processes'],
+  sources:[{l:'RMI — Interconnection reform for AI data centers',u:'https://rmi.org/interconnection-reform-ai-data-centers-generator-queues/'},{l:'Novogradac — Resolving the interconnection queue bottleneck',u:'https://www.novoco.com/notes-from-novogradac/resolving-the-interconnection-queue-bottleneck-along-with-transmission-expansion-is-critical-for-timely-us-energy-deployment-to-meet-demand'},{l:'enkiai — Data center power crisis 2026',u:'https://enkiai.com/data-center/data-center-power-crisis-2026-the-grid-bottleneck/'},{l:'Hanwha — Grid limitations power bottleneck',u:'https://www.hanwhadatacenters.com/blog/data-center-grid-limitations-the-power-bottleneck/'}]},
+  zh:{headline:'美国电网并网积压2300GW——超过现有装机总量',
+  evidence:'美国电网并网排队已成为AI基础设施增长最严峻的结构性障碍。近2300GW的发电和储能容量积压在排队中，超过全国约1200GW的现有总装机容量。项目平均需在队列中等待5年才能商业运营。2026年，超大规模云厂商已大规模转向"自带发电"（BYOG）策略。',
+  points:['美国并网积压超2300GW（超过约1200GW总装机容量）','项目平均在并网队列中等待5年才能商业运营','Meta、亚马逊、微软、谷歌、甲骨文、xAI等宣布约40GW自备/联建发电','电力问题导致美国大多数市场的数据中心建设延期24–72个月','美国能源部指令（2025年10月）：对20MW以上新增负荷实施联邦监管','德克萨斯ERCOT大型负荷并网研究（LLIS）于2025年5月获批'],
+  sources:[{l:'RMI — AI数据中心并网改革',u:'https://rmi.org/interconnection-reform-ai-data-centers-generator-queues/'},{l:'enkiai — 2026年数据中心电力危机',u:'https://enkiai.com/data-center/data-center-power-crisis-2026-the-grid-bottleneck/'}]}
+},
+photoresist:{
+  en:{headline:'Japan controls 95% of EUV photoresist; METI export controls + Hormuz disruption risk',
+  evidence:'Photoresist is the light-sensitive chemical that transfers circuit patterns onto silicon — without it, chip production stops. Japan controls 70%+ of global photoresist and a staggering 95% of EUV-grade resist (only Tokyo Ohka, Shin-Etsu, and JSR are qualified). In Nov 2025, Japan\'s METI placed EUV resists on export controls, restricting 42 Chinese companies. As of March 2026, blockade of the Strait of Hormuz threatens Neon gas supply chains.',
+  points:['Japan: 70%+ global photoresist share; 95% of high-end EUV resist (Tokyo Ohka, Shin-Etsu, JSR)','METI (Nov 2025): 12 semiconductor materials including EUV resist added to export control list','Shin-Etsu exports to China down 42% month-on-month after controls implemented','Strait of Hormuz blockade (Mar 2026) threatening photoresist raw material supply chains','EUV resist qualification per fab node takes 12–24 months — no fast substitution possible','Oji Holdings (paper company) developing wood-based EUV photoresist, targeting 2028 commercialization'],
+  sources:[{l:'Digitimes — Hormuz disruption threatens EUV photoresist supply',u:'https://www.digitimes.com/news/a20260424VL214/euv-photoresist-materials-middle-east-disruption-2026.html'},{l:'Asia Times — Japan photoresist ban sparks China fears',u:'https://asiatimes.com/2025/11/rumored-japan-photoresist-ban-sparks-chinas-worst-fears/'},{l:'TrendForce — Japan curbs photoresist exports',u:'https://www.trendforce.com/news/2025/12/03/news-japan-rumored-to-curb-photoresist-exports-as-china-targets-40-self-sufficiency-by-2026/'},{l:'Vision Times — Japan pulls critical chip materials from China',u:'https://www.visiontimes.com/2025/11/30/japan-pulls-critical-chip-materials-from-china-escalating-tech-war.html'}]},
+  zh:{headline:'日本控制95%的EUV光刻胶；METI出口管制+霍尔木兹海峡中断风险',
+  evidence:'光刻胶是将电路图案转移至硅片的感光化学品——没有它，芯片生产停止。日本控制全球光刻胶70%以上市场，EUV级光刻胶更高达95%（仅东京应化、信越化学、JSR通过认证）。2025年11月，日本经产省将EUV光刻胶列入出口管制，限制42家中国企业。2026年3月起，霍尔木兹海峡封锁威胁氖气等原材料供应链。',
+  points:['日本：全球光刻胶70%以上份额；高端EUV光刻胶95%（东京应化、信越化学、JSR）','日本经产省（2025年11月）：将EUV光刻胶等12种半导体材料列入出口管制','管制实施后信越化学对华出口当月下降42%','霍尔木兹海峡封锁（2026年3月）威胁光刻胶原材料供应链','每个晶圆厂工艺节点的EUV光刻胶认证需12–24个月，无法快速替代','王子控股（造纸公司）正在开发木质EUV光刻胶，目标2028年商业化'],
+  sources:[{l:'Digitimes — 霍尔木兹中断威胁EUV光刻胶供应',u:'https://www.digitimes.com/news/a20260424VL214/euv-photoresist-materials-middle-east-disruption-2026.html'},{l:'TrendForce — 日本限制光刻胶出口',u:'https://www.trendforce.com/news/2025/12/03/news-japan-rumored-to-curb-photoresist-exports-as-china-targets-40-self-sufficiency-by-2026/'}]}
+},
+specialty_gas:{
+  en:{headline:'Helium, Neon, and specialty gases face multi-source supply shocks in 2026',
+  evidence:'Semiconductor-grade specialty gases (neon, krypton, xenon for EUV lasers; helium for cooling; fluorine compounds for etch) have 2–3 global qualified suppliers each. Neon supply was severely disrupted in 2022 (Ukraine) and has not fully recovered. Helium spot prices doubled in 2025–2026 due to Qatar LNG facility production disruptions. The Strait of Hormuz blockade (Mar 2026) adds further uncertainty to petrochemical gas feedstock supply.',
+  points:['Neon: Ukraine (pre-2022) provided 40–50% of global supply; still recovering post-conflict','Helium: Qatar LNG facility strikes in 2025–2026 doubled spot prices; US helium reserve program ending','EUV laser requires ultra-pure neon/krypton/xenon; any disruption halts chip production within days','Each specialty gas supplier qualification takes 12–18 months per fab','Strait of Hormuz blockade (Mar 2026) threatens additional petrochemical feedstocks','Semiconductor gases have purity requirements (9N+) that make rapid source switching nearly impossible'],
+  sources:[{l:'Digitimes — Hormuz disruption & photoresist/gas supply chain',u:'https://www.digitimes.com/news/a20260424VL214/euv-photoresist-materials-middle-east-disruption-2026.html'},{l:'Tom\'s Hardware — Chipmaking supply chain tightness 2026',u:'https://www.tomshardware.com/tech-industry/a-deeper-look-at-the-tightened-chipmaking-supply-chain-and-where-it-may-be-headed-in-2026-nobodys-scaling-up-says-analyst-as-industry-remains-conservative-on-capacity'}]},
+  zh:{headline:'氦气、氖气等特种气体在2026年面临多重供应冲击',
+  evidence:'半导体级特种气体（EUV激光用氖/氪/氙、冷却用氦、刻蚀用氟化物）每种全球仅有2–3家合格供应商。氖气供应在2022年（乌克兰）受到严重冲击，至今未完全恢复。2025–2026年卡塔尔液化天然气设施停产事件导致氦气现货价格翻倍。2026年3月起的霍尔木兹海峡封锁进一步增加石化气体原料供应的不确定性。',
+  points:['氖气：乌克兰（2022年前）提供全球40–50%供应，冲突后至今仍在恢复','氦气：卡塔尔LNG设施2025–2026年停产使现货价格翻倍；美国氦气储备计划即将终止','EUV激光器需要超纯氖/氪/氙；任何中断都会在数日内导致芯片停产','每家晶圆厂认证新特种气体供应商需12–18个月','霍尔木兹海峡封锁（2026年3月）威胁额外的石化原料供应','半导体气体纯度要求高（9N以上），几乎无法快速切换供应源'],
+  sources:[{l:'Digitimes — 霍尔木兹中断与特种气体供应链',u:'https://www.digitimes.com/news/a20260424VL214/euv-photoresist-materials-middle-east-disruption-2026.html'}]}
+},
+gpu_cloud:{
+  en:{headline:'GPU cloud supply directly gated by H100/B200 hardware allocation',
+  evidence:'GPU cloud providers (CoreWeave, Lambda, Crusoe, Azure, AWS) can only offer what NVIDIA ships. With B200/GB200 sold out through mid-2026 and enterprise lead times at 8–16 weeks, GPU cloud is structurally undersupplied. Spot GPU prices spiked 3–5× in 2024–2025. New GPU cloud clusters require 6–9 months from hardware order to operational deployment.',
+  points:['CoreWeave, Lambda, Crusoe all competing for same constrained B200/H200 hardware pool','GPU cloud spot prices: A100 ~$2–3/hr, H100 ~$3–5/hr; 3–5× 2023 levels at peak','New cluster from hardware order to live inference takes 6–9 months','NVIDIA DGX SuperPOD systems: 6–12 month lead times for full cluster orders','Sovereign nations (UAE, Saudi, Japan) signing multi-billion $ GPU cloud agreements, crowding out commercial access'],
+  sources:[{l:'FinancialContent — NVIDIA Blackwell backlog',u:'https://markets.financialcontent.com/wral/article/tokenring-2025-12-29-nvidias-blackwell-dynasty-b200-and-gb200-sold-out-through-mid-2026-as-backlog-hits-36-million-units'},{l:'Spheron — GPU shortage 2026 how to secure compute',u:'https://www.spheron.network/blog/gpu-shortage-2026/'}]},
+  zh:{headline:'GPU云供给直接受限于H100/B200硬件分配',
+  evidence:'GPU云服务商（CoreWeave、Lambda、Crusoe、Azure、AWS）只能提供英伟达能发货的量。B200/GB200卖断至2026年中，企业端交货期8–16周，GPU云在结构上供不应求。2024–2025年GPU现货价格一度飙升3–5倍。从下单到GPU云集群上线部署需6–9个月。',
+  points:['CoreWeave、Lambda、Crusoe均争抢同一池有限B200/H200硬件','GPU云现货价：A100约2–3美元/小时，H100约3–5美元/小时；峰值为2023年水平的3–5倍','从硬件下单到推理集群上线需6–9个月','NVIDIA DGX SuperPOD完整集群订单交货期6–12个月','主权国家（阿联酋、沙特、日本）签署数十亿美元GPU云协议，挤占商业市场空间'],
+  sources:[{l:'FinancialContent — 英伟达Blackwell积压',u:'https://markets.financialcontent.com/wral/article/tokenring-2025-12-29-nvidias-blackwell-dynasty-b200-and-gb200-sold-out-through-mid-2026-as-backlog-hits-36-million-units'}]}
+},
+dgx_cloud:{
+  en:{headline:'DGX SuperPOD clusters: 6–12 month lead times; NVLink ecosystem lock-in',
+  evidence:'NVIDIA DGX Cloud and DGX SuperPOD systems are the primary vehicle for frontier model training. Each system ties together GPUs, NVLink switches, InfiniBand networking, and storage — all proprietary NVIDIA technology. The tightest constraint is the GB200 NVL72 rack system (72 GPUs per rack, liquid-cooled), which requires custom facility buildout and has essentially zero spot market availability.',
+  points:['DGX GB200 NVL72 rack: 6–12 month lead time; liquid cooling required at facility level','NVLink 5.0 bandwidth: 1.8 TB/s GPU-to-GPU — no competitor within 5× this speed','Training GPT-4 scale models requires 1,000–10,000 GPUs; all constrained','NVIDIA Spectrum-X ethernet and InfiniBand switches also on multi-month lead times','Sovereign AI clusters (UAE G42, Saudi Humain, Oracle Japan) consuming large DGX allocations'],
+  sources:[{l:'IntuitionLabs — NVIDIA GB200 supply chain',u:'https://intuitionlabs.ai/articles/nvidia-gb200-supply-chain'},{l:'FinancialContent — NVIDIA Blackwell dynasty',u:'https://markets.financialcontent.com/wral/article/tokenring-2025-12-29-nvidias-blackwell-dynasty-b200-and-gb200-sold-out-through-mid-2026-as-backlog-hits-36-million-units'}]},
+  zh:{headline:'DGX SuperPOD集群交货期6–12个月；NVLink生态系统锁定',
+  evidence:'NVIDIA DGX Cloud和DGX SuperPOD是前沿模型训练的主要载体。每套系统将GPU、NVLink交换机、InfiniBand网络和存储集成为一体——全为英伟达专有技术。最紧俏的是GB200 NVL72机架系统（每架72个GPU，液冷），需要专属机房改造，现货市场基本为零。',
+  points:['DGX GB200 NVL72机架：交货期6–12个月；需机房级液冷改造','NVLink 5.0带宽：1.8 TB/s（GPU间）——竞争对手无人在5倍范围内','GPT-4规模模型训练需要1000–10000个GPU，全部受限','NVIDIA Spectrum-X以太网和InfiniBand交换机也有数月交货期','主权AI集群（UAE G42、沙特Humain、甲骨文日本）消耗大量DGX配额'],
+  sources:[{l:'IntuitionLabs — NVIDIA GB200供应链',u:'https://intuitionlabs.ai/articles/nvidia-gb200-supply-chain'}]}
+},
+ai_asic:{
+  en:{headline:'Custom ASICs all fabbed at TSMC; 18–24 month design cycle + CoWoS bottleneck',
+  evidence:'Every major hyperscaler custom AI chip — Google TPU v5, Amazon Trainium 2, Microsoft Maia 100, Meta MTIA — is manufactured at TSMC on advanced nodes. The design-to-production cycle is 18–24 months. All compete for the same CoWoS packaging capacity as NVIDIA GPUs. Broadcom\'s custom ASIC design backlog extends 2+ years.',
+  points:['Google TPU v6, Amazon Trainium 3, Microsoft Maia 200: all queued at TSMC N2/N3','Google cut 2026 TPU target from 4M to 3M due to CoWoS shortage','Broadcom ASIC design pipeline: 2+ year backlog of hyperscaler engagements','Custom ASIC tape-out at 3nm: ~$500M–$1B NRE cost; high barrier to new entrants','TSMC N2 allocation fights between hyperscalers and NVIDIA are intensifying'],
+  sources:[{l:'Digitimes — CoWoS bottleneck affects all ASIC customers',u:'https://www.digitimes.com/news/a20260410VL204/packaging-capacity-tsmc-nvidia-demand.html'},{l:'Fusion — Inside the AI bottleneck CoWoS HBM 2-3nm',u:'https://info.fusionww.com/blog/inside-the-ai-bottleneck-cowos-hbm-and-2-3nm-capacity-constraints-through-2027'}]},
+  zh:{headline:'所有定制ASIC均在台积电生产；18–24个月设计周期+CoWoS瓶颈',
+  evidence:'所有主要超大规模云厂商的定制AI芯片——谷歌TPU v5、亚马逊Trainium 2、微软Maia 100、Meta MTIA——均在台积电先进节点制造。设计到量产周期18–24个月，且与英伟达GPU争抢同样的CoWoS封装产能。博通定制ASIC设计积压超过2年。',
+  points:['谷歌TPU v6、亚马逊Trainium 3、微软Maia 200均排队等待台积电N2/N3','谷歌因CoWoS供给不足将2026年TPU目标从400万降至300万','博通ASIC设计流水线：超大规模云厂商合作积压超2年','3nm定制ASIC流片NRE成本约5–10亿美元，门槛极高','台积电N2在超大规模厂商与英伟达之间的产能争夺愈演愈烈'],
+  sources:[{l:'Digitimes — CoWoS瓶颈影响所有ASIC客户',u:'https://www.digitimes.com/news/a20260410VL204/packaging-capacity-tsmc-nvidia-demand.html'}]}
+},
+
+optical_modules:{
+  en:{headline:'800G/1.6T transceiver supply cannot keep up; AI optical market up 57% YoY to $26B in 2026',
+  evidence:'Optical transceivers are the physical interconnect between GPU servers inside AI clusters — without them, H100/B200 racks cannot be networked. The shift from 400G to 800G and now 1.6T has caused a supply crunch. Applied Optoelectronics (AAOI) — up 1,100%+ in the past year — secured $200M+ in 1.6T orders; its stock reflects the acute supply-demand imbalance. Coherent InP laser capacity and AAOI laser chip supply are the primary constraints.',
+  points:['AI optical transceiver market: $16.5B (2025) → $26B (2026), +57% YoY (TrendForce)','AAOI: revenue $455M FY2025 (+83% YoY); projects ~$1B in 2026 (+120%)','AAOI secured $200M+ in 1.6T LPO transceiver orders; $71M 800G order (single hyperscaler = $124M total)','NVIDIA $4B investment into Coherent & Lumentum for photonics — treats optics as critical infrastructure','AAOI expanding Texas manufacturing 350% (900K sq ft) to meet 800G/1.6T demand','Coherent 6-inch InP wafer line (Sherman TX) creates cost moat; transitioning from 4-inch to 6-inch'],
+  sources:[{l:'StocksToTrade — AAOI surges on AI data center orders',u:'https://stockstotrade.com/news/applied-optoelectronics-inc-aaoi-news-2026_05_01/'},{l:'247 Wall St — NVIDIA AI data centers: AAOI lasers in demand',u:'https://247wallst.com/investing/2026/03/18/applied-optoelectronics-rises-7-nvidias-ai-data-centers-cant-get-enough-of-its-lasers/'},{l:'TrendForce — AI optical transceiver market $26B 2026',u:'https://www.trendforce.com/presscenter/news/20260420-13017.html'},{l:'TradingView — Can 800G drive AAOI revenue 2026',u:'https://www.tradingview.com/news/zacks:83ff7a06e094b:0-can-800g-transceivers-drive-aaoi-s-revenue-growth-in-2026/'},{l:'Seeking Alpha — AAOI AI infrastructure hypergrowth',u:'https://seekingalpha.com/article/4894603-applied-optoelectronics-soaring-ai-infrastructure-demand-is-igniting-hypergrowth-stock'}]},
+  zh:{headline:'800G/1.6T光模块供给跟不上；AI光学市场2026年同比增长57%至260亿美元',
+  evidence:'光模块是AI集群内GPU服务器之间的物理互连——没有它，H100/B200机架无法组网。从400G到800G再到1.6T的跃迁引发了供给短缺。AAOI（Applied Optoelectronics）股价过去一年上涨超过1100%，获得超2亿美元的1.6T订单；其股价正反映这种急剧的供需失衡。Coherent InP激光器产能和AAOI激光芯片供给是主要约束。',
+  points:['AI光模块市场：2025年165亿美元→2026年260亿美元，同比增长57%（集邦咨询）','AAOI：FY2025收入4.557亿美元（同比+83%）；预计2026年约10亿美元（+120%)','AAOI获得超2亿美元1.6T LPO光模块订单；单一超大规模客户800G订单累计达1.24亿美元','英伟达向Coherent和Lumentum投资40亿美元用于光子学——将光学互连视为关键基础设施','AAOI在德克萨斯州扩大制造产能350%（90万平方英尺）以满足800G/1.6T需求','Coherent 6英寸InP晶圆生产线（德州Sherman）形成成本护城河'],
+  sources:[{l:'StocksToTrade — AAOI因AI数据中心订单飙升',u:'https://stockstotrade.com/news/applied-optoelectronics-inc-aaoi-news-2026_05_01/'},{l:'247 Wall St — AAOI激光器供不应求',u:'https://247wallst.com/investing/2026/03/18/applied-optoelectronics-rises-7-nvidias-ai-data-centers-cant-get-enough-of-its-lasers/'},{l:'TrendForce — AI光模块市场2026年达260亿美元',u:'https://www.trendforce.com/presscenter/news/20260420-13017.html'}]}
+},
+compound_semi:{
+  en:{headline:'InP substrate near-monopoly (AXT); critical for 400G/800G AI cluster transceivers',
+  evidence:'Compound semiconductors (InP, GaAs) are the laser and photodetector materials inside optical transceivers that interconnect GPUs within AI clusters. AXT Inc. is essentially the only merchant InP substrate supplier. Coherent, Lumentum, MACOM hold 80%+ of the InP device market. As AI clusters scale to 800G and 1.6T interconnects, InP supply is becoming a binding constraint.',
+  points:['AXT Inc. ~near-monopoly on merchant InP substrates; revenue <$50M but strategic chokepoint','400G/800G transceivers in H100/B200 clusters all require InP lasers (EML/DFB)','NVIDIA GB200 NVL72 uses ~5,760 optical connections per rack — InP intensive','Co-packaged optics (CPO) for 1.6T+ will require even more InP laser chips per GPU','Coherent/Lumentum capacity constrained; 8–16 week lead times on 400G/800G modules'],
+  sources:[{l:'Tom\'s Hardware — Chipmaking supply chain 2026',u:'https://www.tomshardware.com/tech-industry/a-deeper-look-at-the-tightened-chipmaking-supply-chain-and-where-it-may-be-headed-in-2026-nobodys-scaling-up-says-analyst-as-industry-remains-conservative-on-capacity'}]},
+  zh:{headline:'InP基底近乎垄断（AXT）；对AI集群400G/800G光模块至关重要',
+  evidence:'化合物半导体（InP、GaAs）是AI集群内互联GPU的光模块中激光器和光探测器的材料。AXT公司几乎是唯一的商用InP基底供应商。Coherent、Lumentum、MACOM占据InP器件市场80%以上。随着AI集群向800G和1.6T互联扩展，InP供应正成为约束因素。',
+  points:['AXT公司近乎垄断商用InP基底；营收不足5000万美元但为战略咽喉','H100/B200集群中所有400G/800G光模块均需InP激光器（EML/DFB）','NVIDIA GB200 NVL72每个机架约使用5760个光连接，InP需求密集','1.6T及以上共封装光学（CPO）将需要每GPU更多InP激光芯片','Coherent/Lumentum产能受限；400G/800G模块交货期8–16周'],
+  sources:[{l:'Tom\'s Hardware — 2026年芯片制造供应链',u:'https://www.tomshardware.com/tech-industry/a-deeper-look-at-the-tightened-chipmaking-supply-chain-and-where-it-may-be-headed-in-2026-nobodys-scaling-up-says-analyst-as-industry-remains-conservative-on-capacity'}]}
+},
+smr_reactors:{
+  en:{headline:'No commercial SMR deployed yet; earliest realistic deployment 2030–2035',
+  evidence:'Small Modular Reactors (SMRs) are seen as the ideal solution for data center baseload power — compact, carbon-free, dispatchable. However, no commercial SMR is in operation in the US as of 2026. NRC licensing alone takes 5–10 years. The gap between hyperscaler power demand (growing 25%+ per year) and nuclear deployment timelines (10–15 years) creates a structural mismatch.',
+  points:['No commercial SMR operating in the US as of 2026; NuScale X-Energy, Oklo all pre-commercial','Microsoft-Constellation Three Mile Island restart (2024) is a conventional reactor, not SMR','NRC SMR design certification: 5–7 years; construction + commissioning: additional 5–8 years','Google, Amazon, Microsoft nuclear deals are mostly for 2030–2040 delivery','Uranium enrichment (LEU+) capacity is also constrained — Centrus is the only US enricher'],
+  sources:[{l:'Tom\'s Hardware — Nuclear power and AI data centers 2026',u:'https://www.tomshardware.com/tech-industry/a-deeper-look-at-the-tightened-chipmaking-supply-chain-and-where-it-may-be-headed-in-2026-nobodys-scaling-up-says-analyst-as-industry-remains-conservative-on-capacity'}]},
+  zh:{headline:'尚无商业化SMR投运；最早现实化部署时间为2030–2035年',
+  evidence:'小型模块化反应堆（SMR）被视为数据中心基底电力的理想解决方案——紧凑、零碳、可调度。然而截至2026年，美国尚无商业化SMR运营。仅NRC许可就需5–10年。超大规模云厂商电力需求（年增25%以上）与核电部署时间线（10–15年）之间的结构性错配是根本矛盾。',
+  points:['截至2026年美国无商业化SMR运营；NuScale、X-Energy、Oklo均处于商业化前阶段','微软-Constellation三里岛重启（2024）是传统反应堆，非SMR','NRC SMR设计认证：5–7年；施工加调试：另需5–8年','谷歌、亚马逊、微软的核能协议大多为2030–2040年交付','铀浓缩（LEU+）产能也受限，Centrus是美国唯一浓缩商'],
+  sources:[{l:'Tom\'s Hardware — 核电与AI数据中心2026',u:'https://www.tomshardware.com/tech-industry/a-deeper-look-at-the-tightened-chipmaking-supply-chain-and-where-it-may-be-headed-in-2026-nobodys-scaling-up-says-analyst-as-industry-remains-conservative-on-capacity'}]}
+},
+hyperscale_dc:{
+  en:{headline:'Power & permitting delays extend build timelines to 24–72 months',
+  evidence:'Hyperscale data center development has become a multi-year infrastructure project. Northern Virginia (the world\'s densest DC market) has effectively exhausted available power-connected land. The constraint chain: land → permitting → grid interconnection → transformer delivery → energization — any one step can add 12–24 months.',
+  points:['Northern Virginia: 2GW+ of hyperscale projects on waitlists for power','Power permitting in US: 18–36 months average; EU: 3–5 years in some jurisdictions','Only ~1/3 of planned 2026 US DC capacity (12 GW planned) is under construction','Behind-the-meter generation (gas, solar+storage) now primary path for 2026–2028 builds','Water restrictions emerging in Arizona, Nevada for cooling: regulators limiting new DCs'],
+  sources:[{l:'European Business Magazine — DC power crisis AI 2026',u:'https://europeanbusinessmagazine.com/technology-data-centre-power-crisis-ai-growth-2026/'},{l:'Tom\'s Hardware — Half of planned US DCs delayed',u:'https://www.tomshardware.com/tech-industry/artificial-intelligence/half-of-planned-us-data-center-builds-have-been-delayed-or-canceled-growth-limited-by-shortages-of-power-infrastructure-and-parts-from-china-the-ai-build-out-flips-the-breakers'}]},
+  zh:{headline:'电力与审批延期导致建设周期延长至24–72个月',
+  evidence:'超大规模数据中心开发已成为多年期基础设施项目。北弗吉尼亚州（全球最密集的数据中心市场）有效可用的接电土地已基本耗尽。约束链条：土地→审批→电网并网→变压器交货→通电，任何一个环节都可能额外增加12–24个月。',
+  points:['北弗吉尼亚：超过2GW的超大规模项目在等待电力接入','美国电力审批：平均18–36个月；部分欧盟辖区3–5年','2026年美国计划12GW数据中心产能，仅约1/3实际在建','自备发电（天然气、光伏+储能）已成2026–2028年建设的主要路径','亚利桑那、内华达因冷却用水问题出现监管限制新数据中心建设'],
+  sources:[{l:'European Business Magazine — DC电力危机2026',u:'https://europeanbusinessmagazine.com/technology-data-centre-power-crisis-ai-growth-2026/'},{l:'Tom\'s Hardware — 美国约半数DC项目延期',u:'https://www.tomshardware.com/tech-industry/artificial-intelligence/half-of-planned-us-data-center-builds-have-been-delayed-or-canceled-growth-limited-by-shortages-of-power-infrastructure-and-parts-from-china-the-ai-build-out-flips-the-breakers'}]}
+}
+};
+
+// ── Bottleneck scores [total, Supply, Concentration, Substitutability, LeadTime, GeoRisk] ──
+const UP={
+/* ── GPU / AI Chips ── */
+'NVDA':[21,3,5,5,2,5],'AMD':[18,4,4,4,3,3],'INTC':[8,1,1,1,3,2],
+'QCOM':[13,3,2,2,3,3],'LSCC':[13,2,3,3,3,2],'AMBA':[13,2,3,3,3,2],
+/* ── AI ASICs / Custom Silicon ── */
+'AVGO':[22,5,5,4,3,5],'MRVL':[21,4,5,5,3,3],'ARM':[17,3,4,4,2,4],
+'ALAB':[20,4,5,5,3,3],'CRDO':[19,4,5,5,3,2],'CBRS':[15,3,4,4,3,1],
+/* ── HBM / Memory ── */
+'MU':[19,4,4,4,4,3],'RMBS':[13,2,3,3,3,2],
+/* ── Foundation Models / Cloud ── */
+'MSFT':[18,3,4,3,3,5],'AMZN':[19,4,4,3,3,4],'GOOGL':[19,4,4,3,4,4],
+'META':[20,4,4,4,3,5],'ORCL':[21,5,4,4,3,3],'BABA':[14,3,3,3,3,2],
+'CRWV':[18,3,5,5,2,2],'NBIS':[14,3,4,5,3,1],
+/* ── AI Applications ── */
+'PLTR':[16,4,4,4,1,3],'NOW':[19,3,4,4,3,4],'CRM':[16,3,3,3,3,3],
+'WDAY':[15,3,3,3,3,3],'AI':[10,2,2,3,2,1],'TEM':[15,3,4,4,2,2],
+'SOUN':[13,2,4,4,2,1],'PATH':[12,2,3,3,2,2],'VEEV':[14,3,3,3,3,3],
+'BIDU':[12,2,2,3,3,2],'AAPL':[16,3,3,3,3,5],'ADBE':[16,3,3,3,3,4],
+'SPOT':[14,3,3,3,2,3],'GTLB':[16,4,4,3,2,3],'INFA':[13,3,3,3,3,2],
+'SSTK':[11,2,2,2,3,2],
+/* ── AI Software Infra / Data ── */
+'SNOW':[18,5,4,4,2,3],'MDB':[17,4,3,3,3,4],'ESTC':[14,3,3,3,3,3],
+'NET':[18,3,4,3,3,4],'DDOG':[18,3,4,3,3,3],'CFLT':[15,4,4,3,2,2],
+'PSTG':[15,3,3,3,3,3],'NTAP':[14,3,3,3,3,3],'NTNX':[16,3,4,3,3,3],
+/* ── Cybersecurity ── */
+'CRWD':[18,3,4,3,3,4],'PANW':[17,3,4,3,3,4],'FTNT':[16,3,3,3,3,4],
+'S':[16,4,4,3,2,3],
+/* ── AI Servers ── */
+'SMCI':[9,1,2,3,4,1],'DELL':[15,3,3,3,3,2],'HPE':[13,3,2,2,3,2],
+'IBM':[13,2,3,2,3,3],
+/* ── Networking ── */
+'ANET':[16,2,4,4,3,3],'CSCO':[12,2,2,2,3,3],'EXTR':[13,3,3,3,2,2],
+/* ── Optical Modules ── */
+'AAOI':[15,1,5,5,1,3],'COHR':[19,4,4,4,4,3],'LITE':[20,4,5,4,3,3],
+'GLW':[14,3,3,3,3,4],'COMM':[9,1,2,2,2,2],'MTSI':[17,3,4,4,3,3],
+/* ── Semiconductor Equipment ── */
+'ASML':[19,3,4,4,2,5],'AMAT':[18,3,4,3,3,4],'LRCX':[18,3,4,3,3,4],
+'KLAC':[17,3,4,3,3,4],'ONTO':[15,3,3,3,3,3],'FORM':[13,3,3,3,3,2],
+'COHU':[12,2,3,3,3,1],'TER':[15,3,3,3,3,3],'CAMT':[17,3,4,4,3,3],
+'NVMI':[17,3,4,4,3,3],
+/* ── EDA / IP ── */
+'SNPS':[18,3,4,3,3,5],'CDNS':[18,3,4,3,3,5],'ANSS':[15,3,3,3,3,4],
+'SIEGY':[13,3,3,3,3,3],
+/* ── Foundry / Packaging ── */
+'TSM':[21,4,4,4,4,4],'GFS':[12,2,2,2,3,2],'UMC':[11,2,2,2,3,2],
+'ASX':[14,3,3,3,3,2],'AMKR':[15,3,3,4,3,2],'PLAB':[13,3,3,3,3,2],
+/* ── Data Center REITs ── */
+'EQIX':[15,3,3,3,2,4],'DLR':[14,3,2,3,3,3],'APLD':[15,3,4,4,3,1],
+'GDS':[12,3,2,3,3,1],'IRM':[13,2,3,3,3,2],'PLD':[14,3,2,3,3,4],
+'BIP':[14,3,3,3,3,3],
+/* ── Power & Cooling ── */
+'VRT':[17,2,4,4,3,3],'NVT':[15,3,3,3,3,3],'MOD':[16,3,4,4,3,2],
+'ETN':[16,3,3,3,3,3],'GNRC':[12,2,2,3,3,2],
+/* ── Energy: Nuclear ── */
+'CEG':[18,3,4,4,3,3],'CCJ':[17,3,4,4,3,3],'UEC':[16,3,4,4,3,2],
+'LEU':[16,3,4,4,3,2],'BWXT':[16,3,3,4,3,3],'TLN':[17,3,4,4,3,2],
+'OKLO':[14,2,3,5,1,2],'SMR':[12,2,3,4,1,1],'NNE':[11,2,3,4,1,1],
+/* ── Energy: Power / Renewables ── */
+'VST':[20,4,4,4,3,3],'NEE':[15,3,3,3,3,3],'SO':[12,2,2,3,3,3],
+'NRG':[16,3,4,3,3,2],'ENPH':[12,2,2,3,3,3],'FSLR':[16,3,3,3,3,3],
+'BEP':[13,3,3,3,3,3],'SEDG':[7,1,1,2,3,2],'FLNC':[12,2,3,3,2,2],
+'STEM':[7,1,1,2,2,1],'BYDDY':[15,3,3,3,3,4],'TSLA':[15,3,3,4,2,3],
+/* ── Grid / Construction ── */
+'PWR':[17,3,4,4,3,3],'MTZ':[17,3,4,4,3,2],'MYRG':[14,3,3,3,3,2],
+'HUBB':[15,3,3,3,3,3],'FLR':[12,2,2,3,2,2],'ACM':[13,3,3,3,3,2],
+'J':[13,3,3,3,3,2],
+/* ── Water / Facilities ── */
+'XYL':[12,3,2,2,3,3],'AOS':[12,3,2,2,3,3],'PNR':[13,3,2,3,3,3],
+'ECL':[13,3,2,3,3,3],
+/* ── Robotics ── */
+'ISRG':[17,3,3,3,3,5],'ABB':[14,3,3,3,3,3],'ROK':[13,3,2,3,3,3],
+'FANUY':[11,2,2,3,3,3],
+/* ── Materials / Chemicals ── */
+'DD':[13,3,2,3,3,3],'LIN':[14,3,3,3,3,3],'APD':[12,2,3,3,3,3],
+'ENTG':[17,3,4,4,3,3],'CBT':[12,2,2,3,3,3],'AXTI':[13,3,3,4,3,1],
+};
+const BN={
+foundation_models:[8,1,3,1,1,2],ai_coding:[7,1,3,1,1,1],image_video_gen:[6,1,2,1,1,1],
+ai_search_agents:[9,1,3,2,1,2],industry_ai:[6,1,2,1,1,1],audio_music:[6,1,2,1,1,1],
+data_labeling:[10,2,3,2,1,2],ai_safety:[6,1,2,1,1,1],robotics:[12,3,2,2,2,3],
+humanoid_robots:[12,3,2,2,2,3],ai_frameworks:[8,1,3,2,1,1],ai_middleware:[6,1,2,1,1,1],
+public_cloud:[12,2,4,2,2,2],gpu_cloud:[16,4,4,3,3,2],mlops:[6,1,2,1,1,1],
+ai_storage:[11,2,3,2,2,2],edge_ai:[11,2,3,2,2,2],dgx_cloud:[16,4,4,3,3,2],
+hyperscale_dc:[14,4,2,2,4,2],ai_servers:[14,3,3,2,3,3],liquid_cooling:[13,3,3,2,3,2],
+power_ups:[13,3,3,2,3,2],network_switches:[13,2,4,3,2,2],optical_modules:[15,4,3,3,2,3],
+fiber_optic:[10,2,2,2,2,2],modular_dc:[13,3,3,2,3,2],racks:[9,2,2,2,2,1],
+gpu:[21,5,5,4,3,4],ai_asic:[17,3,4,3,3,4],cpu_dpu:[14,2,4,3,2,3],
+hbm_memory:[21,5,5,4,3,4],network_chips:[15,3,4,3,2,3],fpga:[12,2,4,2,2,2],
+silicon_photonics:[15,3,3,3,3,3],cxl_memory:[14,3,3,3,3,2],
+foundry:[22,4,5,4,4,5],adv_packaging:[22,5,4,5,4,4],eda_ip:[13,2,4,3,2,2],
+test_equipment:[15,3,3,3,3,3],pcb_substrate:[19,4,3,4,4,4],abf_film:[23,5,5,5,4,4],
+lithography:[21,4,5,5,4,3],etch_deposition:[15,3,3,3,3,3],inspection:[14,3,3,3,2,3],
+silicon_wafers:[15,3,3,3,3,3],photomask:[14,2,3,3,2,4],bonding:[15,3,3,3,3,3],
+photoresist:[18,3,4,4,3,4],specialty_gas:[18,4,3,4,3,4],cmp_materials:[13,2,3,3,2,3],
+compound_semi:[17,3,3,4,3,4],
+nuclear:[15,3,2,3,5,2],natural_gas:[12,2,3,2,2,3],renewables:[10,2,2,2,2,2],
+grid_td:[19,5,3,4,5,2],transformers:[19,5,3,4,5,2],energy_storage:[12,2,3,2,2,3],
+smr_reactors:[17,4,2,4,5,2],land_realestate:[14,4,2,2,4,2],construction:[12,3,2,2,3,2],
+water:[14,3,3,3,3,2]
+};
+
+function _bnCls(s){return s>=20?'bn-crit':s>=16?'bn-high':s>=11?'bn-med':'bn-low';}
+function _bnTip(k){
+  const sc=BN[k]; if(!sc)return'';
+  const isZh=isZH();
+  const dims=isZh
+    ?['供给缺口','市场集中','可替代性','交货周期','地缘风险']
+    :['Supply Gap','Concentration','Substitutability','Lead Time','Geo Risk'];
+  const bars='█▓▒░ ';
+  return (isZh?'瓶颈总分':'Bottleneck')+': '+sc[0]+'/25\n'+
+    dims.map((d,i)=>d+': '+sc[i+1]+'/5').join('  ');
+}
+
+let bnActive=false;
+function toggleBN(){
+  bnActive=!bnActive;
+  const btn=document.getElementById('bnBtn');
+  if(bnActive){
+    document.documentElement.classList.add('bn-mode');
+    btn.classList.add('active');
+    // Inject score badges on all sub-sector cards
+    document.querySelectorAll('.card[onclick]').forEach(card=>{
+      const m=card.getAttribute('onclick').match(/showSub\('([^']+)'\)/);
+      if(!m)return;
+      const key=m[1]; const sc=BN[key]; if(!sc)return;
+      card.classList.add(_bnCls(sc[0]));
+      if(!card.querySelector('.bn-badge')){
+        const b=document.createElement('span');
+        b.className='bn-badge';
+        b.setAttribute('title',_bnTip(key));
+        b.textContent=sc[0];
+        card.style.position='relative';
+        card.appendChild(b);
+      }
+    });
+  }else{
+    document.documentElement.classList.remove('bn-mode');
+    btn.classList.remove('active');
+    document.querySelectorAll('.card').forEach(c=>{
+      c.classList.remove('bn-crit','bn-high','bn-med','bn-low');
+    });
+  }
+}
+
+
+
+/* ===== Stock Modal ===== */
+function _tvTheme(){return document.documentElement.classList.contains('light')?'light':'dark';}
+
+function _injectTVWidget(containerId,src,config){
+  var el=document.getElementById(containerId);
+  if(!el)return;
+  el.innerHTML='';
+  var wrap=document.createElement('div');
+  wrap.className='tradingview-widget-container';
+  wrap.style.cssText='height:100%;width:100%;';
+  var inner=document.createElement('div');
+  inner.className='tradingview-widget-container__widget';
+  inner.style.cssText='height:100%;width:100%;';
+  wrap.appendChild(inner);
+  var s=document.createElement('script');
+  s.type='text/javascript';
+  s.async=true;
+  s.src=src;
+  s.textContent=JSON.stringify(config);
+  wrap.appendChild(s);
+  el.appendChild(wrap);
+}
+
+function openStockModal(tv,name,desc){
+  if(!tv)return;
+  var modal=document.getElementById('stockModal');
+  var parts=tv.split(':');
+  var exchange=parts[0]||'';
+  var ticker=parts[1]||tv;
+  var tag=document.getElementById('smdExchangeTag');
+  if(tag)tag.textContent=exchange;
+  document.getElementById('smdTitle').textContent=name+' ('+ticker+')';
+  document.getElementById('smdDesc').textContent=desc||'';
+  var tvLink=document.getElementById('smdTVLink');
+  if(tvLink)tvLink.href='https://www.tradingview.com/symbols/'+encodeURIComponent(ticker)+'/';
+  modal.classList.add('smd-open');
+  document.body.style.overflow='hidden';
+  var th=_tvTheme();
+  _injectTVWidget('tvSymbolInfo',
+    'https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js',
+    {symbol:tv,width:'100%',locale:'en',colorTheme:th,isTransparent:true});
+  _injectTVWidget('tvChart',
+    'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js',
+    {symbol:tv,width:'100%',height:'100%',dateRange:'12M',colorTheme:th,
+     isTransparent:true,autosize:true,largeChartUrl:'https://www.tradingview.com/chart/'});
+  _injectTVWidget('tvTechnical',
+    'https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js',
+    {interval:'1D',width:'100%',isTransparent:true,height:420,
+     symbol:tv,showIntervalTabs:true,locale:'en',colorTheme:th});
+  _injectTVWidget('tvFinancials',
+    'https://s3.tradingview.com/external-embedding/embed-widget-financials.js',
+    {symbol:tv,colorTheme:th,isTransparent:true,largeChartUrl:'',
+     displayMode:'regular',width:'100%',height:620,locale:'en'});
+}
+
+function closeStockModal(){
+  document.getElementById('stockModal').classList.remove('smd-open');
+  document.body.style.overflow='';
+  ['tvSymbolInfo','tvChart','tvTechnical','tvFinancials'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.innerHTML='';
+  });
+}
+
+document.getElementById('stockModalOverlay').addEventListener('click',closeStockModal);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeStockModal();});
+/* card click handled via inline button onclick */
+
+
+/* ===== Upside Potential Mode ===== */
+var upActive=false;
+function _upCls(s){return s>=20?'up-hot':s>=15?'up-good':s>=10?'up-ok':'';}
+function _upLabel(s){return s>=20?'Strong Buy':s>=15?'Buy':s>=10?'Hold':'';}
+function _upDimStr(d){var names=['AT','RG','CP','VA','MO'];return d.map(function(v,i){return names[i]+':'+v;}).join(' ');}
+
+function toggleUP(){
+  upActive=!upActive;
+  var btn=document.getElementById('upBtn');
+  if(upActive){
+    document.documentElement.classList.add('up-mode');
+    btn.classList.add('active');
+    btn.innerHTML='&#128640; Upside ON';
+    document.querySelectorAll('.card[onclick]').forEach(function(card){
+      var m=card.getAttribute('onclick').match(/showSub\('([^']+)'\)/);
+      if(!m||!S[m[1]])return;
+      var comps=S[m[1]].companies;
+      var best=0;
+      comps.forEach(function(c){if(UP[c.k]&&UP[c.k][0]>best)best=UP[c.k][0];});
+      if(best>=10){
+        var cls=_upCls(best);
+        card.classList.add(cls);
+        if(!card.querySelector('.up-badge')){
+          var b=document.createElement('span');
+          b.className='up-badge '+cls;
+          b.textContent=_upLabel(best)+' '+best;
+          card.style.position='relative';
+          card.appendChild(b);
+        }
+      }
+    });
+  } else {
+    document.documentElement.classList.remove('up-mode');
+    btn.classList.remove('active');
+    btn.innerHTML='&#128640; Upside';
+    document.querySelectorAll('.up-badge').forEach(function(b){b.remove();});
+    document.querySelectorAll('.card').forEach(function(c){
+      c.classList.remove('up-hot','up-good','up-ok');
+    });
+  }
+}
+
+</script>
+
+<!-- ===== Stock Detail Modal ===== -->
+<div id="stockModal">
+  <div id="stockModalOverlay"></div>
+  <div id="stockModalBox">
+    <div id="smdHeader">
+      <div id="smdHeaderLeft">
+        <span id="smdExchangeTag"></span>
+        <h2 id="smdTitle"></h2>
+        <p id="smdDesc"></p>
+      </div>
+      <div id="smdHeaderRight">
+        <a id="smdTVLink" href="#" target="_blank">Open in TradingView ↗</a>
+        <button id="smdClose" onclick="closeStockModal()" title="Close">&#x2715;</button>
+      </div>
+    </div>
+    <div id="smdBody">
+      <div class="smd-section" id="tvSymbolInfo"></div>
+      <div class="smd-row2">
+        <div class="smd-section" id="tvChart"></div>
+        <div class="smd-section" id="tvTechnical"></div>
+      </div>
+      <div class="smd-section" id="tvFinancials"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
