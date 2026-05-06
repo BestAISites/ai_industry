@@ -547,29 +547,36 @@ html.light .chain-viewport{background:rgba(0,0,0,0.04);}
   overflow:hidden;
   touch-action:none;
   user-select:none;-webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
 }
 .chain-viewport.canvas-on .chain{cursor:grab;}
 .chain-viewport.canvas-on .chain:active{cursor:grabbing;}
 .chain-viewport.canvas-on .chain-controls{
-  display:flex;flex-direction:column;gap:6px;
-  position:absolute;top:10px;right:10px;z-index:50;
-  pointer-events:auto;
-}
-.zoom-btn{
-  width:38px;height:38px;border-radius:9px;
-  background:rgba(8,12,20,0.85);
+  display:flex;flex-direction:row;gap:0;
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  z-index:50;pointer-events:auto;
+  background:rgba(8,12,20,0.88);
   border:1px solid var(--border-color);
+  border-radius:14px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  overflow:hidden;
+}
+html.light .chain-viewport.canvas-on .chain-controls{background:rgba(255,255,255,0.92);}
+.zoom-btn{
+  width:52px;height:48px;border:none;border-radius:0;
+  background:transparent;
   color:var(--text-primary);
-  font-size:18px;font-weight:700;line-height:1;
+  font-size:22px;font-weight:600;line-height:1;
   cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  transition:background 0.15s,border-color 0.15s;
+  transition:background 0.15s;
   font-family:inherit;
   -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
 }
-.zoom-btn:active{background:var(--bg-card-hover);border-color:var(--accent-blue);}
-html.light .zoom-btn{background:rgba(255,255,255,0.9);}
+.zoom-btn+.zoom-btn{border-left:1px solid var(--border-color);}
+.zoom-btn:active,.zoom-btn:hover{background:rgba(255,255,255,0.1);}
+html.light .zoom-btn:active,html.light .zoom-btn:hover{background:rgba(0,0,0,0.07);}
 }
 
 
@@ -885,9 +892,9 @@ html.up-mode .up-panel{display:block;}
 
 <div class="chain-viewport">
 <div class="chain-controls">
-<button id="zoomOutBtn" class="zoom-btn" aria-label="Zoom out" type="button">&minus;</button>
-<button id="zoomFitBtn" class="zoom-btn" aria-label="Fit to view" type="button" title="Fit to view"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5V2h3M12 2h3v3M15 11v3h-3M4 14H1v-3"/></svg></button>
-<button id="zoomInBtn" class="zoom-btn" aria-label="Zoom in" type="button">&plus;</button>
+<button id="zoomOutBtn" class="zoom-btn" aria-label="Zoom out" type="button" style="font-size:26px;font-weight:300;">&minus;</button>
+<button id="zoomFitBtn" class="zoom-btn" aria-label="Fit to view" type="button" title="Fit to view" style="width:44px;font-size:13px;font-weight:600;letter-spacing:0.02em;opacity:0.7;">FIT</button>
+<button id="zoomInBtn" class="zoom-btn" aria-label="Zoom in" type="button" style="font-size:26px;font-weight:300;">&plus;</button>
 </div>
 <div class="chain">
 <div class="layer" style="--layer-color:#3b82f6;">
