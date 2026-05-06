@@ -242,6 +242,33 @@ box-shadow:0 4px 20px rgba(59,130,246,0.2);
 /* ── Chain canvas viewport ── */
 .chain-viewport{position:relative;}
 .chain-controls{display:none;}
+/* Zoom controls — shown whenever JS adds canvas-on, regardless of media query */
+.chain-viewport.canvas-on .chain-controls{
+  display:flex;flex-direction:row;gap:0;
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  z-index:50;pointer-events:auto;
+  background:rgba(8,12,20,0.88);
+  border:1px solid var(--border-color);
+  border-radius:14px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  overflow:hidden;
+}
+html.light .chain-viewport.canvas-on .chain-controls{background:rgba(255,255,255,0.92);}
+.zoom-btn{
+  width:52px;height:48px;border:none;border-radius:0;
+  background:transparent;
+  color:var(--text-primary);
+  font-size:22px;font-weight:600;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.15s;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.zoom-btn+.zoom-btn{border-left:1px solid var(--border-color);}
+.zoom-btn:active,.zoom-btn:hover{background:rgba(255,255,255,0.1);}
+html.light .zoom-btn:active,html.light .zoom-btn:hover{background:rgba(0,0,0,0.07);}
 
 /* ── Chain ── */
 .chain{
@@ -551,32 +578,6 @@ html.light .chain-viewport{background:rgba(0,0,0,0.04);}
 }
 .chain-viewport.canvas-on .chain{cursor:grab;}
 .chain-viewport.canvas-on .chain:active{cursor:grabbing;}
-.chain-viewport.canvas-on .chain-controls{
-  display:flex;flex-direction:row;gap:0;
-  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
-  z-index:50;pointer-events:auto;
-  background:rgba(8,12,20,0.88);
-  border:1px solid var(--border-color);
-  border-radius:14px;
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  overflow:hidden;
-}
-html.light .chain-viewport.canvas-on .chain-controls{background:rgba(255,255,255,0.92);}
-.zoom-btn{
-  width:52px;height:48px;border:none;border-radius:0;
-  background:transparent;
-  color:var(--text-primary);
-  font-size:22px;font-weight:600;line-height:1;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background 0.15s;
-  font-family:inherit;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-}
-.zoom-btn+.zoom-btn{border-left:1px solid var(--border-color);}
-.zoom-btn:active,.zoom-btn:hover{background:rgba(255,255,255,0.1);}
-html.light .zoom-btn:active,html.light .zoom-btn:hover{background:rgba(0,0,0,0.07);}
 }
 
 
