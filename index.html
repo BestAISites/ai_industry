@@ -829,7 +829,6 @@ html.up-mode .up-panel{display:block;}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
 </head>
 <body>
 <div class="bg-grid"></div>
@@ -887,7 +886,7 @@ html.up-mode .up-panel{display:block;}
 <div class="chain-viewport">
 <div class="chain-controls">
 <button id="zoomOutBtn" class="zoom-btn" aria-label="Zoom out" type="button">&minus;</button>
-<button id="zoomFitBtn" class="zoom-btn" aria-label="Fit to view" type="button" title="Fit">&#9974;</button>
+<button id="zoomFitBtn" class="zoom-btn" aria-label="Fit to view" type="button" title="Fit to view"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5V2h3M12 2h3v3M15 11v3h-3M4 14H1v-3"/></svg></button>
 <button id="zoomInBtn" class="zoom-btn" aria-label="Zoom in" type="button">&plus;</button>
 </div>
 <div class="chain">
@@ -1861,71 +1860,138 @@ function toggleUP(){
   }
 }
 
-/* ── Mobile chain canvas: pan + zoom the graph instead of stacking as a list ── */
+/* ── Mobile chain canvas: dependency-free pan + pinch-zoom ── */
 (function(){
   var MOBILE_MQ='(max-width: 768px)';
-  var pz=null,fitScale=1,viewport=null,chain=null;
+  var active=false,vp=null,ch=null;
+  var s=1,tx=0,ty=0,minS=0.15,maxS=3;
 
-  function computeFit(){
-    if(!viewport||!chain) return 1;
-    var vpW=viewport.clientWidth;
-    var chainW=chain.offsetWidth||1280;
-    return Math.min((vpW-8)/chainW,1);
+  function fit(){
+    if(!vp||!ch) return 1;
+    return Math.min((vp.clientWidth-8)/(ch.offsetWidth||1280),1);
   }
+  function draw(anim){
+    ch.style.transition=anim?'transform 0.22s ease':'none';
+    ch.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';
+  }
+  function zoomAt(cx,cy,factor,anim){
+    var ns=Math.min(maxS,Math.max(minS,s*factor));
+    var r=ns/s;
+    tx=cx-r*(cx-tx);
+    ty=cy-r*(cy-ty);
+    s=ns;
+    draw(anim);
+  }
+
   function enableCanvas(){
-    if(pz||!window.Panzoom) return;
-    viewport=document.querySelector('.chain-viewport');
-    chain=document.querySelector('.chain');
-    if(!viewport||!chain) return;
-    viewport.classList.add('canvas-on');
+    if(active) return;
+    vp=document.querySelector('.chain-viewport');
+    ch=document.querySelector('.chain');
+    if(!vp||!ch) return;
+    active=true;
+    vp.classList.add('canvas-on');
+    ch.style.transformOrigin='0 0';
     requestAnimationFrame(function(){
-      fitScale=computeFit();
-      pz=Panzoom(chain,{
-        maxScale:3,
-        minScale:Math.max(fitScale*0.6,0.18),
-        startScale:fitScale,
-        animate:false,
-        canvas:false,
-        cursor:'grab'
-      });
-      viewport.addEventListener('wheel',function(e){
-        e.preventDefault();
-        pz.zoomWithWheel(e);
-      },{passive:false});
-      var inB=document.getElementById('zoomInBtn');
-      var outB=document.getElementById('zoomOutBtn');
-      var fitB=document.getElementById('zoomFitBtn');
-      if(inB) inB.addEventListener('click',function(e){e.stopPropagation();pz.zoomIn({animate:true});});
-      if(outB) outB.addEventListener('click',function(e){e.stopPropagation();pz.zoomOut({animate:true});});
-      if(fitB) fitB.addEventListener('click',function(e){
-        e.stopPropagation();
-        fitScale=computeFit();
-        pz.zoom(fitScale,{animate:true});
-        pz.pan(0,0,{animate:true});
-      });
+      s=fit(); minS=Math.max(s*0.55,0.1); tx=0; ty=0;
+      draw(false);
     });
+    wireButtons();
+    wireTouch();
   }
   function disableCanvas(){
-    if(!pz) return;
-    try{pz.destroy();}catch(e){}
-    pz=null;
-    if(viewport){viewport.classList.remove('canvas-on');}
-    if(chain){chain.style.transform='';chain.style.cursor='';}
+    if(!active) return;
+    active=false;
+    if(vp) vp.classList.remove('canvas-on');
+    if(ch){ch.style.transform='';ch.style.transformOrigin='';ch.style.transition='';}
   }
+
+  function wireButtons(){
+    function on(id,fn){var b=document.getElementById(id);if(b)b.addEventListener('click',fn);}
+    on('zoomInBtn',function(e){e.stopPropagation();zoomAt(vp.clientWidth/2,vp.clientHeight/2,1.6,true);});
+    on('zoomOutBtn',function(e){e.stopPropagation();zoomAt(vp.clientWidth/2,vp.clientHeight/2,1/1.6,true);});
+    on('zoomFitBtn',function(e){e.stopPropagation();s=fit();tx=0;ty=0;draw(true);});
+  }
+
+  function wireTouch(){
+    /* track up to 2 touches */
+    var T={};
+    function update(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];T[t.identifier]=t;}}
+    function ids(){return Object.keys(T);}
+    function dist(){var k=ids();if(k.length<2)return 0;var a=T[k[0]],b=T[k[1]];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);}
+    function mid(){var k=ids();if(k.length<2)return null;var a=T[k[0]],b=T[k[1]];return{x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2};}
+
+    var prevD=0,prevMid=null,prevSingle=null,tapInfo=null;
+
+    vp.addEventListener('touchstart',function(e){
+      if(e.target.closest('.zoom-btn')){return;}
+      e.preventDefault();
+      update(e);
+      ch.style.transition='none';
+      if(ids().length===2){
+        prevD=dist(); prevMid=mid(); prevSingle=null; tapInfo=null;
+      } else if(ids().length===1){
+        var t=T[ids()[0]];
+        prevSingle={x:t.clientX,y:t.clientY};
+        tapInfo={x:t.clientX,y:t.clientY,time:Date.now()};
+        prevD=0; prevMid=null;
+      }
+    },{passive:false});
+
+    vp.addEventListener('touchmove',function(e){
+      if(e.target.closest('.zoom-btn')){return;}
+      e.preventDefault();
+      update(e);
+      var rect=vp.getBoundingClientRect();
+      if(ids().length>=2){
+        var d=dist(),m=mid();
+        if(prevD>0&&m&&prevMid){
+          zoomAt(m.x-rect.left,m.y-rect.top,d/prevD,false);
+          tx+=m.x-prevMid.x; ty+=m.y-prevMid.y; draw(false);
+        }
+        prevD=d; prevMid=m; prevSingle=null; tapInfo=null;
+      } else if(ids().length===1){
+        var t=T[ids()[0]];
+        if(prevSingle){
+          tx+=t.clientX-prevSingle.x; ty+=t.clientY-prevSingle.y; draw(false);
+        }
+        prevSingle={x:t.clientX,y:t.clientY};
+        if(tapInfo&&Math.hypot(t.clientX-tapInfo.x,t.clientY-tapInfo.y)>8) tapInfo=null;
+      }
+    },{passive:false});
+
+    function onEnd(e){
+      for(var i=0;i<e.changedTouches.length;i++) delete T[e.changedTouches[i].identifier];
+      if(ids().length===0){
+        /* tap detection: short touch with little movement → trigger click */
+        if(tapInfo&&Date.now()-tapInfo.time<300){
+          var el=document.elementFromPoint(tapInfo.x,tapInfo.y);
+          if(el){var card=el.closest('.card');if(card)card.click();}
+        }
+        prevD=0; prevMid=null; prevSingle=null; tapInfo=null;
+      } else if(ids().length===1){
+        prevD=0; prevMid=null;
+        var t=T[ids()[0]]; prevSingle={x:t.clientX,y:t.clientY};
+      }
+    }
+    vp.addEventListener('touchend',onEnd,{passive:false});
+    vp.addEventListener('touchcancel',function(e){for(var i=0;i<e.changedTouches.length;i++) delete T[e.changedTouches[i].identifier];prevD=0;prevMid=null;prevSingle=null;tapInfo=null;},{passive:false});
+
+    /* desktop mouse wheel */
+    vp.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var rect=vp.getBoundingClientRect();
+      zoomAt(e.clientX-rect.left,e.clientY-rect.top,e.deltaY<0?1.12:1/1.12,false);
+    },{passive:false});
+  }
+
   function sync(){
     if(window.matchMedia(MOBILE_MQ).matches) enableCanvas();
     else disableCanvas();
   }
   if(document.readyState!=='loading') sync();
   else document.addEventListener('DOMContentLoaded',sync);
-  var resizeT=null;
-  window.addEventListener('resize',function(){
-    clearTimeout(resizeT);
-    resizeT=setTimeout(function(){
-      disableCanvas();
-      sync();
-    },200);
-  });
+  var rt=null;
+  window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){disableCanvas();sync();},250);});
 })();
 
 </script>
