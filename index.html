@@ -1892,7 +1892,7 @@ function toggleUP(){
     vp.classList.add('canvas-on');
     ch.style.transformOrigin='0 0';
     requestAnimationFrame(function(){
-      s=fit(); minS=Math.max(s*0.55,0.1); tx=0; ty=0;
+      s=fit(); minS=Math.max(s*0.25,0.07); tx=0; ty=0;
       draw(false);
     });
     wireButtons();
@@ -1907,8 +1907,8 @@ function toggleUP(){
 
   function wireButtons(){
     function on(id,fn){var b=document.getElementById(id);if(b)b.addEventListener('click',fn);}
-    on('zoomInBtn',function(e){e.stopPropagation();zoomAt(vp.clientWidth/2,vp.clientHeight/2,1.6,true);});
-    on('zoomOutBtn',function(e){e.stopPropagation();zoomAt(vp.clientWidth/2,vp.clientHeight/2,1/1.6,true);});
+    on('zoomInBtn',function(e){e.stopPropagation();zoomAt(vp.clientWidth/2,vp.clientHeight/2,2,true);});
+    on('zoomOutBtn',function(e){e.stopPropagation();zoomAt(vp.clientWidth/2,vp.clientHeight/2,0.5,true);});
     on('zoomFitBtn',function(e){e.stopPropagation();s=fit();tx=0;ty=0;draw(true);});
   }
 
@@ -1988,10 +1988,23 @@ function toggleUP(){
       zoomAt(e.clientX-rect.left,e.clientY-rect.top,e.deltaY<0?1.12:1/1.12,false);
     },{passive:false});
 
-    /* Safari: block native pinch-to-zoom so our touch handlers receive it */
-    ['gesturestart','gesturechange','gestureend'].forEach(function(n){
-      vp.addEventListener(n,function(e){e.preventDefault();},{passive:false});
-    });
+    /* Safari: gesturestart.preventDefault() suppresses touchmove, so we must
+       zoom directly inside gesturechange using e.scale (cumulative from start). */
+    var gStartS=1,gStartTx=0,gStartTy=0;
+    vp.addEventListener('gesturestart',function(e){
+      e.preventDefault();
+      gStartS=s; gStartTx=tx; gStartTy=ty;
+    },{passive:false});
+    vp.addEventListener('gesturechange',function(e){
+      e.preventDefault();
+      var ns=Math.min(maxS,Math.max(minS,gStartS*e.scale));
+      var r=ns/gStartS;
+      var cx=vp.clientWidth/2, cy=vp.clientHeight/2;
+      tx=cx-r*(cx-gStartTx);
+      ty=cy-r*(cy-gStartTy);
+      s=ns; draw(false);
+    },{passive:false});
+    vp.addEventListener('gestureend',function(e){e.preventDefault();},{passive:false});
   }
 
   function sync(){
