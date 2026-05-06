@@ -1945,8 +1945,13 @@ function toggleUP(){
       if(ids().length>=2){
         var d=dist(),m=mid();
         if(prevD>0&&m&&prevMid){
-          zoomAt(m.x-rect.left,m.y-rect.top,d/prevD,false);
-          tx+=m.x-prevMid.x; ty+=m.y-prevMid.y; draw(false);
+          /* unified pinch+pan: scale at old mid, translate to new mid */
+          var ns=Math.min(maxS,Math.max(minS,s*d/prevD));
+          var r=ns/s;
+          tx=(m.x-rect.left)-r*(prevMid.x-rect.left-tx);
+          ty=(m.y-rect.top) -r*(prevMid.y-rect.top -ty);
+          s=ns;
+          draw(false);
         }
         prevD=d; prevMid=m; prevSingle=null; tapInfo=null;
       } else if(ids().length===1){
@@ -1982,6 +1987,11 @@ function toggleUP(){
       var rect=vp.getBoundingClientRect();
       zoomAt(e.clientX-rect.left,e.clientY-rect.top,e.deltaY<0?1.12:1/1.12,false);
     },{passive:false});
+
+    /* Safari: block native pinch-to-zoom so our touch handlers receive it */
+    ['gesturestart','gesturechange','gestureend'].forEach(function(n){
+      vp.addEventListener(n,function(e){e.preventDefault();},{passive:false});
+    });
   }
 
   function sync(){
